@@ -1,0 +1,11 @@
+.link {
+    color: var(--text-dark-grey-secondary-text, #8585AD);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: calc(var(--offset-base-size) * 2);
+}
+.link_active {
+    composes: link;
+    color: var(--text-primary-light-standart-text, #F2F2F3);
+}

@@ -1,5 +1,6 @@
 import styles from "./app.module.css";
 import { data } from "../../utils/data";
+import AppHeader from "../AppHeader/AppHeader";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       	margin: "auto",
       	fontSize: "1.5rem"
       }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
+        <AppHeader></AppHeader>
       </pre>
     </div>
   );
