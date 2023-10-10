@@ -1,0 +1,10 @@
+.list {
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: calc(var(--offset-base-size) * 6);
+  row-gap: calc(var(--offset-base-size) * 8);
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}

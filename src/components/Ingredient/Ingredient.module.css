@@ -1,0 +1,22 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 272px;
+  position: relative;
+}
+
+.image {
+  max-width: 240px;
+}
+
+.price {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.title {
+  max-width: 272px;
+  text-align: center;
+  height: 48px;
+}

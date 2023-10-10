@@ -9,7 +9,7 @@ import {
 
 function AppHeader(props) {
   return (
-    <header className={styles.header}>
+    <header className={`mb-10 ${styles.header}`}>
       <nav className={`pt-4 pb-4 ${styles.navigation}`}>
         <div className={styles.container}>
           <NavigationLink isActive={true}>

@@ -1,15 +1,15 @@
 .header {
-    width: 1920px;
-    background-color: var(--interface-modal-bg, #1C1C21);
+  width: 100%;
+  background-color: var(--interface-modal-bg, #1c1c21);
 }
 .navigation {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .container {
-    display: flex;
-    gap: calc(var(--offset-base-size) * 2);
+  display: flex;
+  gap: calc(var(--offset-base-size) * 2);
 }
