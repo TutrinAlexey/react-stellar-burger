@@ -1,0 +1,36 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  overflow-y: scroll;
+  max-height: calc(100vh - 324px);
+  gap: calc(var(--offset-base-size) * 4);
+}
+
+.orderPrice {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.element {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 2);
+  align-items: center;
+}
+.bottom{
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 10);
+  justify-content: flex-end;
+}

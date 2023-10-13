@@ -1,17 +1,18 @@
-import React from "react";
+import { useState } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
-import { data } from "../../utils/data";
+import PropTypes from 'prop-types'
 
 function BurgerIngredients(props) {
-  const [current, setCurrent] = React.useState("Булки");
-  const buns = data.filter((el) => el.type === "bun");
-  const sauce = data.filter((el) => el.type === "sauce");
-  const main = data.filter((el) => el.type === "main");
+  const [current, setCurrent] = useState("Булки");
+  
+  const buns = props.data.filter((el) => el.type === "bun");
+  const sauce = props.data.filter((el) => el.type === "sauce");
+  const main = props.data.filter((el) => el.type === "main");
 
   return (
-    <section className={`mb-10 ${styles.section}`}>
+    <section className={`${styles.section}`}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
       <ul className={`${styles.tab}`}>
         <li>
@@ -35,12 +36,17 @@ function BurgerIngredients(props) {
         </li>
       </ul>
       <ul className={`custom-scroll ${styles.ingredients}`}>
-        <IngredientsContainer name="Булки" data={buns}></IngredientsContainer>
-        <IngredientsContainer name="Соусы" data={sauce}></IngredientsContainer>
-        <IngredientsContainer name="Начинки" data={main}></IngredientsContainer>
+        <IngredientsContainer openIngredient={props.openIngredient} name="Булки" data={buns}></IngredientsContainer>
+        <IngredientsContainer openIngredient={props.openIngredient} name="Соусы" data={sauce}></IngredientsContainer>
+        <IngredientsContainer openIngredient={props.openIngredient} name="Начинки" data={main}></IngredientsContainer>
       </ul>
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.array,
+  openIngredient: PropTypes.func,
 }
 
 export default BurgerIngredients;

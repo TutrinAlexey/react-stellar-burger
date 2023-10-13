@@ -1,0 +1,32 @@
+.overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .modal {
+    cursor: default;
+    max-width: 720px;
+    position: relative;
+    border-radius: 40px;
+    border: 1px solid var(--interface-modal-edge, rgba(76, 76, 255, 0.2));
+    background: var(--interface-modal-bg, #1c1c21);
+  }
+
+  .icon {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    top: calc(var(--offset-base-size) * 15);
+    right: calc(var(--offset-base-size) * 10);
+    position: absolute;
+  }
