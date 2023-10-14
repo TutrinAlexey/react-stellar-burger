@@ -3,17 +3,17 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import PropTypes from 'prop-types'
 
-function AppMain(props) {
+function AppMain({ingredientsFromApi, openIngredient, openOrder}) {
   return (
     <main className={`${styles.main}`}>
-      <BurgerIngredients data={props.data} openIngredient={props.openIngredient}></BurgerIngredients>
-      <BurgerConstructor data={props.data} openOrder={props.openOrder}></BurgerConstructor>
+      <BurgerIngredients ingredients={ingredientsFromApi} openIngredient={openIngredient} />
+      <BurgerConstructor ingredients={ingredientsFromApi} openOrder={openOrder} />
     </main>
   );
 }
 
 AppMain.propTypes = {
-  data: PropTypes.array,
+  ingredientsFromApi: PropTypes.arrayOf(PropTypes.object),
   openIngredient: PropTypes.func,
   openOrder: PropTypes.func,
 }

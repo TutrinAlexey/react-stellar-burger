@@ -9,14 +9,25 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 function App() {
   const api = "https://norma.nomoreparties.space/api/ingredients";
-  const [order, setOrder] = useState(false)
+  const [order, setOrder] = useState(false);
   const [state, setState] = useState(data);
   const [visible, setVisible] = useState(false);
-  const [ingredient, setIngredient] = useState(null)
-  
+  const [ingredient, setIngredient] = useState(null);
+
+    const checkResponse = (res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    };
+
+    const configureFetch = (url) =>{
+      return fetch(url).then(checkResponse)
+    }
+
+
   useEffect(() => {
-    fetch(api)
-      .then((res) => res.json())
+    configureFetch(api)
       .then(
         (result) => {
           setState(result.data);
@@ -25,35 +36,41 @@ function App() {
       );
   }, []);
 
-
   const openModalOrder = (e) => {
-    setOrder(true)
-  }
+    setOrder(true);
+  };
 
   const openModalIngredient = (e) => {
-    const info = state.find((el) => {if(el.image === e.target.src){return el}})
-    setIngredient(info)
+    const info = state.find((el) => {
+      if (el.image === e.target.src) {
+        return el;
+      }
+    });
+    setIngredient(info);
     setVisible(true);
   };
 
   const closeModal = () => {
     setVisible(false);
-    setOrder(false)
+    setOrder(false);
   };
-
 
   return (
     <div className={styles.app}>
-      <AppHeader></AppHeader>
-      <AppMain data={state} openIngredient={openModalIngredient} openOrder={openModalOrder}></AppMain>
+      <AppHeader />
+      <AppMain
+        ingredientsFromApi={state}
+        openIngredient={openModalIngredient}
+        openOrder={openModalOrder}
+      ></AppMain>
       {visible && (
         <Modals onClose={closeModal}>
-          <IngredientDetails data={ingredient}></IngredientDetails>
+          <IngredientDetails dataOfIngredients={ingredient} />
         </Modals>
       )}
       {order && (
         <Modals onClose={closeModal}>
-          <OrderDetails></OrderDetails>
+          <OrderDetails />
         </Modals>
       )}
     </div>

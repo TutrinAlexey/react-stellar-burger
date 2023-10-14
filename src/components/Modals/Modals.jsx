@@ -1,15 +1,16 @@
 import { createPortal } from "react-dom";
 import styles from "./Modals.module.css";
 import { useEffect } from "react";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import Modal from "../Modal/Modal";
 
 const modalRoot = document.getElementById("modals");
 
-function Modals(props) {
+function Modals({onClose, children}) {
   const closeOnEsc = (e) => {
     if (e.key === "Escape") {
-      props.onClose();
+      onClose();
     }
   };
 
@@ -22,25 +23,16 @@ function Modals(props) {
   });
 
   return createPortal(
-    <div style={{ overflow: "hidden" }}>
-      <div
-        className={styles.overlay}
-        onClick={(e) => e.currentTarget === e.target && props.onClose()}
-      >
-        <div className={styles.modal}>
-        <button onClick={props.onClose} className={styles.icon}>
-            <CloseIcon type="primary" />
-          </button>
-          {props.children}
-        </div>
-      </div>
-    </div>,
+    <ModalOverlay onClose={onClose}>
+      <Modal onClose={onClose} ingredientInfo={children}></Modal>
+    </ModalOverlay>,
     modalRoot
   );
 }
 
 Modals.propTypes = {
-  onClose: PropTypes.func
-}
+  onClose: PropTypes.func,
+  children: PropTypes.element
+};
 
 export default Modals;

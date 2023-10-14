@@ -5,31 +5,35 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types'
 
-function Ingredient(props) {
+function Ingredient({ingredient, openIngredient}) {
   return (
     <li className={styles.item}>
       <div className={styles.countInactive}>
       <Counter count={1} size="default" extraClass="m-1" />
       </div>
       <img
-        onClick={props.openIngredient}
+        onClick={openIngredient}
         className={`ml-4 mr-4 ${styles.image}`}
-        src={props.data.image}
-        alt={props.data.name}
+        src={ingredient.image}
+        alt={ingredient.name}
       />
       <p className={`text text_type_main-default mt-1 mb-1 ${styles.price}`}>
-        {props.data.price}
+        {ingredient.price}
         <CurrencyIcon type="primary" />
       </p>
       <p className={`text text_type_main-default ${styles.title}`}>
-        {props.data.name}
+        {ingredient.name}
       </p>
     </li>
   );
 }
 
 Ingredient.propTypes = {
-  data: PropTypes.object,
+  ingredient: PropTypes.shape({
+    name: PropTypes.string,
+    image: PropTypes.string,
+    price: PropTypes.number,
+  }),
   openIngredient: PropTypes.func,
 }
 

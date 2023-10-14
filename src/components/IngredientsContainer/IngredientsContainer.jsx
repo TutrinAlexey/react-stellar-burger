@@ -3,13 +3,13 @@ import Ingredient from "../Ingredient/Ingredient";
 import PropTypes from 'prop-types'
 
 
-function IngredientsContainer(props) {
+function IngredientsContainer({filterIngredients, openIngredient, name, id}) {
   return (
-    <li>
-      <h2 className="text text_type_main-medium mt-10 mb-6">{props.name}</h2>
+    <li id={id}>
+      <h2 className="text text_type_main-medium mt-10 mb-6">{name}</h2>
       <ul className={`ml-4 ${styles.list}`}>
-        {props.data.map((el) => (
-          <Ingredient key={el._id} data={el} openIngredient={props.openIngredient}></Ingredient>
+        {filterIngredients.map((el) => (
+          <Ingredient key={el._id} ingredient={el} openIngredient={openIngredient} />
         ))}
       </ul>
     </li>
@@ -17,7 +17,8 @@ function IngredientsContainer(props) {
 }
 
 IngredientsContainer.propTypes = {
-  data: PropTypes.array,
+  id: PropTypes.string,
+  filterIngredients: PropTypes.array,
   openIngredient: PropTypes.func,
   name: PropTypes.string,
 }

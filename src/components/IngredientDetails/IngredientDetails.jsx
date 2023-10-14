@@ -1,18 +1,18 @@
 import styles from "./IngredientDetails.module.css";
 import PropTypes from 'prop-types'
 
-function IngredientDetails(props) {
+function IngredientDetails({dataOfIngredients}) {
   return (
     <div className={`pt-10 pr-10 pl-10 pb-15 ${styles.container}`}>
       <h3 className={`text text_type_main-large ${styles.title} mt-3 mb-3`}>
         Детали ингредиента
       </h3>
       <img
-        src={props.data.image_large}
-        alt={props.data.name}
+        src={dataOfIngredients.image_large}
+        alt={dataOfIngredients.name}
       />
       <p className={`text text_type_main-medium mt-4 mb-8 ${styles.name}`}>
-        {props.data.name}
+        {dataOfIngredients.name}
       </p>
       <ul className={`${styles.list}`}>
         <li className={` ${styles.listItem}`}>
@@ -24,7 +24,7 @@ function IngredientDetails(props) {
           <p
             className={`text text_type_digits-default text_color_inactive ${styles.count}`}
           >
-            {props.data.calories}
+            {dataOfIngredients.calories}
           </p>
         </li>
         <li className={` ${styles.listItem}`}>
@@ -36,7 +36,7 @@ function IngredientDetails(props) {
           <p
             className={`text text_type_digits-default text_color_inactive ${styles.count}`}
           >
-            {props.data.proteins}
+            {dataOfIngredients.proteins}
           </p>
         </li>
         <li className={` ${styles.listItem}`}>
@@ -48,7 +48,7 @@ function IngredientDetails(props) {
           <p
             className={`text text_type_digits-default text_color_inactive ${styles.count}`}
           >
-            {props.data.fat}
+            {dataOfIngredients.fat}
           </p>
         </li>
         <li className={` ${styles.listItem}`}>
@@ -60,7 +60,7 @@ function IngredientDetails(props) {
           <p
             className={`text text_type_digits-default text_color_inactive ${styles.count}`}
           >
-            10,2
+            {dataOfIngredients.carbohydrates}
           </p>
         </li>
       </ul>
@@ -69,7 +69,14 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-  data: PropTypes.object,
+  dataOfIngredients: PropTypes.shape({
+    image_large: PropTypes.string,
+    name: PropTypes.string,
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+  }),
 }
 
 export default IngredientDetails;

@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types'
 
-function BurgerConstructor(props) {
+function BurgerConstructor({ingredients, openOrder}) {
   const img = "https://code.s3.yandex.net/react/code/bun-02.png";
 
   return (
@@ -85,7 +85,7 @@ function BurgerConstructor(props) {
           610
           <CurrencyIcon type="primary" />
         </p>
-        <Button onClick={props.openOrder} htmlType="button" type="primary" size="medium">
+        <Button onClick={openOrder} htmlType="button" type="primary" size="medium">
           Оформить заказ
         </Button>
       </div>
@@ -94,7 +94,7 @@ function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array,
+  ingredients: PropTypes.arrayOf(PropTypes.object),
   openOrder: PropTypes.func,
 }
 
