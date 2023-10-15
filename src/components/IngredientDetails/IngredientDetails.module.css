@@ -1,0 +1,27 @@
+.container {
+    width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    align-self: flex-start;
+}
+
+.list {
+    max-width: 520px;
+    gap: calc(var(--offset-base-size) * 5);
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.listItem {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--offset-base-size) * 2);
+    align-items: center;
+}
