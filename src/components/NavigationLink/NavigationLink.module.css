@@ -6,6 +6,5 @@
   gap: calc(var(--offset-base-size) * 2);
 }
 .link_active {
-  composes: link;
   color: var(--text-primary-light-standart-text, #f2f2f3);
 }

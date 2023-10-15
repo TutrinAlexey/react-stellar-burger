@@ -1,13 +1,16 @@
 import styles from "./NavigationLink.module.css";
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 function NavigationLink({isActive, children}) {
   return (
-    <a
+    <a 
       className={`pt-4 pr-5 pb-4 pl-5 text text_type_main-default ${
-        isActive === true ? styles.link_active : styles.link
+        clsx(styles.link, {
+          [styles.link_active]: isActive,
+        })
       }`}
-      href=""
+      href="#"
     >
       {children}
     </a>
