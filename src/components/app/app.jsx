@@ -6,70 +6,32 @@ import { useEffect, useState } from "react";
 import Modals from "../Modals/Modals";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { ingredientInfoSelector, ingredientOpenSelector, orderOpenSelector } from "../../services/selector/modalSelector";
+import { fetchIngredients } from "../../services/thunk/ingredientsQuery";
 
 function App() {
-  const api = "https://norma.nomoreparties.space/api/ingredients";
-  const [order, setOrder] = useState(false);
-  const [state, setState] = useState(data);
-  const [visible, setVisible] = useState(false);
-  const [ingredient, setIngredient] = useState(null);
+  const ingredientOpen = useSelector(ingredientOpenSelector)
+  const orderOpen = useSelector(orderOpenSelector)
+  const ingredientInfo = useSelector(ingredientInfoSelector)
+  
 
-    const checkResponse = (res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    };
-
-    const configureFetch = (url) =>{
-      return fetch(url).then(checkResponse)
-    }
-
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    configureFetch(api)
-      .then(
-        (result) => {
-          setState(result.data);
-        },
-        (e) => console.log(`Ошибка: ${e}`)
-      );
-  }, []);
-
-  const openModalOrder = (e) => {
-    setOrder(true);
-  };
-
-  const openModalIngredient = (e) => {
-    const info = state.find((el) => {
-      if (el.image === e.target.src) {
-        return el;
-      }
-    });
-    setIngredient(info);
-    setVisible(true);
-  };
-
-  const closeModal = () => {
-    setVisible(false);
-    setOrder(false);
-  };
+    dispatch(fetchIngredients())
+  },[])
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <AppMain
-        ingredientsFromApi={state}
-        openIngredient={openModalIngredient}
-        openOrder={openModalOrder}
-      ></AppMain>
-      {visible && (
-        <Modals onClose={closeModal}>
-          <IngredientDetails dataOfIngredients={ingredient} />
+      <AppMain />
+      {ingredientOpen && (
+        <Modals>
+          <IngredientDetails dataOfIngredients={ingredientInfo} />
         </Modals>
       )}
-      {order && (
-        <Modals onClose={closeModal}>
+      {orderOpen && (
+        <Modals>
           <OrderDetails />
         </Modals>
       )}

@@ -3,8 +3,14 @@
   flex-direction: column;
   width: 600px;
 }
-
+.text {
+  min-height: 639px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .list {
+  min-height: 639px;
   display: flex;
   flex-direction: column;
   max-width: 600px;
@@ -15,6 +21,12 @@
   overflow-y: scroll;
   max-height: calc(100vh - 324px);
   gap: calc(var(--offset-base-size) * 4);
+}
+
+.dragging {
+  composes: text;
+  outline: solid 2px rgba(211, 211, 211, 0.527);
+  border-radius: 5px;
 }
 
 .orderPrice {
@@ -30,6 +42,7 @@
 }
 .bottom{
   display: flex;
+  align-content: flex-end;
   align-items: center;
   gap: calc(var(--offset-base-size) * 10);
   justify-content: flex-end;

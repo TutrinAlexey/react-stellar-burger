@@ -3,11 +3,11 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import PropTypes from 'prop-types'
 
-function AppMain({ingredientsFromApi, openIngredient, openOrder}) {
+function AppMain({ingredientsFromApi}) {
   return (
     <main className={`${styles.main}`}>
-      <BurgerIngredients ingredients={ingredientsFromApi} openIngredient={openIngredient} />
-      <BurgerConstructor ingredients={ingredientsFromApi} openOrder={openOrder} />
+      <BurgerIngredients ingredients={ingredientsFromApi} />
+      <BurgerConstructor ingredients={ingredientsFromApi} />
     </main>
   );
 }

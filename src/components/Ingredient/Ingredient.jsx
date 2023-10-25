@@ -4,15 +4,30 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types'
+import { openIngredientModal } from "../../services/slice/modalSlice";
+import { useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 
-function Ingredient({ingredient, openIngredient}) {
+
+function Ingredient({ingredient}) {
+  const dispatch = useDispatch();
+  
+  const [{isDragStart}, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      isDragStart: monitor.isDragging(),
+    })
+  })
+
+
   return (
-    <li className={styles.item}>
+    <li className={styles.item} ref={dragRef}>
       <div className={styles.countInactive}>
       <Counter count={1} size="default" extraClass="m-1" />
       </div>
       <img
-        onClick={openIngredient}
+        onClick={() => dispatch(openIngredientModal(ingredient))}
         className={`ml-4 mr-4 ${styles.image}`}
         src={ingredient.image}
         alt={ingredient.name}

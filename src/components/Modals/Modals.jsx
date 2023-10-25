@@ -4,27 +4,34 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import Modal from "../Modal/Modal";
+import { closeAllModals } from "../../services/slice/modalSlice";
+import { useDispatch } from "react-redux";
 
 const modalRoot = document.getElementById("modals");
 
-function Modals({onClose, children}) {
-  const closeOnEsc = (e) => {
-    if (e.key === "Escape") {
-      onClose();
-    }
-  };
+function Modals({ children }) {
+  const dispatch = useDispatch();
 
+  const closeModal = () => {
+    dispatch(closeAllModals());
+  };
+  
   useEffect(() => {
+    const closeOnEsc = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
     document.addEventListener("keydown", closeOnEsc);
 
     return () => {
       document.removeEventListener("keydown", closeOnEsc);
     };
-  });
+  }, []);
 
   return createPortal(
-    <ModalOverlay onClose={onClose}>
-      <Modal onClose={onClose} ingredientInfo={children}></Modal>
+    <ModalOverlay onClose={closeModal}>
+      <Modal ingredientInfo={children} onClose={closeModal}></Modal>
     </ModalOverlay>,
     modalRoot
   );
@@ -32,7 +39,7 @@ function Modals({onClose, children}) {
 
 Modals.propTypes = {
   onClose: PropTypes.func,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default Modals;

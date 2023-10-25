@@ -3,12 +3,12 @@ import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import PropTypes from "prop-types";
+import { getIngredients } from "../../services/selector/ingredientsSelector";
+import { useSelector } from "react-redux";
 
-function BurgerIngredients({ ingredients, openIngredient }) {
-  const [current, setCurrent] = useState("Булки");
-  const bunsSector = useMemo(() => document.getElementById("buns"),[current]);
-  const sauceSector = useMemo(() => document.getElementById("sauce"),[current]);
-  const toppingSector = useMemo(() => document.getElementById("main"),[current]);
+function BurgerIngredients() {
+  const [current, setCurrent] = useState("Соусы");
+  const ingredients = useSelector(getIngredients);
 
   const buns = useMemo(
     () => ingredients.filter((el) => el.type === "bun"),
@@ -23,64 +23,59 @@ function BurgerIngredients({ ingredients, openIngredient }) {
     [ingredients]
   );
 
-
   return (
     <section className={`${styles.section}`}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
       <ul className={`${styles.tab}`}>
         <li>
-          <Tab
-            value="Булки"
-            active={current === "Булки"}
-            onClick={() => {
-              setCurrent("Булки");
-              bunsSector.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Булки
-          </Tab>
+          <a href="#buns" className={styles.link}>
+            <Tab
+              value="Булки"
+              active={current === "Булки"}
+              onClick={(e) => {
+                setCurrent("Булки");
+              }}
+            >
+              Булки
+            </Tab>
+          </a>
         </li>
         <li>
-          <Tab
-            value="Соусы"
-            active={current === "Соусы"}
-            onClick={() => {
-              setCurrent("Соусы");
-              sauceSector.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Соусы
-          </Tab>
+          <a href="#sauce" className={styles.link}>
+            <Tab
+              value="Соусы"
+              active={current === "Соусы"}
+              onClick={() => {
+                setCurrent("Соусы");
+              }}
+            >
+              Соусы
+            </Tab>
+          </a>
         </li>
         <li>
-          <Tab
-            value="Начинки"
-            active={current === "Начинки"}
-            onClick={() => {
-              setCurrent("Начинки");
-              toppingSector.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Начинки
-          </Tab>
+          <a href="#main" className={styles.link}>
+            <Tab
+              value="Начинки"
+              active={current === "Начинки"}
+              onClick={() => {
+                setCurrent("Начинки");
+              }}
+            >
+              Начинки
+            </Tab>
+          </a>
         </li>
       </ul>
       <ul className={`custom-scroll ${styles.ingredients}`}>
-        <IngredientsContainer
-          id="buns"
-          openIngredient={openIngredient}
-          name="Булки"
-          filterIngredients={buns}
-        />
+        <IngredientsContainer id="buns" name="Булки" filterIngredients={buns} />
         <IngredientsContainer
           id="sauce"
-          openIngredient={openIngredient}
           name="Соусы"
           filterIngredients={sauce}
         />
         <IngredientsContainer
           id="main"
-          openIngredient={openIngredient}
           name="Начинки"
           filterIngredients={main}
         />
@@ -91,7 +86,6 @@ function BurgerIngredients({ ingredients, openIngredient }) {
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypes.object),
-  openIngredient: PropTypes.func,
 };
 
 export default BurgerIngredients;
