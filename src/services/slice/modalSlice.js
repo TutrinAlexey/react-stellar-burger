@@ -22,6 +22,8 @@ const modalSlice = createSlice({
     closeAllModals: (state, action) => {
       state.ingredientOpen = false;
       state.orderOpen = false;
+      state.ingredientInfo = {};
+      state.orderInfo = {};
     },
   },
 });

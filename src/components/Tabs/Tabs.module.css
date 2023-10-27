@@ -1,0 +1,10 @@
+.tab {
+  padding-left: 0;
+  margin-top: 0;
+  display: flex;
+  list-style-type: none;
+}
+
+.link {
+  text-decoration: none;
+}

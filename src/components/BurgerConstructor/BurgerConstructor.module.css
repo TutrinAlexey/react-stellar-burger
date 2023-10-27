@@ -23,8 +23,14 @@
   gap: calc(var(--offset-base-size) * 4);
 }
 
-.dragging {
+.draggingText {
   composes: text;
+  outline: solid 2px rgba(211, 211, 211, 0.527);
+  border-radius: 5px;
+}
+
+.draggingList {
+  composes: list;
   outline: solid 2px rgba(211, 211, 211, 0.527);
   border-radius: 5px;
 }
@@ -39,6 +45,9 @@
   display: flex;
   gap: calc(var(--offset-base-size) * 2);
   align-items: center;
+}
+.opacity {
+  display: none;
 }
 .bottom{
   display: flex;

@@ -1,13 +1,13 @@
-import { useState, useMemo, useEffect } from "react";
+import { useMemo, useCallback, useState } from "react";
 import styles from "./BurgerIngredients.module.css";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import PropTypes from "prop-types";
 import { getIngredients } from "../../services/selector/ingredientsSelector";
 import { useSelector } from "react-redux";
+import Tabs from "../Tabs/Tabs";
 
 function BurgerIngredients() {
-  const [current, setCurrent] = useState("Соусы");
+  const [value, setValue] = useState(0);
   const ingredients = useSelector(getIngredients);
 
   const buns = useMemo(
@@ -23,51 +23,18 @@ function BurgerIngredients() {
     [ingredients]
   );
 
+  const scrollValue = useCallback((e) => {
+    setValue(e.currentTarget.scrollTop);
+  }, []);
+
   return (
     <section className={`${styles.section}`}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-      <ul className={`${styles.tab}`}>
-        <li>
-          <a href="#buns" className={styles.link}>
-            <Tab
-              value="Булки"
-              active={current === "Булки"}
-              onClick={(e) => {
-                setCurrent("Булки");
-              }}
-            >
-              Булки
-            </Tab>
-          </a>
-        </li>
-        <li>
-          <a href="#sauce" className={styles.link}>
-            <Tab
-              value="Соусы"
-              active={current === "Соусы"}
-              onClick={() => {
-                setCurrent("Соусы");
-              }}
-            >
-              Соусы
-            </Tab>
-          </a>
-        </li>
-        <li>
-          <a href="#main" className={styles.link}>
-            <Tab
-              value="Начинки"
-              active={current === "Начинки"}
-              onClick={() => {
-                setCurrent("Начинки");
-              }}
-            >
-              Начинки
-            </Tab>
-          </a>
-        </li>
-      </ul>
-      <ul className={`custom-scroll ${styles.ingredients}`}>
+      <Tabs value={value} />
+      <ul
+        className={`custom-scroll ${styles.ingredients}`}
+        onScroll={scrollValue}
+      >
         <IngredientsContainer id="buns" name="Булки" filterIngredients={buns} />
         <IngredientsContainer
           id="sauce"
@@ -84,8 +51,6 @@ function BurgerIngredients() {
   );
 }
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object),
-};
+BurgerIngredients.propTypes = {};
 
 export default BurgerIngredients;

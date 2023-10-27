@@ -7,19 +7,22 @@ import Modals from "../Modals/Modals";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { ingredientInfoSelector, ingredientOpenSelector, orderOpenSelector } from "../../services/selector/modalSelector";
+import {
+  ingredientInfoSelector,
+  ingredientOpenSelector,
+  orderOpenSelector,
+} from "../../services/selector/modalSelector";
 import { fetchIngredients } from "../../services/thunk/ingredientsQuery";
 
 function App() {
-  const ingredientOpen = useSelector(ingredientOpenSelector)
-  const orderOpen = useSelector(orderOpenSelector)
-  const ingredientInfo = useSelector(ingredientInfoSelector)
-  
+  const ingredientOpen = useSelector(ingredientOpenSelector);
+  const orderOpen = useSelector(orderOpenSelector);
+  const ingredientInfo = useSelector(ingredientInfoSelector);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIngredients())
-  },[])
+    dispatch(fetchIngredients());
+  }, []);
 
   return (
     <div className={styles.app}>

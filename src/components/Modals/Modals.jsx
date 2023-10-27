@@ -15,7 +15,7 @@ function Modals({ children }) {
   const closeModal = () => {
     dispatch(closeAllModals());
   };
-  
+
   useEffect(() => {
     const closeOnEsc = (e) => {
       if (e.key === "Escape") {
@@ -38,7 +38,6 @@ function Modals({ children }) {
 }
 
 Modals.propTypes = {
-  onClose: PropTypes.func,
   children: PropTypes.element,
 };
 
