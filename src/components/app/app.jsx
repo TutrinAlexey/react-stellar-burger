@@ -8,6 +8,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getOrderInfo,
   ingredientInfoSelector,
   ingredientOpenSelector,
   orderOpenSelector,
@@ -18,6 +19,7 @@ function App() {
   const ingredientOpen = useSelector(ingredientOpenSelector);
   const orderOpen = useSelector(orderOpenSelector);
   const ingredientInfo = useSelector(ingredientInfoSelector);
+  const orderInfo = useSelector(getOrderInfo);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,7 +37,7 @@ function App() {
       )}
       {orderOpen && (
         <Modals>
-          <OrderDetails />
+          <OrderDetails orderInfo={orderInfo} />
         </Modals>
       )}
     </div>

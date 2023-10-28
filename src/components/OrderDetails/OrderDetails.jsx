@@ -1,15 +1,14 @@
 import styles from "./OrderDetails.module.css";
 import acceptOrderIcon from "../../images/graphics.svg";
 import { useSelector } from "react-redux";
-import { getOrderInfo, orderLoading } from "../../services/selector/modalSelector";
+import { orderLoading } from "../../services/selector/modalSelector";
+import PropTypes from "prop-types";
 
-
-function ModalOrder(props) {
-  const orderInfo = useSelector(getOrderInfo);
+function ModalOrder({ orderInfo }) {
   const isLoading = useSelector(orderLoading);
-
-  return  (
-    !isLoading ? (<div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>
+  console.log(orderInfo);
+  return !isLoading ? (
+    <div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>
       <h3 className={`text text_type_digits-large mt-15 mb-8`}>
         {!isLoading && orderInfo.order.number}
       </h3>
@@ -31,8 +30,15 @@ function ModalOrder(props) {
       <p className={`text text_type_main-large`}>Подождите</p>
       <p className={`text text_type_main-default`}>Заказ обрабатывается</p>
     </div>
-  )
   );
 }
+
+ModalOrder.propTypes = {
+  orderInfo: PropTypes.shape({
+    order: PropTypes.shape({
+      number: PropTypes.number,
+    }),
+  }),
+};
 
 export default ModalOrder;
