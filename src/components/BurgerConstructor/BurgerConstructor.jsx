@@ -16,13 +16,15 @@ import {
 import { addIngredients } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
+import { useMemo } from "react";
+import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const ingredientsOfBurger = useSelector(burgerIngredients);
   const bunsOfBurger = useSelector(burgerBuns);
   const burgerPrice = useSelector(orderPrice);
-
+  
   const [{ isDragging }, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -34,6 +36,16 @@ function BurgerConstructor() {
     }),
   });
 
+  const burgerIdForOrder = useMemo(() => {
+    const burger = bunsOfBurger && [bunsOfBurger, ...ingredientsOfBurger, bunsOfBurger];
+    const burgerId = burger && burger.map((ingredient) => ingredient._id)
+    return burgerId
+  }, [bunsOfBurger, ingredientsOfBurger])
+
+  const handleOrder = () => {
+    dispatch(fetchOrder(burgerIdForOrder));
+    dispatch(openOrderModal());
+  }
   return (
     <section ref={dropRef} className={`mt-15 ${styles.section}`}>
       {bunsOfBurger || ingredientsOfBurger.length !== 0 ? (
@@ -88,7 +100,7 @@ function BurgerConstructor() {
         </p>
         {bunsOfBurger ? (
           <Button
-            onClick={() => dispatch(openOrderModal())}
+            onClick={handleOrder}
             htmlType="button"
             type="primary"
             size="medium"
@@ -97,7 +109,7 @@ function BurgerConstructor() {
           </Button>
         ) : (
           <Button
-            onClick={() => dispatch(openOrderModal())}
+            onClick={handleOrder}
             htmlType="button"
             type="primary"
             size="medium"

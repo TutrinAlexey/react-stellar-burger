@@ -4,6 +4,7 @@ import ingredientsReducer from "./slice/ingredientsSlice";
 import burgerReducer from "./slice/burgerSlice";
 import linkReducer from "./slice/linkSlice";
 
+
 export const store = configureStore({
   reducer: {
     modal: modalReducer,
