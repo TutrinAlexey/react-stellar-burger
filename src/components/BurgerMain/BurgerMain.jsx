@@ -11,6 +11,7 @@ import {
   swapIngredients,
 } from "../../services/slice/burgerSlice";
 import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-types";
 
 function BurgerMain({ data, index }) {
   const ingredientsOfBurger = useSelector(burgerIngredients);
@@ -60,12 +61,7 @@ function BurgerMain({ data, index }) {
 }
 
 BurgerMain.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string,
-    image: PropTypes.string,
-    price: PropTypes.number,
-    _constId: PropTypes.string,
-  }),
+  data: ingredientPropType,
   index: PropTypes.number,
 };
 

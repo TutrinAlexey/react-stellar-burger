@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { orderLoading } from "../../services/selector/modalSelector";
 import PropTypes from "prop-types";
 
-function ModalOrder({ orderInfo }) {
+function OrderDetails({ orderInfo }) {
   const isLoading = useSelector(orderLoading);
-  console.log(orderInfo);
+
   return !isLoading ? (
     <div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>
       <h3 className={`text text_type_digits-large mt-15 mb-8`}>
@@ -33,7 +33,7 @@ function ModalOrder({ orderInfo }) {
   );
 }
 
-ModalOrder.propTypes = {
+OrderDetails.propTypes = {
   orderInfo: PropTypes.shape({
     order: PropTypes.shape({
       number: PropTypes.number,
@@ -41,4 +41,4 @@ ModalOrder.propTypes = {
   }),
 };
 
-export default ModalOrder;
+export default OrderDetails;

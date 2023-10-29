@@ -13,7 +13,7 @@ import {
   burgerIngredients,
   orderPrice,
 } from "../../services/selector/burgerSelector";
-import { addIngredients } from "../../services/slice/burgerSlice";
+import { addIngredients, clearIngredients } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
 import { useMemo } from "react";
@@ -45,6 +45,7 @@ function BurgerConstructor() {
   const handleOrder = () => {
     dispatch(fetchOrder(burgerIdForOrder));
     dispatch(openOrderModal());
+    dispatch(clearIngredients());
   }
   return (
     <section ref={dropRef} className={`mt-15 ${styles.section}`}>
@@ -59,7 +60,7 @@ function BurgerConstructor() {
               <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={bunsOfBurger.name}
+                text={bunsOfBurger.name + '(вверх)'}
                 price={bunsOfBurger.price}
                 thumbnail={bunsOfBurger.image}
               />
@@ -77,7 +78,7 @@ function BurgerConstructor() {
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={bunsOfBurger.name}
+                text={bunsOfBurger.name + '(низ)'}
                 price={bunsOfBurger.price}
                 thumbnail={bunsOfBurger.image}
               />
@@ -98,26 +99,15 @@ function BurgerConstructor() {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
-        {bunsOfBurger ? (
           <Button
             onClick={handleOrder}
             htmlType="button"
             type="primary"
             size="medium"
+            disabled={!bunsOfBurger}
           >
             Оформить заказ
           </Button>
-        ) : (
-          <Button
-            onClick={handleOrder}
-            htmlType="button"
-            type="primary"
-            size="medium"
-            disabled
-          >
-            Оформить заказ
-          </Button>
-        )}
       </div>
     </section>
   );

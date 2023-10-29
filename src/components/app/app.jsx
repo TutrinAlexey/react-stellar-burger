@@ -1,9 +1,8 @@
-import styles from "./app.module.css";
-import { data } from "../../utils/data";
+import styles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import AppMain from "../AppMain/AppMain";
 import { useEffect, useState } from "react";
-import Modals from "../Modals/Modals";
+import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,14 +30,14 @@ function App() {
       <AppHeader />
       <AppMain />
       {ingredientOpen && (
-        <Modals>
+        <Modal>
           <IngredientDetails dataOfIngredients={ingredientInfo} />
-        </Modals>
+        </Modal>
       )}
       {orderOpen && (
-        <Modals>
+        <Modal>
           <OrderDetails orderInfo={orderInfo} />
-        </Modals>
+        </Modal>
       )}
     </div>
   );

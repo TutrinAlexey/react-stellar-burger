@@ -12,6 +12,7 @@ import {
   burgerBuns,
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
+import { ingredientPropType } from "../../utils/prop-types";
 
 function Ingredient({ ingredient }) {
   const dispatch = useDispatch();
@@ -64,11 +65,7 @@ function Ingredient({ ingredient }) {
 }
 
 Ingredient.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string,
-    image: PropTypes.string,
-    price: PropTypes.number,
-  }),
+  ingredient: ingredientPropType,
 };
 
 export default Ingredient;

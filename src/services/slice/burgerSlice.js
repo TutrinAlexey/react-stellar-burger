@@ -26,9 +26,13 @@ const burgerSlice = createSlice({
         (item) => item._constId !== action.payload
       );
     },
+    clearIngredients: (state, action) => {
+      state.ingredientsBurger = [];
+      state.bunsBurger = null
+    }
   },
 });
 
-export const { addIngredients, swapIngredients, deleteIngredients } =
+export const { addIngredients, swapIngredients, deleteIngredients, clearIngredients } =
   burgerSlice.actions;
 export default burgerSlice.reducer;
