@@ -1,16 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../utils/constants";
-
-export const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-};
-
-const request = (endpoint, options) => {
-  return fetch(BASE_URL + endpoint, options).then(checkResponse);
-};
+import { request } from "../../utils/api";
 
 const getIngredients = () => {
   return request("/ingredients", {

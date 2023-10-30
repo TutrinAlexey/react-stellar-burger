@@ -31,7 +31,7 @@ function Modal({ children }) {
 
   return createPortal(
     <ModalOverlay onClose={closeModal}>
-      <ModalCloseIcon ingredientInfo={children} onClose={closeModal}></ModalCloseIcon>
+      <ModalCloseIcon onClose={closeModal}>{children}</ModalCloseIcon>
     </ModalOverlay>,
     modalRoot
   );
