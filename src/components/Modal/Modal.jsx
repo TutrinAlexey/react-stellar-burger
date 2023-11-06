@@ -6,15 +6,16 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { closeAllModals } from "../../services/slice/modalSlice";
 import { useDispatch } from "react-redux";
+import { useCallback } from 'react';
 
 const modalRoot = document.getElementById("modals");
 
 function Modal({ children }) {
   const dispatch = useDispatch();
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     dispatch(closeAllModals());
-  };
+  });
 
   useEffect(() => {
     const closeOnEsc = (e) => {

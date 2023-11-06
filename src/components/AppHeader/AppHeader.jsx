@@ -18,6 +18,7 @@ import {
   burgerLink,
   orderListLink,
 } from "../../services/slice/linkSlice";
+import { memo } from "react";
 
 function AppHeader() {
   const dispatch = useDispatch();
@@ -59,4 +60,4 @@ function AppHeader() {
   );
 }
 
-export default AppHeader;
+export default memo(AppHeader);

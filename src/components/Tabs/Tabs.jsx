@@ -14,8 +14,9 @@ function Tabs({ value }) {
       setCurrent("Начинки");
     }
   }, [value]);
+
   return (
-    <ul className={`${styles.tab}`}>
+    <ul className={`${styles.tabs}`}>
       <li>
         <a href="#buns" className={styles.link}>
           <Tab

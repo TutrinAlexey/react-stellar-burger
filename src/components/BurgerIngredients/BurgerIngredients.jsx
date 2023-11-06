@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useState, memo } from "react";
 import styles from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import PropTypes from "prop-types";
@@ -51,6 +51,4 @@ function BurgerIngredients() {
   );
 }
 
-BurgerIngredients.propTypes = {};
-
-export default BurgerIngredients;
+export default memo(BurgerIngredients);

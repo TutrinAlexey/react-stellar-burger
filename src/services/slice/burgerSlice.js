@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  bunsBurger: null,
+  bunsBurger: [],
   ingredientsBurger: [],
 };
 
@@ -11,7 +11,7 @@ const burgerSlice = createSlice({
   reducers: {
     addIngredients: (state, action) => {
       if (action.payload.type === "bun") {
-        state.bunsBurger = action.payload;
+        state.bunsBurger = [action.payload];
       } else {
         state.ingredientsBurger.push(action.payload);
       }
@@ -28,7 +28,7 @@ const burgerSlice = createSlice({
     },
     clearIngredients: (state, action) => {
       state.ingredientsBurger = [];
-      state.bunsBurger = null
+      state.bunsBurger = []
     }
   },
 });

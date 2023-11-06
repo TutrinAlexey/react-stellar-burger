@@ -16,7 +16,7 @@ import {
 import { addIngredients, clearIngredients } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 
 function BurgerConstructor() {
@@ -24,7 +24,6 @@ function BurgerConstructor() {
   const ingredientsOfBurger = useSelector(burgerIngredients);
   const bunsOfBurger = useSelector(burgerBuns);
   const burgerPrice = useSelector(orderPrice);
-  
   const [{ isDragging }, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -37,8 +36,9 @@ function BurgerConstructor() {
   });
 
   const burgerIdForOrder = useMemo(() => {
-    const burger = bunsOfBurger && [bunsOfBurger, ...ingredientsOfBurger, bunsOfBurger];
-    const burgerId = burger && burger.map((ingredient) => ingredient._id)
+    const bunsId = bunsOfBurger.map((ingredient) => ingredient._id)
+    const ingredientsId = ingredientsOfBurger.map((ingredient) => ingredient._id)
+    const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
     return burgerId
   }, [bunsOfBurger, ingredientsOfBurger])
 
@@ -49,20 +49,20 @@ function BurgerConstructor() {
   }
   return (
     <section ref={dropRef} className={`mt-15 ${styles.section}`}>
-      {bunsOfBurger || ingredientsOfBurger.length !== 0 ? (
+      {bunsOfBurger.length !== 0 || ingredientsOfBurger.length !== 0 ? (
         <ul
           className={`custom-scroll ${
             isDragging ? styles.draggingList : styles.list
           }`}
         >
-          {bunsOfBurger && (
+          {bunsOfBurger.length !== 0 && (
             <li className="ml-8">
               <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={bunsOfBurger.name + '(вверх)'}
-                price={bunsOfBurger.price}
-                thumbnail={bunsOfBurger.image}
+                text={bunsOfBurger[0].name + '(вверх)'}
+                price={bunsOfBurger[0].price}
+                thumbnail={bunsOfBurger[0].image}
               />
             </li>
           )}
@@ -73,14 +73,14 @@ function BurgerConstructor() {
               index={index}
             />
           ))}
-          {bunsOfBurger && (
+          {bunsOfBurger.length !== 0 && (
             <li className="ml-8">
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={bunsOfBurger.name + '(низ)'}
-                price={bunsOfBurger.price}
-                thumbnail={bunsOfBurger.image}
+                text={bunsOfBurger[0].name + '(низ)'}
+                price={bunsOfBurger[0].price}
+                thumbnail={bunsOfBurger[0].image}
               />
             </li>
           )}
@@ -104,7 +104,7 @@ function BurgerConstructor() {
             htmlType="button"
             type="primary"
             size="medium"
-            disabled={!bunsOfBurger}
+            disabled={bunsOfBurger.length === 0}
           >
             Оформить заказ
           </Button>
@@ -113,4 +113,4 @@ function BurgerConstructor() {
   );
 }
 
-export default BurgerConstructor;
+export default memo(BurgerConstructor);
