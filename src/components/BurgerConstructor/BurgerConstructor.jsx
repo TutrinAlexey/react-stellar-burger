@@ -1,101 +1,116 @@
 import styles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
+import { openOrderModal } from "../../services/slice/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import {
+  burgerBuns,
+  burgerIngredients,
+  orderPrice,
+} from "../../services/selector/burgerSelector";
+import { addIngredients, clearIngredients } from "../../services/slice/burgerSlice";
+import BurgerMain from "../BurgerMain/BurgerMain";
+import { v4 } from "uuid";
+import { useMemo, memo } from "react";
+import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 
-function BurgerConstructor({ingredients, openOrder}) {
-  const img = "https://code.s3.yandex.net/react/code/bun-02.png";
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const ingredientsOfBurger = useSelector(burgerIngredients);
+  const bunsOfBurger = useSelector(burgerBuns);
+  const burgerPrice = useSelector(orderPrice);
+  const [{ isDragging }, dropRef] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      const newElement = { ...item, _constId: v4() };
+      dispatch(addIngredients(newElement));
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isOver(),
+    }),
+  });
 
+  const burgerIdForOrder = useMemo(() => {
+    const bunsId = bunsOfBurger.map((ingredient) => ingredient._id)
+    const ingredientsId = ingredientsOfBurger.map((ingredient) => ingredient._id)
+    const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
+    return burgerId
+  }, [bunsOfBurger, ingredientsOfBurger])
+
+  const handleOrder = () => {
+    dispatch(fetchOrder(burgerIdForOrder));
+    dispatch(openOrderModal());
+    dispatch(clearIngredients());
+  }
   return (
-    <section className={`mt-15 ${styles.section}`}>
-      <ul className={`custom-scroll ${styles.list}`}>
-        <li className="ml-8">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className={styles.element}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i (верх)"
-            price={50}
-            thumbnail={img}
-          />
-        </li>
-        <li className="ml-8">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={img}
-          />
-        </li>
-      </ul>
+    <section ref={dropRef} className={`mt-15 ${styles.section}`}>
+      {bunsOfBurger.length !== 0 || ingredientsOfBurger.length !== 0 ? (
+        <ul
+          className={`custom-scroll ${
+            isDragging ? styles.draggingList : styles.list
+          }`}
+        >
+          {bunsOfBurger.length !== 0 && (
+            <li className="ml-8">
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={bunsOfBurger[0].name + '(вверх)'}
+                price={bunsOfBurger[0].price}
+                thumbnail={bunsOfBurger[0].image}
+              />
+            </li>
+          )}
+          {ingredientsOfBurger.map((ingredient, index) => (
+            <BurgerMain
+              key={ingredient._constId}
+              data={ingredient}
+              index={index}
+            />
+          ))}
+          {bunsOfBurger.length !== 0 && (
+            <li className="ml-8">
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={bunsOfBurger[0].name + '(низ)'}
+                price={bunsOfBurger[0].price}
+                thumbnail={bunsOfBurger[0].image}
+              />
+            </li>
+          )}
+        </ul>
+      ) : (
+        <p
+          className={`text text_type_main-medium ${
+            isDragging ? styles.draggingText : styles.text
+          }`}
+        >
+          Перетащите ингредиенты для бургера
+        </p>
+      )}
       <div className={`mt-10  pr-4 ${styles.bottom}`}>
         <p className={`text text_type_digits-medium ${styles.orderPrice}`}>
-          610
+          {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
-        <Button onClick={openOrder} htmlType="button" type="primary" size="medium">
-          Оформить заказ
-        </Button>
+          <Button
+            onClick={handleOrder}
+            htmlType="button"
+            type="primary"
+            size="medium"
+            disabled={bunsOfBurger.length === 0}
+          >
+            Оформить заказ
+          </Button>
       </div>
     </section>
   );
 }
 
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object),
-  openOrder: PropTypes.func,
-}
-
-export default BurgerConstructor;
+export default memo(BurgerConstructor);

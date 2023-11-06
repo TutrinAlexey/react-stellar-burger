@@ -3,6 +3,7 @@
   background-color: var(--interface-modal-bg, #1c1c21);
 }
 .navigation {
+  position: relative;
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
@@ -12,4 +13,8 @@
 .container {
   display: flex;
   gap: calc(var(--offset-base-size) * 2);
+}
+.logo {
+  position: absolute;
+  left: calc(50% - 150px);
 }

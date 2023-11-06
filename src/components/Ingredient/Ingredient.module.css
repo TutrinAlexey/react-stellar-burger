@@ -6,6 +6,10 @@
   position: relative;
 }
 
+.itemDrag {
+  composes: item;
+  border: solid 1px #4c4cff;
+}
 .image {
   max-width: 240px;
   cursor: pointer;
@@ -20,12 +24,4 @@
   max-width: 272px;
   text-align: center;
   height: 48px;
-}
-
-.countInactive {
-  display: none;
-}
-
-.countActive {
-  display: block;
 }

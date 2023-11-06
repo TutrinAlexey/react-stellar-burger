@@ -1,7 +1,7 @@
 import styles from "./ModalOverlay.module.css";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-function ModalOverlay({onClose, children}) {
+function ModalOverlay({ children, onClose }) {
   return (
     <div className={styles.container}>
       <div
@@ -17,5 +17,5 @@ function ModalOverlay({onClose, children}) {
 ModalOverlay.propTypes = {
   onClose: PropTypes.func,
   children: PropTypes.element,
-}
+};
 export default ModalOverlay;
