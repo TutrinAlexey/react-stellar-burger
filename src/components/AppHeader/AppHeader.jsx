@@ -30,17 +30,11 @@ function AppHeader() {
     <header className={` ${styles.header}`}>
       <nav className={`pt-4 pb-4 ${styles.navigation}`}>
         <div className={styles.container}>
-          <NavigationLink
-            isActive={burgerActive}
-            chooseLink={() => dispatch(burgerLink())}
-          >
+          <NavigationLink  isActive={burgerActive} way={'/'} chooseLink={() => dispatch(burgerLink())}>
             <BurgerIcon type={burgerActive ? "primary" : "secondary"} />
             Конструктор
           </NavigationLink>
-          <NavigationLink
-            isActive={orderActive}
-            chooseLink={() => dispatch(orderListLink())}
-          >
+          <NavigationLink isActive={orderActive} way={'/list'} chooseLink={() => dispatch(orderListLink())}>
             <ListIcon type={orderActive ? "primary" : "secondary"} />
             Лента заказов
           </NavigationLink>
@@ -48,10 +42,7 @@ function AppHeader() {
         <div className={styles.logo}>
           <Logo extraClass={styles.logo} />
         </div>
-        <NavigationLink
-          isActive={accountActive}
-          chooseLink={() => dispatch(accountLink())}
-        >
+        <NavigationLink isActive={accountActive} way={'/profile'} chooseLink={() => dispatch(accountLink())}>
           <ProfileIcon type={accountActive ? "primary" : "secondary"} />
           Личный кабинет
         </NavigationLink>

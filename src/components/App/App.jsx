@@ -13,13 +13,24 @@ import {
   orderOpenSelector,
 } from "../../services/selector/modalSelector";
 import { fetchIngredients } from "../../services/thunk/ingredientsQuery";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Login from "../../pages/Login/Login";
+import Register from "../../pages/Register/Register";
+import ForgotPass from "../../pages/ForgotPass/ForgotPass";
+import ResetPass from "../../pages/ResetPass/ResetPass";
+import Profile from "../../pages/Profile/Profile";
+import IngredientPage from "../../pages/IngredientPage/IngredientPage";
+import NotFound from "../../pages/NotFound/NotFound";
+import Home from "../../pages/Home/Home";
+import Layout from "../Layout/Layout";
 
 function App() {
   const ingredientOpen = useSelector(ingredientOpenSelector);
   const orderOpen = useSelector(orderOpenSelector);
   const ingredientInfo = useSelector(ingredientInfoSelector);
   const orderInfo = useSelector(getOrderInfo);
-
+  const location = useLocation();
+  const background = location.state && location.state.background;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIngredients());
@@ -27,8 +38,6 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <AppMain />
       {ingredientOpen && (
         <Modal>
           <IngredientDetails dataOfIngredients={ingredientInfo} />
@@ -38,6 +47,37 @@ function App() {
         <Modal>
           <OrderDetails orderInfo={orderInfo} />
         </Modal>
+      )}
+      <Routes location={background || location}>
+        <Route path="/" element={<Layout />}>
+          <Route path="" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPass />} />
+          <Route path="reset-password" element={<ResetPass />} />
+          <Route path="profile" element={<Profile />} />
+          <Route
+            path="ingredients/:id"
+            element={
+              <Modal>
+                <IngredientDetails dataOfIngredients={ingredientInfo} />
+              </Modal>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="ingredients/:id"
+            element={
+              <Modal>
+                <IngredientDetails dataOfIngredients={ingredientInfo} />
+              </Modal>
+            }
+          />
+        </Routes>
       )}
     </div>
   );

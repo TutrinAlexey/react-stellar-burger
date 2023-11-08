@@ -7,14 +7,16 @@ import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { closeAllModals } from "../../services/slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { useCallback } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const modalRoot = document.getElementById("modals");
 
 function Modal({ children }) {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const closeModal = useCallback(() => {
     dispatch(closeAllModals());
+    navigate("/")
   });
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-.main {
+.container {
   display: flex;
   gap: calc(var(--offset-base-size) * 10);
   max-width: 1240px;
