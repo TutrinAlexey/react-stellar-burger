@@ -37,7 +37,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchIngredients());
   }, []);
-  
+
   return (
     <div className={styles.app}>
       {ingredientOpen && (
@@ -58,7 +58,7 @@ function App() {
           <Route path="forgot-password" element={<ForgotPass />} />
           <Route path="reset-password" element={<ResetPass />} />
           <Route path="order-list" element={<OrderList />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/*" element={<Profile />} />
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>

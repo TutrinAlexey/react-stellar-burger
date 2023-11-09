@@ -14,20 +14,3 @@
     justify-content: center;
 }
 
-.form {
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.text {
-    opacity: 0.4;
-}
-.buttons {
-    align-self: flex-end;
-    display: flex;
-    gap: 20px;
-}
-.button {
-    padding: 16px 8px;
-}

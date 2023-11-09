@@ -5,10 +5,11 @@ import {
 import styles from "./Login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
 
 function Login() {
   const navigate = useNavigate();
-  const [value, setValue] = useState("value");
+  const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
@@ -24,11 +25,11 @@ function Login() {
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={(e) => setValue(e.target.value)}
-            value={''}
+            onChange={handleChange}
+            value={values.email || ""}
             name={"email"}
-            error={false}
-            errorText={"Ошибка"}
+            error={!!errors.email}
+            errorText={errors.email}
             size={"default"}
             extraClass="mt-6"
             minLength={8}
@@ -38,13 +39,13 @@ function Login() {
           <Input
             type={hiddenPass ? "text" : "password"}
             placeholder={"Пароль"}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             icon={hiddenPass ? "HideIcon" : "ShowIcon"}
-            value={''}
+            value={values.password || ""}
             name={"password"}
-            error={false}
+            error={!!errors.password}
             onIconClick={onIconClick}
-            errorText={"Ошибка"}
+            errorText={errors.password}
             size={"default"}
             extraClass={"mt-6"}
             required
@@ -56,6 +57,7 @@ function Login() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
+            disabled={!isFormValidate}
           >
             Войти
           </Button>

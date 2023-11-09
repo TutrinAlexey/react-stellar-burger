@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useForm } from "../../hooks/useForm";
 
 function Register() {
   const navigate = useNavigate();
-  const [value, setValue] = useState("value");
   const [hiddenPass, setHiddenPass] = useState(false);
+  const { values, errors, isFormValidate, handleChange } = useForm();
+
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
@@ -30,11 +32,11 @@ function Register() {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={(e) => setValue(e.target.value)}
-            value={''}
-            name={"Name"}
-            error={false}
-            errorText={"Ошибка"}
+            onChange={handleChange}
+            value={values.name || ""}
+            name={"name"}
+            error={!!errors.name}
+            errorText={errors.name}
             size={"default"}
             extraClass="mt-6"
             minLength={4}
@@ -44,11 +46,11 @@ function Register() {
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={(e) => setValue(e.target.value)}
-            value={''}
+            onChange={handleChange}
+            value={values.email || ""}
             name={"email"}
-            error={false}
-            errorText={"Ошибка"}
+            error={!!errors.email}
+            errorText={errors.email}
             size={"default"}
             extraClass="mt-6"
             minLength={8}
@@ -58,13 +60,13 @@ function Register() {
           <Input
             type={hiddenPass ? "text" : "password"}
             placeholder={"Пароль"}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             icon={hiddenPass ? "HideIcon" : "ShowIcon"}
-            value={''}
+            value={values.password || ""}
             name={"password"}
-            error={false}
+            error={!!errors.password}
             onIconClick={onIconClick}
-            errorText={"Ошибка"}
+            errorText={errors.password}
             size={"default"}
             extraClass={"mt-6"}
             required
@@ -77,6 +79,7 @@ function Register() {
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
             onClick={() => navigate("/login")}
+            disabled={!isFormValidate}
           >
             Зарегистрироваться
           </Button>

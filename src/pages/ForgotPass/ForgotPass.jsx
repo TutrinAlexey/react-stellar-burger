@@ -5,10 +5,11 @@ import {
 import styles from "./ForgotPass.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
 
 function ForgotPass() {
   const navigate = useNavigate();
-  const [value, setValue] = useState("value");
+  const { values, errors, isFormValidate, handleChange } = useForm();
   const handleForm = (evt) => {
     evt.preventDefault();
   };
@@ -26,11 +27,11 @@ function ForgotPass() {
           <Input
             type={"email"}
             placeholder={"Укажите e-mail"}
-            onChange={(e) => setValue(e.target.value)}
-            value={''}
+            onChange={handleChange}
+            value={values.email || ""}
             name={"email"}
-            error={false}
-            errorText={"Ошибка"}
+            error={!!errors.email}
+            errorText={errors.email}
             size={"default"}
             extraClass="mt-6"
             minLength={8}
@@ -42,6 +43,7 @@ function ForgotPass() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
+            disabled={!isFormValidate}
             onClick={() => navigate("/reset-password")}
           >
             Восстановить

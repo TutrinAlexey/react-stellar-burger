@@ -1,11 +1,15 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  Input,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPass.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "../../hooks/useForm";
 
 function ResetPass() {
   const navigate = useNavigate();
-  const [value, setValue] = useState("value");
+  const { values, errors, isFormValidate, handleChange } = useForm();
   const handleForm = (evt) => {
     evt.preventDefault();
   };
@@ -27,13 +31,13 @@ function ResetPass() {
           <Input
             type={hiddenPass ? "text" : "password"}
             placeholder={"Введите новый пароль"}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             icon={hiddenPass ? "HideIcon" : "ShowIcon"}
-            value={''}
+            value={values.password || ""}
             name={"password"}
-            error={false}
+            error={!!errors.password}
             onIconClick={onIconClick}
-            errorText={"Ошибка"}
+            errorText={errors.password}
             size={"default"}
             extraClass={"mt-6"}
             required
@@ -43,11 +47,11 @@ function ResetPass() {
           <Input
             type={"text"}
             placeholder={"Введите код из письма"}
-            onChange={(e) => setValue(e.target.value)}
-            value={""}
+            onChange={handleChange}
+            value={values.code || ""}
             name={"code"}
-            error={false}
-            errorText={"Ошибка"}
+            error={!!errors.code}
+            errorText={errors.code}
             size={"default"}
             extraClass="mt-6"
             required
@@ -57,6 +61,7 @@ function ResetPass() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
+            disabled={!isFormValidate}
           >
             Восстановить
           </Button>

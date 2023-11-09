@@ -1,0 +1,14 @@
+.form {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.buttons {
+    align-self: flex-end;
+    display: flex;
+    gap: 20px;
+}
+.button {
+    padding: 16px 8px;
+}

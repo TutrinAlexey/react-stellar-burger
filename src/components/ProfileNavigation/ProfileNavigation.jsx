@@ -6,13 +6,13 @@ function ProfileNavigation({explanation}) {
  return (
     <nav className={`${styles.tabs}`}>
           <NavLink
-            to={"/profile"}
+            to={"/profile/"}
             className={({isActive}) => isActive ? (`pt-5 pb-5 text text_type_main-medium ${styles.tab_active}`) : (`pt-5 pb-5 text text_type_main-medium text_color_inactive ${styles.tab}`)}
           >
             Профиль
           </NavLink>
           <NavLink
-            to={"/profile/orders"}
+            to={"/profile/order-history"}
             className={({isActive}) => isActive ? (`pt-5 pb-5 text text_type_main-medium ${styles.tab_active}`) : (`pt-5 pb-5 text text_type_main-medium text_color_inactive ${styles.tab}`)}
           >
             История заказов
