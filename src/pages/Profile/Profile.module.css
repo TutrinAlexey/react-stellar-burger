@@ -1,0 +1,33 @@
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.form {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.text {
+    opacity: 0.4;
+}
+.buttons {
+    align-self: flex-end;
+    display: flex;
+    gap: 20px;
+}
+.button {
+    padding: 16px 8px;
+}

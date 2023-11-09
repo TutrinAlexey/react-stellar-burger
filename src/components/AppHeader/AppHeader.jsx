@@ -34,7 +34,7 @@ function AppHeader() {
             <BurgerIcon type={burgerActive ? "primary" : "secondary"} />
             Конструктор
           </NavigationLink>
-          <NavigationLink isActive={orderActive} way={'/list'} chooseLink={() => dispatch(orderListLink())}>
+          <NavigationLink isActive={orderActive} way={'/login'} chooseLink={() => dispatch(orderListLink())}>
             <ListIcon type={orderActive ? "primary" : "secondary"} />
             Лента заказов
           </NavigationLink>

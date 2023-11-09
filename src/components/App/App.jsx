@@ -23,6 +23,7 @@ import IngredientPage from "../../pages/IngredientPage/IngredientPage";
 import NotFound from "../../pages/NotFound/NotFound";
 import Home from "../../pages/Home/Home";
 import Layout from "../Layout/Layout";
+import OrderList from "../../pages/OrderList/OrderList";
 
 function App() {
   const ingredientOpen = useSelector(ingredientOpenSelector);
@@ -30,12 +31,13 @@ function App() {
   const ingredientInfo = useSelector(ingredientInfoSelector);
   const orderInfo = useSelector(getOrderInfo);
   const location = useLocation();
-  const background = location.state && location.state.background;
+  const background =
+    ingredientOpen || orderOpen ? location.state.background : null;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIngredients());
   }, []);
-
+  
   return (
     <div className={styles.app}>
       {ingredientOpen && (
@@ -55,30 +57,12 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPass />} />
           <Route path="reset-password" element={<ResetPass />} />
+          <Route path="order-list" element={<OrderList />} />
           <Route path="profile" element={<Profile />} />
-          <Route
-            path="ingredients/:id"
-            element={
-              <Modal>
-                <IngredientDetails dataOfIngredients={ingredientInfo} />
-              </Modal>
-            }
-          />
+          <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      {background && (
-        <Routes>
-          <Route
-            path="ingredients/:id"
-            element={
-              <Modal>
-                <IngredientDetails dataOfIngredients={ingredientInfo} />
-              </Modal>
-            }
-          />
-        </Routes>
-      )}
     </div>
   );
 }

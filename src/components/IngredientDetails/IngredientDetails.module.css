@@ -8,6 +8,9 @@
 .title {
     align-self: flex-start;
 }
+.center {
+    align-self: center;
+}
 
 .list {
     max-width: 520px;

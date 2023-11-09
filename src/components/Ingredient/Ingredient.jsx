@@ -39,7 +39,6 @@ function Ingredient({ ingredient }) {
       }
     }, 0);
   }, [ingredientsBurger, bunsBurger]);
-  console.log(location)
   return (
     <>
       <DragPreviewImage connect={preview} src={ingredient.image} />
@@ -47,7 +46,7 @@ function Ingredient({ ingredient }) {
         {!!counter && (
           <Counter count={counter} size="default" extraClass="m-1" />
         )}
-        <Link onClick={openIngredient} to={`/ingredients/${ingredient._id}`} state={{background: location}}>
+        <Link onClick={openIngredient} to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
         <img
           className={`ml-4 mr-4 ${styles.image}`}
           src={ingredient.image}
