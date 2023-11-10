@@ -6,18 +6,32 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useForm } from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
+import { isLogin, user } from "../../services/selector/authenticationSelector";
 
 function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
+
 
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
   const handleForm = (evt) => {
     evt.preventDefault();
+    console.log('hello')
+
+    dispatch(fetchRegisterUser({
+      email: values.email,
+      password: values.password,
+      name: values.name
+    }))
+
   };
+  
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -74,11 +88,10 @@ function Register() {
             maxLength={20}
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            onClick={() => navigate("/login")}
             disabled={!isFormValidate}
           >
             Зарегистрироваться

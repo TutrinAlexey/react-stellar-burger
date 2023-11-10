@@ -12,6 +12,12 @@ export const useForm = (inputValues = {}, inputErrors = {}) => {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: validationMessage });
   };
+
+  const handleReset = useCallback((values={}, errors={}, isFormValid={}) => {
+    setValues(values);
+    setErrors(errors);
+    setValidate(isFormValid);
+  })
   return {
     values,
     errors,
@@ -20,5 +26,6 @@ export const useForm = (inputValues = {}, inputErrors = {}) => {
     handleChange,
     setErrors,
     isFormValidate,
+    handleReset,
   };
 };

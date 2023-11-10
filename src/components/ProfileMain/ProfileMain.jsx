@@ -2,17 +2,31 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
+import { user } from "../../services/selector/authenticationSelector";
 
 function ProfileMain() {
-  const { values, errors, isFormValidate, handleChange } = useForm();
+  const dispatch = useDispatch();
+  const userInfo = useSelector(user);
+  const { values, errors, isFormValidate, handleChange, handleReset } =
+    useForm();
   const [editInput, setEditInput] = useState({
     name: false,
     email: false,
     password: false,
   });
+
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, []);
+  useEffect(() => {
+    handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
+  }, []);
+
   const onFocusName = () => {
     setEditInput({ ...editInput, name: true });
   };
@@ -28,6 +42,11 @@ function ProfileMain() {
   const handleForm = (evt) => {
     evt.preventDefault();
   };
+
+  const resetForm = () => {
+    handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
+  };
+  console.log(userInfo);
 
   return (
     <form className={styles.form} name="profile-form" onSubmit={handleForm}>
@@ -87,6 +106,7 @@ function ProfileMain() {
           htmlType="button"
           type="secondary"
           size="medium"
+          onClick={resetForm}
         >
           Отмена
         </Button>

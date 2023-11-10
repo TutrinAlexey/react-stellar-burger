@@ -6,17 +6,35 @@ import styles from "./Login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLoginUser } from "../../services/thunk/authenticationQuery";
+import {
+  formPending,
+  isLogin,
+} from "../../services/selector/authenticationSelector";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isPending = useSelector(formPending);
+  const isAuth = useSelector(isLogin);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
+
   const handleForm = (evt) => {
     evt.preventDefault();
+    dispatch(
+      fetchLoginUser({
+        email: values.email,
+        password: values.password,
+      })
+    );
   };
+  isAuth && navigate("/");
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -53,11 +71,11 @@ function Login() {
             maxLength={20}
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            disabled={!isFormValidate}
+            disabled={!isFormValidate || isPending}
           >
             Войти
           </Button>
@@ -68,7 +86,7 @@ function Login() {
           Вы — новый пользователь?
           <Button
             onClick={() => navigate("/register")}
-            htmlType="button"
+            htmlType="submit"
             type="secondary"
             size="medium"
             extraClass={styles.link}

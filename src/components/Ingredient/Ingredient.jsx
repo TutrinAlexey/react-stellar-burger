@@ -19,7 +19,7 @@ function Ingredient({ ingredient }) {
   const location = useLocation();
   const bunsBurger = useSelector(burgerBuns);
   const ingredientsBurger = useSelector(burgerIngredients);
-  const [{ isDrag }, preview, dragRef] = useDrag({
+  const [{ isDrag }, dragRef, preview ] = useDrag({
     type: "ingredient",
     item: ingredient,
     collect: (monitor) => ({

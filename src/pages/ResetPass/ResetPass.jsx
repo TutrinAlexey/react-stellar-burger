@@ -72,7 +72,7 @@ function ResetPass() {
           Вспомнили пароль?
           <Button
             onClick={() => navigate("/login")}
-            htmlType="button"
+            htmlType="submit"
             type="secondary"
             size="medium"
             extraClass={styles.link}

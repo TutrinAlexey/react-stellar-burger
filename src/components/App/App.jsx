@@ -24,6 +24,11 @@ import NotFound from "../../pages/NotFound/NotFound";
 import Home from "../../pages/Home/Home";
 import Layout from "../Layout/Layout";
 import OrderList from "../../pages/OrderList/OrderList";
+import ProfileMain from "../ProfileMain/ProfileMain";
+import OrderHistory from "../OrderHistory/OrderHistory";
+import OrderPage from "../../pages/OrderPage/OrderPage";
+import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
+import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
 
 function App() {
   const ingredientOpen = useSelector(ingredientOpenSelector);
@@ -36,6 +41,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(fetchUserInfo());
   }, []);
 
   return (
@@ -53,13 +59,18 @@ function App() {
       <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<OnlyUnAuth component={<Login />} />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPass />} />
           <Route path="reset-password" element={<ResetPass />} />
           <Route path="order-list" element={<OrderList />} />
-          <Route path="profile/*" element={<Profile />} />
+          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+            <Route path="user" element={<ProfileMain />} />
+            <Route path="order-history" element={<OrderHistory />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
           <Route path="ingredients/:id" element={<IngredientPage />} />
+          <Route path="order-info" element={<OrderPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
