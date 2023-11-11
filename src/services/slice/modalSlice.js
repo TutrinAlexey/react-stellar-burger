@@ -42,6 +42,7 @@ const modalSlice = createSlice({
     [fetchOrder.rejected.type]: (state, action) => {
       state.orderIsLoading = false;
       state.orderError = action.error;
+      console.log(action.payload)
     },
   },
 });

@@ -6,13 +6,15 @@ import styles from "./ResetPass.module.css";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "../../hooks/useForm";
-import { isLogin } from "../../services/selector/authenticationSelector";
+import { emailSent, formPending, isLogin } from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchResetPassword } from "../../services/thunk/authenticationQuery";
 
 function ResetPass() {
   const navigate = useNavigate();
   const isAuth = useSelector(isLogin);
+  const pendingForm = useSelector(formPending);
+  const sentEmail = useSelector(emailSent)
   const location = useLocation();
   const { values, errors, isFormValidate, handleChange } = useForm();
   const dispatch = useDispatch();
@@ -28,8 +30,9 @@ function ResetPass() {
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
-
-  if (isAuth) {
+  if (isAuth ) {
+    return <Navigate to={location.state?.background || "/"} />;
+  } else if(!sentEmail) {
     return <Navigate to={location.state?.background || "/"} />;
   }
 
@@ -77,9 +80,9 @@ function ResetPass() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            disabled={!isFormValidate}
+            disabled={!isFormValidate || pendingForm}
           >
-            Восстановить
+            {pendingForm ? ("Сохранение") : ("Сохранить")}
           </Button>
         </form>
         <p

@@ -1,6 +1,4 @@
 import styles from "./App.module.css";
-import AppHeader from "../AppHeader/AppHeader";
-import AppMain from "../AppMain/AppMain";
 import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
@@ -27,8 +25,6 @@ import OrderList from "../../pages/OrderList/OrderList";
 import ProfileMain from "../ProfileMain/ProfileMain";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import OrderPage from "../../pages/OrderPage/OrderPage";
-import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
-import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
 import { checkUserAuth } from "../../utils/authCheck";
 
 function App() {
@@ -73,7 +69,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="ingredients/:id" element={<IngredientPage />} />
-          <Route path="order-info" element={<OrderPage />} />
+          <Route path="order-info/" element={<OrderPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

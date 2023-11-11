@@ -3,26 +3,31 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPass.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { isLogin } from "../../services/selector/authenticationSelector";
+import { formPending, isLogin } from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
+import { setEmailSent } from "../../services/slice/authenticationSlice";
 
 function ForgotPass() {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
+  const pendingForm = useSelector(formPending);
   const isAuth = useSelector(isLogin);
   const location = useLocation();
   const dispatch = useDispatch();
 
+  useEffect(() =>{
+    dispatch(setEmailSent(false))
+  }, [])
   const handleForm = (evt) => {
     evt.preventDefault();
     dispatch(fetchForgotPassword(values.email));
+    dispatch(setEmailSent(true))
     navigate("/reset-password");
   };
-
   if (isAuth) {
     return <Navigate to={location.state?.background || "/"} />;
   }
@@ -57,7 +62,7 @@ function ForgotPass() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            disabled={!isFormValidate}
+            disabled={!isFormValidate || pendingForm}
           >
             Восстановить
           </Button>

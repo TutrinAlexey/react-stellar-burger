@@ -64,11 +64,10 @@ function BurgerConstructor() {
   
   const handleOrder = () => {
     if (!isAuth) {
-      navigate("/login",  {background: location})
+      navigate("/login")
     } else {
       dispatch(fetchOrder(burgerIdForOrder));
       dispatch(openOrderModal());
-      <Navigate to={"/"} state={{ background: location }} />;
       dispatch(clearIngredients());
     }
   };
@@ -124,8 +123,8 @@ function BurgerConstructor() {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
+        <Link onClick={handleOrder} to={`/order-info`} state={{ background: location }}>
         <Button
-          onClick={handleOrder}
           htmlType="button"
           type="primary"
           size="medium"
@@ -135,8 +134,9 @@ function BurgerConstructor() {
             isOrderLoad
           }
         >
-          Оформить заказ
+          {isOrderLoad ? ("Оформление") :("Оформить заказ")}
         </Button>
+        </Link>
       </div>
     </section>
   );

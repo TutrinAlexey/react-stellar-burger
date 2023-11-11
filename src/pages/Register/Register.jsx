@@ -8,11 +8,12 @@ import {
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
-import { isLogin} from "../../services/selector/authenticationSelector";
+import { formPending, isLogin} from "../../services/selector/authenticationSelector";
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const pendingForm = useSelector(formPending);
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const isAuth = useSelector(isLogin);
@@ -24,8 +25,6 @@ function Register() {
   };
   const handleForm = (evt) => {
     evt.preventDefault();
-    console.log('hello')
-
     dispatch(fetchRegisterUser({
       email: values.email,
       password: values.password,
@@ -101,9 +100,9 @@ function Register() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            disabled={!isFormValidate}
+            disabled={!isFormValidate || pendingForm}
           >
-            Зарегистрироваться
+            {pendingForm ? ("Регистрация") :("Зарегистрироваться")}
           </Button>
         </form>
         <p

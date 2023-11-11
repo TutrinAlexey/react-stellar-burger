@@ -2,57 +2,95 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
-import { isLogin, user } from "../../services/selector/authenticationSelector";
+import {
+  fetchChangeUserInfo,
+  fetchUserInfo,
+} from "../../services/thunk/authenticationQuery";
+import {
+  formPending,
+  isLogin,
+  user,
+} from "../../services/selector/authenticationSelector";
 import { checkUserAuth } from "../../utils/authCheck";
 import { Navigate } from "react-router-dom";
 
 function ProfileMain() {
   const dispatch = useDispatch();
   const userInfo = useSelector(user);
-  const isAuth = useSelector(isLogin)
-  const { values, errors, isFormValidate, handleChange, handleReset } =
+  const isAuth = useSelector(isLogin);
+  const pendingForm = useSelector(formPending);
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const { values, errors, isFormValidate, handleChange, handleReset, setValues } =
     useForm();
   const [editInput, setEditInput] = useState({
-    name: false,
-    email: false,
-    password: false,
+    name: true,
+    email: true,
+    password: true,
   });
+  const newValues =
+    (userInfo.name !== values.name ||
+    values.password.length >= 6 ||
+    userInfo.email !== values.email);
 
   useEffect(() => {
-    dispatch(checkUserAuth())
+    dispatch(checkUserAuth());
   }, []);
 
   useEffect(() => {
-    userInfo && handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
+    userInfo &&
+      handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   }, []);
+
+  const disableButton = useMemo(
+    () => isFormValidate && newValues,
+    [isFormValidate, userInfo.name, values, userInfo.email]
+  );
 
   const onFocusName = () => {
-    setEditInput({ ...editInput, name: true });
+    setEditInput({ ...editInput, name: false });
+    nameRef.current.focus()
   };
   const onFocusEmail = () => {
-    setEditInput({ ...editInput, email: true });
+    setEditInput({ ...editInput, email: false });
+    emailRef.current.focus()
   };
   const onFocusPassword = () => {
-    setEditInput({ ...editInput, password: true });
+    setEditInput({ ...editInput, password: false });
+    passwordRef.current.focus()
   };
   const onBlur = () => {
-    setEditInput({ name: false, email: false, password: false });
+    setEditInput({ name: true, email: true, password: true });
+    if(values.password.length < 6) {
+      setValues({...values, password: ""})
+    }
   };
   const handleForm = (evt) => {
     evt.preventDefault();
+    if (values.password.length < 6) {
+      dispatch(fetchChangeUserInfo({ name: values.name, email: values.email }));
+    } else {
+      dispatch(
+        fetchChangeUserInfo({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      );
+    }
   };
 
   const resetForm = () => {
     handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   };
 
-  if(!isAuth) {
-    return(<Navigate to={'/login'} replace/>)
+  if (!isAuth) {
+    return <Navigate to={"/login"} replace />;
   }
 
   return (
@@ -62,70 +100,79 @@ function ProfileMain() {
         placeholder={"Имя"}
         onChange={handleChange}
         value={values.name || ""}
-        onFocus={onFocusName}
+        onIconClick={onFocusName}
         onBlur={onBlur}
-        icon={editInput.name ? "CloseIcon" : "EditIcon"}
+        icon={!editInput.name ? "CloseIcon" : "EditIcon"}
         name={"name"}
-        error={!!errors.name}
+        error={false}
         errorText={errors.name}
         size={"default"}
         minLength={4}
         maxLength={15}
-        required
+        ref={nameRef}
+        readOnly={editInput.name}
       />
       <Input
         type={"email"}
         placeholder={"E-mail"}
         onChange={handleChange}
         value={values.email || ""}
-        onFocus={onFocusEmail}
+        onIconClick={onFocusEmail}
         onBlur={onBlur}
-        icon={editInput.email ? "CloseIcon" : "EditIcon"}
+        icon={!editInput.email ? "CloseIcon" : "EditIcon"}
         name={"email"}
-        error={!!errors.email}
+        error={false}
         errorText={errors.email}
         size={"default"}
         extraClass="mt-6"
         minLength={8}
         maxLength={25}
-        required
+        ref={emailRef}
+        readOnly={editInput.email}
       />
       <Input
         type={"password"}
         placeholder={"Пароль"}
         onChange={handleChange}
         value={values.password || ""}
-        onFocus={onFocusPassword}
+        onIconClick={onFocusPassword}
         onBlur={onBlur}
-        icon={editInput.password ? "CloseIcon" : "EditIcon"}
+        icon={!editInput.password ? "CloseIcon" : "EditIcon"}
         name={"password"}
-        error={!!errors.password}
+        error={false}
         errorText={errors.password}
         size={"default"}
         extraClass={"mt-6"}
-        required
         minLength={6}
-        maxLength={20}
+        ref={passwordRef}
+        readOnly={editInput.password}
       />
-      <div className={`mt-6 ${styles.buttons}`}>
-        <Button
-          extraClass={`${styles.button}`}
-          htmlType="button"
-          type="secondary"
-          size="medium"
-          onClick={resetForm}
-        >
-          Отмена
-        </Button>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          disabled={!isFormValidate}
-        >
-          Сохранить
-        </Button>
-      </div>
+      {newValues && (
+        <div className={`mt-6 ${styles.buttons}`}>
+          <Button
+            extraClass={`${styles.button}`}
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            onClick={resetForm}
+          >
+            Отмена
+          </Button>
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="medium"
+            disabled={
+              !disableButton ||
+              pendingForm ||
+              !values.email ||
+              values.name.length < 4
+            }
+          >
+            {pendingForm ? ("Сохранение") : ("Сохранить")}
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

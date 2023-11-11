@@ -30,12 +30,14 @@ const authenticationSlice = createSlice({
     },
     setAuthChecked: (state, action) => {
       state.isAuthChecked = action.payload
+    },
+    setEmailSent: (state, action) => {
+      state.isEmailSent = action.payload
     }
   },
   extraReducers: {
     [fetchForgotPassword.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
-      state.isEmailSent = true;
       state.message = "Письмо для сбороса пароля было отправлено";
     },
     [fetchForgotPassword.pending.type]: (state, action) => {
@@ -49,7 +51,6 @@ const authenticationSlice = createSlice({
     },
     [fetchResetPassword.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
-      state.isEmailSent = false;
       state.message = "Пароль успешно сброшен";
     },
     [fetchResetPassword.pending.type]: (state, action) => {
@@ -87,7 +88,6 @@ const authenticationSlice = createSlice({
       localStorage.setItem("refreshToken", action.payload.refreshToken);
       localStorage.setItem("accessToken", action.payload.accessToken);
       state.message = "Вы успешно авторизовались";
-      console.log(state.isAuthChecked)
     },
     [fetchLoginUser.pending.type]: (state, action) => {
       state.error = "";
@@ -149,5 +149,5 @@ const authenticationSlice = createSlice({
     },
   },
 });
-export const {setUser, setAuthChecked} = authenticationSlice.actions
+export const {setUser, setAuthChecked, setEmailSent} = authenticationSlice.actions
 export default authenticationSlice.reducer;

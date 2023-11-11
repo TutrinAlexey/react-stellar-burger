@@ -15,7 +15,7 @@ export const postToken = () => {
   return request("/auth/token", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
@@ -28,7 +28,7 @@ export const fetchWithRefresh = async (endpoint, options) => {
     const res = await request(endpoint, options);
     return res;
   } catch (err) {
-    console.log(err)
+    console.log(err);
     if (err.message === "jwt expired") {
       const refreshData = await postToken();
       if (!refreshData.success) {
@@ -48,7 +48,7 @@ export const getUserInfo = () => {
   return fetchWithRefresh("/auth/user", {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem("accessToken"),
     },
   }).then((res) => {
@@ -63,7 +63,7 @@ export const getUserInfo = () => {
 export const getIngredients = () => {
   return request("/ingredients", {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
   }).then((res) => res.data);
 };
@@ -72,7 +72,7 @@ export const postOrder = (ingredientsId) => {
   return request("/orders", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       ingredients: ingredientsId,
@@ -84,25 +84,37 @@ export const postForgotPassword = (email) => {
   return request("/password-reset", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       email,
     }),
-  });
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при отправке токена на почту");
+    }
+  });;
 };
 
 export const postResetPassword = ({ password, token }) => {
   return request("/password-reset/reset", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       password,
       token,
     }),
-  });
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при сбросе пароля");
+    }
+  });;
 };
 
 export const postRegisterUser = ({ email, password, name }) => {
@@ -116,6 +128,12 @@ export const postRegisterUser = ({ email, password, name }) => {
       password,
       name,
     }),
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при регистрации");
+    }
   });
 };
 
@@ -123,13 +141,19 @@ export const postLoginUser = ({ email, password }) => {
   return request("/auth/login", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       email,
       password,
     }),
-  });
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при авторизации");
+    }
+  })
 };
 
 export const postLogoutUser = () => {
@@ -137,28 +161,37 @@ export const postLogoutUser = () => {
   return request("/auth/logout", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
       token,
     }),
-  });
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при выходе из аккаунта");
+    }
+  });;
 };
 
-
 export const pathUserInfo = ({ email, password, name }) => {
-  return request("/auth/user", {
+  return fetchWithRefresh("/auth/user", {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem("accessToken"),
     },
     body: JSON.stringify({
-      authorization: {
-        email,
-        password,
-        name,
-      },
+      email,
+      password,
+      name,
     }),
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка при изменение данных");
+    }
   });
 };

@@ -16,7 +16,7 @@ import {
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isPending = useSelector(formPending);
+  const pendingForm = useSelector(formPending);
   const isAuth = useSelector(isLogin);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
@@ -81,9 +81,9 @@ function Login() {
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
-            disabled={!isFormValidate || isPending}
+            disabled={!isFormValidate || pendingForm}
           >
-            Войти
+            {pendingForm ? ("Вход") :("Войти")}
           </Button>
         </form>
         <p
