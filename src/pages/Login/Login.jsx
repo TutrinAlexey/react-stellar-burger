@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Login.module.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUser } from "../../services/thunk/authenticationQuery";
@@ -20,6 +20,8 @@ function Login() {
   const isAuth = useSelector(isLogin);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
+  const location = useLocation();
+
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
@@ -33,7 +35,11 @@ function Login() {
       })
     );
   };
-  isAuth && navigate("/");
+  if(isAuth) {
+    return (
+      <Navigate to={location.state?.background || '/'} />
+    )
+  }
 
   return (
     <section className={styles.section}>

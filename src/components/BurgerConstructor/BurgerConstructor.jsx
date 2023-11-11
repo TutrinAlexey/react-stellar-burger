@@ -19,21 +19,30 @@ import {
 } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
-import { useMemo, memo } from "react";
+import { useMemo, memo, useEffect } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 import { isLogin, token } from "../../services/selector/authenticationSelector";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { orderLoading } from "../../services/selector/modalSelector";
+import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
+import { checkUserAuth } from "../../utils/authCheck";
+import { setAuthChecked } from "../../services/slice/authenticationSlice";
 
 function BurgerConstructor() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const isOrderLoad = useSelector(orderLoading)
+  const isOrderLoad = useSelector(orderLoading);
   const ingredientsOfBurger = useSelector(burgerIngredients);
   const bunsOfBurger = useSelector(burgerBuns);
   const burgerPrice = useSelector(orderPrice);
   const isAuth = useSelector(isLogin);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setAuthChecked(false));
+    dispatch(checkUserAuth());
+  }, []);
+
   const [{ isDragging }, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -52,12 +61,14 @@ function BurgerConstructor() {
     const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
     return burgerId;
   }, [bunsOfBurger, ingredientsOfBurger]);
+  
   const handleOrder = () => {
     if (!isAuth) {
-      navigate("/login");
+      navigate("/login",  {background: location})
     } else {
       dispatch(fetchOrder(burgerIdForOrder));
       dispatch(openOrderModal());
+      <Navigate to={"/"} state={{ background: location }} />;
       dispatch(clearIngredients());
     }
   };
@@ -116,11 +127,15 @@ function BurgerConstructor() {
         <Button
           onClick={handleOrder}
           htmlType="button"
-          type="primary"  
+          type="primary"
           size="medium"
-          disabled={bunsOfBurger.length === 0 || ingredientsOfBurger.length === 0 || isOrderLoad }
+          disabled={
+            bunsOfBurger.length === 0 ||
+            ingredientsOfBurger.length === 0 ||
+            isOrderLoad
+          }
         >
-          <Link className={styles.button} to={"/order-info"} state={{background: location}}>Оформить заказ</Link>
+          Оформить заказ
         </Button>
       </div>
     </section>

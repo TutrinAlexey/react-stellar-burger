@@ -58,6 +58,5 @@
 }
 
 .button {
-  text-decoration: none;
-  color: white;
+  cursor: default;
 }

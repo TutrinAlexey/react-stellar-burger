@@ -4,11 +4,60 @@ export const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
+  return res.json().then((err) => Promise.reject(err));
 };
 
 export const request = (endpoint, options) => {
   return fetch(BASE_URL + endpoint, options).then(checkResponse);
+};
+
+export const postToken = () => {
+  return request("/auth/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("refreshToken"),
+    }),
+  });
+};
+
+export const fetchWithRefresh = async (endpoint, options) => {
+  try {
+    const res = await request(endpoint, options);
+    return res;
+  } catch (err) {
+    console.log(err)
+    if (err.message === "jwt expired") {
+      const refreshData = await postToken();
+      if (!refreshData.success) {
+        Promise.reject(refreshData);
+      }
+      localStorage.setItem("accessToken", refreshData.accessToken);
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      options.headers.authorization = refreshData.accessToken;
+      const res = await request(endpoint, options);
+      return res;
+    } else {
+      return Promise.reject(err);
+    }
+  }
+};
+export const getUserInfo = () => {
+  return fetchWithRefresh("/auth/user", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: localStorage.getItem("accessToken"),
+    },
+  }).then((res) => {
+    if (res.success) {
+      return res;
+    } else {
+      return Promise.reject("Ошибка данных с сервера");
+    }
+  });
 };
 
 export const getIngredients = () => {
@@ -91,54 +140,11 @@ export const postLogoutUser = () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      authorization: token,
+      token,
     }),
   });
 };
 
-export const postToken = () => {
-  return request("/auth/token", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("refreshToken"),
-    }),
-  });
-};
-
-export const getUserInfo = () => {
-  let accessToken = localStorage.getItem("accessToken");
-  let refreshToken = localStorage.getItem("refreshToken")
-  return request("/auth/user", {
-    headers: {
-      "Content-Type": "application/json",
-      "authorization": accessToken,
-    },
-  }).then((res) => {
-    if (res.status === 401) {
-      return request("/auth/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: refreshToken,
-        }),
-      }).then((res) => {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        return request("/auth/user", {
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": localStorage.getItem("accessToken"),
-          },
-        });
-      });
-    }
-  });
-};
 
 export const pathUserInfo = ({ email, password, name }) => {
   return request("/auth/user", {

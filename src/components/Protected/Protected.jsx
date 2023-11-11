@@ -1,9 +1,18 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./Protected.module.css";
 import { isLogin, user } from "../../services/selector/authenticationSelector";
 import { Navigate, useLocation } from "react-router-dom";
+import { useEffect } from 'react'
+import { setAuthChecked } from "../../services/slice/authenticationSlice";
+import { checkUserAuth } from "../../utils/authCheck";
 
 function Protected({ onlyUnAuth = false, component }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setAuthChecked(false));
+    dispatch(checkUserAuth())
+  }, [dispatch])
+
   const isAuth = useSelector(isLogin);
   const userInfo = useSelector(user)
   const location = useLocation();

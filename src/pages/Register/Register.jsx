@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import { useState, useEffect } from "react";
 import {
@@ -8,13 +8,15 @@ import {
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
-import { isLogin, user } from "../../services/selector/authenticationSelector";
+import { isLogin} from "../../services/selector/authenticationSelector";
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
+  const isAuth = useSelector(isLogin);
+  const location = useLocation();
 
 
   const onIconClick = () => {
@@ -32,6 +34,13 @@ function Register() {
 
   };
   
+  if(isAuth) {
+    return (
+      <Navigate to={location.state?.background || '/'} />
+    )
+  }
+
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>

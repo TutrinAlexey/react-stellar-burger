@@ -3,20 +3,36 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPass.module.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "../../hooks/useForm";
+import { isLogin } from "../../services/selector/authenticationSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchResetPassword } from "../../services/thunk/authenticationQuery";
 
 function ResetPass() {
   const navigate = useNavigate();
+  const isAuth = useSelector(isLogin);
+  const location = useLocation();
   const { values, errors, isFormValidate, handleChange } = useForm();
+  const dispatch = useDispatch();
+
   const handleForm = (evt) => {
     evt.preventDefault();
+    dispatch(
+      fetchResetPassword({ password: values.password, token: values.code })
+    );
+    navigate("/login");
   };
   const [hiddenPass, setHiddenPass] = useState(false);
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
+
+  if (isAuth) {
+    return <Navigate to={location.state?.background || "/"} />;
+  }
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -57,7 +73,7 @@ function ResetPass() {
             required
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
@@ -71,7 +87,6 @@ function ResetPass() {
         >
           Вспомнили пароль?
           <Button
-            onClick={() => navigate("/login")}
             htmlType="submit"
             type="secondary"
             size="medium"

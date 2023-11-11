@@ -24,7 +24,14 @@ const initialState = {
 const authenticationSlice = createSlice({
   name: "authentication",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload
+    },
+    setAuthChecked: (state, action) => {
+      state.isAuthChecked = action.payload
+    }
+  },
   extraReducers: {
     [fetchForgotPassword.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
@@ -80,6 +87,7 @@ const authenticationSlice = createSlice({
       localStorage.setItem("refreshToken", action.payload.refreshToken);
       localStorage.setItem("accessToken", action.payload.accessToken);
       state.message = "Вы успешно авторизовались";
+      console.log(state.isAuthChecked)
     },
     [fetchLoginUser.pending.type]: (state, action) => {
       state.error = "";
@@ -141,5 +149,5 @@ const authenticationSlice = createSlice({
     },
   },
 });
-
+export const {setUser, setAuthChecked} = authenticationSlice.actions
 export default authenticationSlice.reducer;

@@ -4,15 +4,29 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPass.module.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
+import { isLogin } from "../../services/selector/authenticationSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
 
 function ForgotPass() {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
+  const isAuth = useSelector(isLogin);
+  const location = useLocation();
+  const dispatch = useDispatch();
+
   const handleForm = (evt) => {
     evt.preventDefault();
+    dispatch(fetchForgotPassword(values.email));
+    navigate("/reset-password");
   };
+
+  if (isAuth) {
+    return <Navigate to={location.state?.background || "/"} />;
+  }
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -39,12 +53,11 @@ function ForgotPass() {
             required
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass={`mt-6 ${styles.button}`}
             disabled={!isFormValidate}
-            onClick={() => navigate("/reset-password")}
           >
             Восстановить
           </Button>

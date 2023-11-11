@@ -7,11 +7,14 @@ import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
-import { user } from "../../services/selector/authenticationSelector";
+import { isLogin, user } from "../../services/selector/authenticationSelector";
+import { checkUserAuth } from "../../utils/authCheck";
+import { Navigate } from "react-router-dom";
 
 function ProfileMain() {
   const dispatch = useDispatch();
   const userInfo = useSelector(user);
+  const isAuth = useSelector(isLogin)
   const { values, errors, isFormValidate, handleChange, handleReset } =
     useForm();
   const [editInput, setEditInput] = useState({
@@ -21,10 +24,11 @@ function ProfileMain() {
   });
 
   useEffect(() => {
-    dispatch(fetchUserInfo());
+    dispatch(checkUserAuth())
   }, []);
+
   useEffect(() => {
-    handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
+    userInfo && handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   }, []);
 
   const onFocusName = () => {
@@ -46,7 +50,10 @@ function ProfileMain() {
   const resetForm = () => {
     handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   };
-  console.log(userInfo);
+
+  if(!isAuth) {
+    return(<Navigate to={'/login'} replace/>)
+  }
 
   return (
     <form className={styles.form} name="profile-form" onSubmit={handleForm}>
