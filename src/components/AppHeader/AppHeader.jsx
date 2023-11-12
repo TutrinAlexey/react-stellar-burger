@@ -19,6 +19,7 @@ import {
   orderListLink,
 } from "../../services/slice/linkSlice";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 function AppHeader() {
   const dispatch = useDispatch();
@@ -48,7 +49,9 @@ function AppHeader() {
           </NavigationLink>
         </div>
         <div className={styles.logo}>
-          <Logo extraClass={styles.logo} />
+          <Link to={"/"}>
+            <Logo extraClass={styles.logo} />
+          </Link>
         </div>
         <NavigationLink
           isActive={accountActive}
