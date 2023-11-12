@@ -4,7 +4,7 @@ import { fetchOrder } from "../thunk/ingredientsQuery";
 const initialState = {
   orderInfo: null,
   orderIsLoading: false,
-  orderError: '',
+  orderError: "",
   orderOpen: false,
   ingredientInfo: {},
   ingredientOpen: false,
@@ -42,7 +42,7 @@ const modalSlice = createSlice({
     [fetchOrder.rejected.type]: (state, action) => {
       state.orderIsLoading = false;
       state.orderError = action.error;
-      console.log(action.payload)
+      console.log(action.payload);
     },
   },
 });

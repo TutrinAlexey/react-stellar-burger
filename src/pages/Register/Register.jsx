@@ -8,44 +8,59 @@ import {
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
-import { formPending, isLogin} from "../../services/selector/authenticationSelector";
+import {
+  error,
+  formPending,
+  isLogin,
+} from "../../services/selector/authenticationSelector";
+import { setError } from "../../services/slice/authenticationSlice";
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const errorMessage = useSelector(error);
   const pendingForm = useSelector(formPending);
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const isAuth = useSelector(isLogin);
   const location = useLocation();
 
+  useEffect(() => dispatch(setError("")), [values]);
 
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
   const handleForm = (evt) => {
     evt.preventDefault();
-    dispatch(fetchRegisterUser({
-      email: values.email,
-      password: values.password,
-      name: values.name
-    }))
-
+    dispatch(
+      fetchRegisterUser({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+      })
+    );
+    if (pendingForm) {
+      navigate("/login");
+    }
   };
-  
-  if(isAuth) {
-    return (
-      <Navigate to={location.state?.background || '/'} />
-    )
-  }
 
+  if (isAuth) {
+    return <Navigate to={location.state?.background || "/"} />;
+  }
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={`text text_type_main-medium ${styles.title}`}>
+        <h2
+          className={`text text_type_main-medium ${
+            errorMessage ? styles.error : styles.title
+          }`}
+        >
           Регистрация
         </h2>
+        <span className={`text_type_main-default ${styles.error}`}>
+          {errorMessage}
+        </span>
         <form
           className={styles.form}
           name="register-form"
@@ -102,7 +117,7 @@ function Register() {
             extraClass={`mt-6 ${styles.button}`}
             disabled={!isFormValidate || pendingForm}
           >
-            {pendingForm ? ("Регистрация") :("Зарегистрироваться")}
+            {pendingForm ? "Регистрация" : "Зарегистрироваться"}
           </Button>
         </form>
         <p
@@ -110,7 +125,6 @@ function Register() {
         >
           Уже зарегистрированы?
           <Button
-            onClick={() => navigate("/login")}
             htmlType="button"
             type="secondary"
             size="medium"

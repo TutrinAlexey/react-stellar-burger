@@ -1,9 +1,7 @@
-import styles from './OrderList.module.css'
+import styles from "./OrderList.module.css";
 
 function OrderList() {
-    return (
-        <div></div>
-    )
+  return <div></div>;
 }
 
-export default OrderList
+export default OrderList;

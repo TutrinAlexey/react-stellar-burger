@@ -6,10 +6,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchChangeUserInfo,
-  fetchUserInfo,
-} from "../../services/thunk/authenticationQuery";
+import { fetchChangeUserInfo } from "../../services/thunk/authenticationQuery";
 import {
   formPending,
   isLogin,
@@ -26,17 +23,23 @@ function ProfileMain() {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const { values, errors, isFormValidate, handleChange, handleReset, setValues } =
-    useForm();
+  const {
+    values,
+    errors,
+    isFormValidate,
+    handleChange,
+    handleReset,
+    setValues,
+  } = useForm();
   const [editInput, setEditInput] = useState({
     name: true,
     email: true,
     password: true,
   });
   const newValues =
-    (userInfo.name !== values.name ||
+    userInfo.name !== values.name ||
     values.password.length >= 6 ||
-    userInfo.email !== values.email);
+    userInfo.email !== values.email;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -54,20 +57,20 @@ function ProfileMain() {
 
   const onFocusName = () => {
     setEditInput({ ...editInput, name: false });
-    nameRef.current.focus()
+    nameRef.current.focus();
   };
   const onFocusEmail = () => {
     setEditInput({ ...editInput, email: false });
-    emailRef.current.focus()
+    emailRef.current.focus();
   };
   const onFocusPassword = () => {
     setEditInput({ ...editInput, password: false });
-    passwordRef.current.focus()
+    passwordRef.current.focus();
   };
   const onBlur = () => {
     setEditInput({ name: true, email: true, password: true });
-    if(values.password.length < 6) {
-      setValues({...values, password: ""})
+    if (values.password.length < 6) {
+      setValues({ ...values, password: "" });
     }
   };
   const handleForm = (evt) => {
@@ -169,7 +172,7 @@ function ProfileMain() {
               values.name.length < 4
             }
           >
-            {pendingForm ? ("Сохранение") : ("Сохранить")}
+            {pendingForm ? "Сохранение" : "Сохранить"}
           </Button>
         </div>
       )}

@@ -8,19 +8,25 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUser } from "../../services/thunk/authenticationQuery";
+import { useEffect } from "react";
 import {
+  error,
   formPending,
   isLogin,
 } from "../../services/selector/authenticationSelector";
+import { setError } from "../../services/slice/authenticationSlice";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pendingForm = useSelector(formPending);
   const isAuth = useSelector(isLogin);
+  const errorMessage = useSelector(error);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const location = useLocation();
+
+  useEffect(() => dispatch(setError("")), [values]);
 
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
@@ -34,17 +40,27 @@ function Login() {
         password: values.password,
       })
     );
+    if (pendingForm) {
+      navigate("/");
+    }
   };
-  if(isAuth) {
-    return (
-      <Navigate to={location.state?.background || '/'} />
-    )
+  if (isAuth) {
+    return <Navigate to={location.state?.background || "/"} />;
   }
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={`text text_type_main-medium ${styles.title}`}>Вход</h2>
+        <h2
+          className={`text text_type_main-medium ${
+            errorMessage ? styles.error : styles.title
+          }`}
+        >
+          Вход
+        </h2>
+        <span className={`text_type_main-default ${styles.error}`}>
+          {errorMessage}
+        </span>
         <form className={styles.form} name="login-form" onSubmit={handleForm}>
           <Input
             type={"email"}
@@ -83,7 +99,7 @@ function Login() {
             extraClass={`mt-6 ${styles.button}`}
             disabled={!isFormValidate || pendingForm}
           >
-            {pendingForm ? ("Вход") :("Войти")}
+            {pendingForm ? "Вход" : "Войти"}
           </Button>
         </form>
         <p

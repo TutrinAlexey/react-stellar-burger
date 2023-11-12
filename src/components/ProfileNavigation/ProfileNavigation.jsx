@@ -1,15 +1,14 @@
 import { NavLink, useHref } from "react-router-dom";
 import styles from "./ProfileNavigation.module.css";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchLogoutUser } from "../../services/thunk/authenticationQuery";
 
 function ProfileNavigation() {
   const link = useHref();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleExit = () => {
-    dispatch(fetchLogoutUser())
-  }
+    dispatch(fetchLogoutUser());
+  };
   return (
     <nav className={`${styles.tabs}`}>
       <NavLink

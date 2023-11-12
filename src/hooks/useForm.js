@@ -13,11 +13,13 @@ export const useForm = (inputValues = {}, inputErrors = {}) => {
     setErrors({ ...errors, [name]: validationMessage });
   };
 
-  const handleReset = useCallback((values={}, errors={}, isFormValid={}) => {
-    setValues(values);
-    setErrors(errors);
-    setValidate(isFormValid);
-  })
+  const handleReset = useCallback(
+    (values = {}, errors = {}, isFormValid = {}) => {
+      setValues(values);
+      setErrors(errors);
+      setValidate(isFormValid);
+    }
+  );
   return {
     values,
     errors,

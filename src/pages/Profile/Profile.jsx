@@ -5,9 +5,9 @@ import { isLogin } from "../../services/selector/authenticationSelector";
 import { useSelector } from "react-redux";
 
 function Profile() {
-  const isAuth = useSelector(isLogin)
-  if(!isAuth) {
-    return(<Navigate to={'/login'} replace/>)
+  const isAuth = useSelector(isLogin);
+  if (!isAuth) {
+    return <Navigate to={"/login"} replace />;
   }
   return (
     <section className={styles.section}>

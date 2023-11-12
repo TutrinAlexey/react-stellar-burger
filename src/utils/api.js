@@ -28,7 +28,6 @@ export const fetchWithRefresh = async (endpoint, options) => {
     const res = await request(endpoint, options);
     return res;
   } catch (err) {
-    console.log(err);
     if (err.message === "jwt expired") {
       const refreshData = await postToken();
       if (!refreshData.success) {
@@ -95,7 +94,7 @@ export const postForgotPassword = (email) => {
     } else {
       return Promise.reject("Ошибка при отправке токена на почту");
     }
-  });;
+  });
 };
 
 export const postResetPassword = ({ password, token }) => {
@@ -114,7 +113,7 @@ export const postResetPassword = ({ password, token }) => {
     } else {
       return Promise.reject("Ошибка при сбросе пароля");
     }
-  });;
+  });
 };
 
 export const postRegisterUser = ({ email, password, name }) => {
@@ -153,7 +152,7 @@ export const postLoginUser = ({ email, password }) => {
     } else {
       return Promise.reject("Ошибка при авторизации");
     }
-  })
+  });
 };
 
 export const postLogoutUser = () => {
@@ -172,7 +171,7 @@ export const postLogoutUser = () => {
     } else {
       return Promise.reject("Ошибка при выходе из аккаунта");
     }
-  });;
+  });
 };
 
 export const pathUserInfo = ({ email, password, name }) => {

@@ -28,11 +28,15 @@ const burgerSlice = createSlice({
     },
     clearIngredients: (state, action) => {
       state.ingredientsBurger = [];
-      state.bunsBurger = []
-    }
+      state.bunsBurger = [];
+    },
   },
 });
 
-export const { addIngredients, swapIngredients, deleteIngredients, clearIngredients } =
-  burgerSlice.actions;
+export const {
+  addIngredients,
+  swapIngredients,
+  deleteIngredients,
+  clearIngredients,
+} = burgerSlice.actions;
 export default burgerSlice.reducer;

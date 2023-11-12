@@ -21,10 +21,9 @@ import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
 import { useMemo, memo, useEffect } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
-import { isLogin, token } from "../../services/selector/authenticationSelector";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { isLogin } from "../../services/selector/authenticationSelector";
+import { Link, useLocation } from "react-router-dom";
 import { orderLoading } from "../../services/selector/modalSelector";
-import { fetchUserInfo } from "../../services/thunk/authenticationQuery";
 import { checkUserAuth } from "../../utils/authCheck";
 import { setAuthChecked } from "../../services/slice/authenticationSlice";
 
@@ -36,7 +35,6 @@ function BurgerConstructor() {
   const bunsOfBurger = useSelector(burgerBuns);
   const burgerPrice = useSelector(orderPrice);
   const isAuth = useSelector(isLogin);
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setAuthChecked(false));
@@ -61,11 +59,9 @@ function BurgerConstructor() {
     const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
     return burgerId;
   }, [bunsOfBurger, ingredientsOfBurger]);
-  
+
   const handleOrder = () => {
-    if (!isAuth) {
-      navigate("/login")
-    } else {
+    if (isAuth) {
       dispatch(fetchOrder(burgerIdForOrder));
       dispatch(openOrderModal());
       dispatch(clearIngredients());
@@ -123,19 +119,23 @@ function BurgerConstructor() {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
-        <Link onClick={handleOrder} to={`/order-info`} state={{ background: location }}>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          disabled={
-            bunsOfBurger.length === 0 ||
-            ingredientsOfBurger.length === 0 ||
-            isOrderLoad
-          }
+        <Link
+          onClick={handleOrder}
+          to={!isAuth ? "/login" : "/"}
+          state={{ background: location }}
         >
-          {isOrderLoad ? ("Оформление") :("Оформить заказ")}
-        </Button>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="medium"
+            disabled={
+              bunsOfBurger.length === 0 ||
+              ingredientsOfBurger.length === 0 ||
+              isOrderLoad
+            }
+          >
+            {isOrderLoad ? "Оформление" : "Оформить заказ"}
+          </Button>
         </Link>
       </div>
     </section>

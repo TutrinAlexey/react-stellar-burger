@@ -15,11 +15,11 @@ const ingredientsSlice = createSlice({
     [fetchIngredients.fulfilled.type]: (state, action) => {
       state.ingredientsArray = action.payload;
       state.isLoading = false;
-      state.error = '';
+      state.error = "";
     },
     [fetchIngredients.pending.type]: (state, action) => {
       state.isLoading = true;
-      state.error = '';
+      state.error = "";
     },
     [fetchIngredients.rejected.type]: (state, action) => {
       state.isLoading = false;

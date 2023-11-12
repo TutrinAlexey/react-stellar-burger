@@ -1,8 +1,8 @@
 .element {
-    display: flex;
-    gap: calc(var(--offset-base-size) * 2);
-    align-items: center;
-  }
-  .opacity {
-    opacity: .4;
-  }
+  display: flex;
+  gap: calc(var(--offset-base-size) * 2);
+  align-items: center;
+}
+.opacity {
+  opacity: 0.4;
+}

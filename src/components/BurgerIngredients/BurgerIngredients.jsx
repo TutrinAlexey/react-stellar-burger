@@ -1,7 +1,6 @@
 import { useMemo, useCallback, useState, memo } from "react";
 import styles from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
-import PropTypes from "prop-types";
 import { getIngredients } from "../../services/selector/ingredientsSelector";
 import { useSelector } from "react-redux";
 import Tabs from "../Tabs/Tabs";

@@ -69,7 +69,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="ingredients/:id" element={<IngredientPage />} />
-          <Route path="order-info/" element={<OrderPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

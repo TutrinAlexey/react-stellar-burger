@@ -1,6 +1,6 @@
 .container {
-    display: flex;
-    gap: calc(var(--offset-base-size) * 10);
-    max-width: 1240px;
-    margin: calc(var(--offset-base-size) * 10) auto;
-  }
+  display: flex;
+  gap: calc(var(--offset-base-size) * 10);
+  max-width: 1240px;
+  margin: calc(var(--offset-base-size) * 10) auto;
+}

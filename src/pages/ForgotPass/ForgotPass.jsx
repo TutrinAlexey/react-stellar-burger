@@ -3,31 +3,42 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPass.module.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { formPending, isLogin } from "../../services/selector/authenticationSelector";
+import {
+  emailSent,
+  error,
+  formPending,
+  isLogin,
+} from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
-import { setEmailSent } from "../../services/slice/authenticationSlice";
+import { setEmailSent, setError} from "../../services/slice/authenticationSlice";
 
 function ForgotPass() {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
   const pendingForm = useSelector(formPending);
+  const errorMessage = useSelector(error);
+  const sentEmail = useSelector(emailSent);
   const isAuth = useSelector(isLogin);
   const location = useLocation();
   const dispatch = useDispatch();
 
-  useEffect(() =>{
-    dispatch(setEmailSent(false))
-  }, [])
+  useEffect(() => dispatch(setEmailSent(false)))
+
+  useEffect(() => dispatch(setError("")), [values]);
+
   const handleForm = (evt) => {
     evt.preventDefault();
     dispatch(fetchForgotPassword(values.email));
-    dispatch(setEmailSent(true))
-    navigate("/reset-password");
   };
+
+  if (sentEmail) {
+    navigate("/reset-password");
+  }
+
   if (isAuth) {
     return <Navigate to={location.state?.background || "/"} />;
   }
@@ -35,9 +46,16 @@ function ForgotPass() {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={`text text_type_main-medium ${styles.title}`}>
+        <h2
+          className={`text text_type_main-medium ${
+            errorMessage ? styles.error : styles.title
+          }`}
+        >
           Восстановление пароля
         </h2>
+        <span className={`text_type_main-default ${styles.error}`}>
+          {errorMessage}
+        </span>
         <form
           className={styles.form}
           name="forgotpass-form"
@@ -72,8 +90,7 @@ function ForgotPass() {
         >
           Вспомнили пароль?
           <Button
-            onClick={() => navigate("/login")}
-            htmlType="button"
+            htmlType="submit"
             type="secondary"
             size="medium"
             extraClass={styles.link}

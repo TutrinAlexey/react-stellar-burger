@@ -6,7 +6,6 @@ import {
   fetchLogoutUser,
   fetchRegisterUser,
   fetchResetPassword,
-  fetchToken,
   fetchUserInfo,
 } from "../thunk/authenticationQuery";
 
@@ -26,27 +25,36 @@ const authenticationSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload
+      state.user = action.payload;
     },
     setAuthChecked: (state, action) => {
-      state.isAuthChecked = action.payload
+      state.isAuthChecked = action.payload;
     },
     setEmailSent: (state, action) => {
-      state.isEmailSent = action.payload
-    }
+      state.isEmailSent = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setMessage: (state, action) => {
+      state.message = action.payload;
+    },
   },
   extraReducers: {
     [fetchForgotPassword.fulfilled.type]: (state, action) => {
+      state.isEmailSent = true;
       state.isFormPending = false;
       state.message = "Письмо для сбороса пароля было отправлено";
     },
     [fetchForgotPassword.pending.type]: (state, action) => {
       state.isFormPending = true;
+      state.isEmailSent = false;
       state.error = "";
       state.message = "";
     },
     [fetchForgotPassword.rejected.type]: (state, action) => {
       state.isFormPending = false;
+      state.isEmailSent = false;
       state.error = "Ошибка при отправление письма.";
     },
     [fetchResetPassword.fulfilled.type]: (state, action) => {
@@ -60,7 +68,7 @@ const authenticationSlice = createSlice({
     },
     [fetchResetPassword.rejected.type]: (state, action) => {
       state.isFormPending = false;
-      state.error = "Ошибка при сбросе пароля.";
+      state.error = "Ошибка неверный код.";
     },
     [fetchRegisterUser.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
@@ -96,7 +104,7 @@ const authenticationSlice = createSlice({
     },
     [fetchLoginUser.rejected.type]: (state, action) => {
       state.isFormPending = false;
-      state.error = "Ошибка: неверный логин или пароль.";
+      state.error = "Ошибка, неверный логин или пароль.";
     },
     [fetchLogoutUser.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
@@ -149,5 +157,6 @@ const authenticationSlice = createSlice({
     },
   },
 });
-export const {setUser, setAuthChecked, setEmailSent} = authenticationSlice.actions
+export const { setUser, setAuthChecked, setEmailSent, setError, setMessage } =
+  authenticationSlice.actions;
 export default authenticationSlice.reducer;
