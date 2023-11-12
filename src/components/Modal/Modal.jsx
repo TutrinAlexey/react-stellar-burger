@@ -5,18 +5,22 @@ import PropTypes from "prop-types";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { closeAllModals } from "../../services/slice/modalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { ingredientInfoSelector } from "../../services/selector/modalSelector";
 
 const modalRoot = document.getElementById("modals");
 
 function Modal({ children }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const ingredientInfo = useSelector(ingredientInfoSelector);
   const closeModal = useCallback(() => {
     dispatch(closeAllModals());
-    navigate("/");
+    {
+      ingredientInfo && navigate("/");
+    }
   });
 
   useEffect(() => {

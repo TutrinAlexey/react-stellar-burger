@@ -44,10 +44,6 @@ function Register() {
     }
   };
 
-  if (isAuth) {
-    return <Navigate to={location.state?.background || "/"} />;
-  }
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -125,6 +121,7 @@ function Register() {
         >
           Уже зарегистрированы?
           <Button
+            onClick={() => navigate("/login")}
             htmlType="button"
             type="secondary"
             size="medium"

@@ -18,6 +18,7 @@ const initialState = {
   isLoading: true,
   isEmailSent: false,
   isFormPending: false,
+  isPassReset: false,
 };
 
 const authenticationSlice = createSlice({
@@ -30,43 +31,44 @@ const authenticationSlice = createSlice({
     setAuthChecked: (state, action) => {
       state.isAuthChecked = action.payload;
     },
-    setEmailSent: (state, action) => {
-      state.isEmailSent = action.payload;
-    },
     setError: (state, action) => {
       state.error = action.payload;
     },
     setMessage: (state, action) => {
       state.message = action.payload;
     },
+    setEmailSent: (state, action) => {
+      state.isEmailSent = action.payload;
+    },
   },
   extraReducers: {
     [fetchForgotPassword.fulfilled.type]: (state, action) => {
-      state.isEmailSent = true;
       state.isFormPending = false;
       state.message = "Письмо для сбороса пароля было отправлено";
     },
     [fetchForgotPassword.pending.type]: (state, action) => {
       state.isFormPending = true;
-      state.isEmailSent = false;
       state.error = "";
       state.message = "";
     },
     [fetchForgotPassword.rejected.type]: (state, action) => {
       state.isFormPending = false;
-      state.isEmailSent = false;
       state.error = "Ошибка при отправление письма.";
     },
     [fetchResetPassword.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
+      state.isPassReset = true;
+      state.isEmailSent = false;
       state.message = "Пароль успешно сброшен";
     },
     [fetchResetPassword.pending.type]: (state, action) => {
       state.isFormPending = true;
+      state.isPassReset = false;
       state.error = "";
       state.message = "";
     },
     [fetchResetPassword.rejected.type]: (state, action) => {
+      state.isPassReset = false;
       state.isFormPending = false;
       state.error = "Ошибка неверный код.";
     },
@@ -157,6 +159,6 @@ const authenticationSlice = createSlice({
     },
   },
 });
-export const { setUser, setAuthChecked, setEmailSent, setError, setMessage } =
+export const { setUser, setAuthChecked, setError, setMessage, setEmailSent } =
   authenticationSlice.actions;
 export default authenticationSlice.reducer;

@@ -9,7 +9,6 @@ import { checkUserAuth } from "../../utils/authCheck";
 function Protected({ onlyUnAuth = false, component }) {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setAuthChecked(false));
     dispatch(checkUserAuth())
   }, [dispatch])
 
@@ -17,9 +16,7 @@ function Protected({ onlyUnAuth = false, component }) {
   const userInfo = useSelector(user)
   const location = useLocation();
 
-  if(!isAuth) {
-    return null
-  }
+
 
   if(onlyUnAuth && userInfo) {
     const {from} = location.state || {from: {pathname: '/'}}
@@ -33,5 +30,5 @@ function Protected({ onlyUnAuth = false, component }) {
   return component
 }
 
-export const OnlyAuth = (props) => <Protected onlyAnAuth={false} {...props} />
-export const OnlyUnAuth = (props) => <Protected onlyAnAuth={true} {...props} />
+export const OnlyAuth = (props) => <Protected onlyUnAuth={false} {...props} />
+export const OnlyUnAuth = (props) => <Protected onlyUnAuth={true} {...props} />

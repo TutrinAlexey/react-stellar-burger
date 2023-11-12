@@ -10,7 +10,7 @@ import {
   emailSent,
   error,
   formPending,
-  isLogin,
+  isPassReset,
   message,
 } from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,26 +20,26 @@ import { useEffect } from "react";
 
 function ResetPass() {
   const navigate = useNavigate();
-  const isAuth = useSelector(isLogin);
   const pendingForm = useSelector(formPending);
   const sentEmail = useSelector(emailSent);
-  const msg = useSelector(message);
   const errorMessage = useSelector(error);
-  const location = useLocation();
+  const msg = useSelector(message);
+  const isResetPass = useSelector(isPassReset);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setMessage(""));
-  }, []);
   useEffect(() => dispatch(setError("")), [values]);
+  // useEffect(() => {}, [sentEmail])
 
-  if (isAuth) {
-    return <Navigate to={location.state?.background || "/"} />;
-  } else if (!sentEmail) {
-    return <Navigate to={location.state?.background || "/"} />;
+  if (isResetPass) {
+    return <Navigate to={"/login"} />;
   }
+
+  if (!sentEmail) {
+    return <Navigate to={"/forgot-password"} />;
+  }
+  console.log(sentEmail);
 
   const handleForm = (evt) => {
     evt.preventDefault();
@@ -47,11 +47,7 @@ function ResetPass() {
       fetchResetPassword({ password: values.password, token: values.code })
     );
   };
-
-  if (msg) {
-    navigate("/login");
-  }
-
+  console.log(sentEmail);
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
@@ -117,7 +113,8 @@ function ResetPass() {
         >
           Вспомнили пароль?
           <Button
-            htmlType="submit"
+            onClick={() => navigate("/login")}
+            htmlType="button"
             type="secondary"
             size="medium"
             extraClass={styles.link}

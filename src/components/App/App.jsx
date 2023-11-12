@@ -26,6 +26,7 @@ import ProfileMain from "../ProfileMain/ProfileMain";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import OrderPage from "../../pages/OrderPage/OrderPage";
 import { checkUserAuth } from "../../utils/authCheck";
+import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
 
 function App() {
   const ingredientOpen = useSelector(ingredientOpenSelector);
@@ -45,11 +46,6 @@ function App() {
 
   return (
     <div className={styles.app}>
-      {ingredientOpen && (
-        <Modal>
-          <IngredientDetails dataOfIngredients={ingredientInfo} />
-        </Modal>
-      )}
       {orderOpen && (
         <Modal>
           <OrderDetails orderInfo={orderInfo} />
@@ -58,13 +54,25 @@ function App() {
       <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPass />} />
-          <Route path="reset-password" element={<ResetPass />} />
+          <Route path="login" element={<OnlyUnAuth component={<Login />} />} />
+          <Route
+            path="register"
+            element={<OnlyUnAuth component={<Register />} />}
+          />
+          <Route
+            path="forgot-password"
+            element={<OnlyUnAuth component={<ForgotPass />} />}
+          />
+          <Route
+            path="reset-password"
+            element={<OnlyUnAuth component={<ResetPass />} />}
+          />
           <Route path="order-list" element={<OrderList />} />
           <Route path="profile" element={<Profile />}>
-            <Route path="user" element={<ProfileMain />} />
+            <Route
+              path="user"
+              element={<OnlyAuth component={<ProfileMain />} />}
+            />
             <Route path="order-history" element={<OrderHistory />} />
             <Route path="*" element={<NotFound />} />
           </Route>
@@ -72,6 +80,18 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="ingredients/:id"
+            element={
+              <Modal>
+                <IngredientDetails dataOfIngredients={ingredientInfo} />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 }

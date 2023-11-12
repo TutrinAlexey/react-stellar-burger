@@ -12,7 +12,6 @@ import { useEffect } from "react";
 import {
   error,
   formPending,
-  isLogin,
 } from "../../services/selector/authenticationSelector";
 import { setError } from "../../services/slice/authenticationSlice";
 
@@ -20,12 +19,9 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pendingForm = useSelector(formPending);
-  const isAuth = useSelector(isLogin);
   const errorMessage = useSelector(error);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
-  const location = useLocation();
-
   useEffect(() => dispatch(setError("")), [values]);
 
   const onIconClick = () => {
@@ -40,13 +36,7 @@ function Login() {
         password: values.password,
       })
     );
-    if (pendingForm) {
-      navigate("/");
-    }
   };
-  if (isAuth) {
-    return <Navigate to={location.state?.background || "/"} />;
-  }
 
   return (
     <section className={styles.section}>

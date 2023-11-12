@@ -4,44 +4,34 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPass.module.css";
 import { useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import {
-  emailSent,
   error,
   formPending,
-  isLogin,
 } from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
-import { setEmailSent, setError} from "../../services/slice/authenticationSlice";
+import {
+  setEmailSent,
+  setError,
+} from "../../services/slice/authenticationSlice";
 
 function ForgotPass() {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
   const pendingForm = useSelector(formPending);
   const errorMessage = useSelector(error);
-  const sentEmail = useSelector(emailSent);
-  const isAuth = useSelector(isLogin);
-  const location = useLocation();
   const dispatch = useDispatch();
-
-  useEffect(() => dispatch(setEmailSent(false)))
 
   useEffect(() => dispatch(setError("")), [values]);
 
   const handleForm = (evt) => {
     evt.preventDefault();
     dispatch(fetchForgotPassword(values.email));
-  };
-
-  if (sentEmail) {
+    dispatch(setEmailSent(true));
     navigate("/reset-password");
-  }
-
-  if (isAuth) {
-    return <Navigate to={location.state?.background || "/"} />;
-  }
+  };
 
   return (
     <section className={styles.section}>
@@ -90,7 +80,8 @@ function ForgotPass() {
         >
           Вспомнили пароль?
           <Button
-            htmlType="submit"
+            onClick={() => navigate("/login")}
+            htmlType="button"
             type="secondary"
             size="medium"
             extraClass={styles.link}

@@ -7,8 +7,17 @@ export const checkResponse = (res) => {
   return res.json().then((err) => Promise.reject(err));
 };
 
+export const checkSuccess = (res) => {
+  if (res && res.success) {
+    return res;
+  }
+  return Promise.reject(`Ошибка не success: ${res.message}`);
+};
+
 export const request = (endpoint, options) => {
-  return fetch(BASE_URL + endpoint, options).then(checkResponse);
+  return fetch(BASE_URL + endpoint, options)
+    .then(checkResponse)
+    .then(checkSuccess);
 };
 
 export const postToken = () => {
@@ -50,12 +59,6 @@ export const getUserInfo = () => {
       "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem("accessToken"),
     },
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка данных с сервера");
-    }
   });
 };
 
@@ -88,12 +91,6 @@ export const postForgotPassword = (email) => {
     body: JSON.stringify({
       email,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при отправке токена на почту");
-    }
   });
 };
 
@@ -107,12 +104,6 @@ export const postResetPassword = ({ password, token }) => {
       password,
       token,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при сбросе пароля");
-    }
   });
 };
 
@@ -127,12 +118,6 @@ export const postRegisterUser = ({ email, password, name }) => {
       password,
       name,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при регистрации");
-    }
   });
 };
 
@@ -146,12 +131,6 @@ export const postLoginUser = ({ email, password }) => {
       email,
       password,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при авторизации");
-    }
   });
 };
 
@@ -165,12 +144,6 @@ export const postLogoutUser = () => {
     body: JSON.stringify({
       token,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при выходе из аккаунта");
-    }
   });
 };
 
@@ -186,11 +159,5 @@ export const pathUserInfo = ({ email, password, name }) => {
       password,
       name,
     }),
-  }).then((res) => {
-    if (res.success) {
-      return res;
-    } else {
-      return Promise.reject("Ошибка при изменение данных");
-    }
   });
 };

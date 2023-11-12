@@ -92,9 +92,7 @@ function ProfileMain() {
     handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   };
 
-  if (!isAuth) {
-    return <Navigate to={"/login"} replace />;
-  }
+
 
   return (
     <form className={styles.form} name="profile-form" onSubmit={handleForm}>
