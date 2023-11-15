@@ -49,10 +49,14 @@
 .opacity {
   display: none;
 }
-.bottom{
+.bottom {
   display: flex;
   align-content: flex-end;
   align-items: center;
   gap: calc(var(--offset-base-size) * 10);
   justify-content: flex-end;
+}
+
+.button {
+  cursor: default;
 }

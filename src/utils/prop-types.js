@@ -6,4 +6,3 @@ export const ingredientPropType = PropTypes.shape({
   price: PropTypes.number,
   _constId: PropTypes.string,
 });
-

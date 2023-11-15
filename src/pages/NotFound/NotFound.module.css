@@ -1,0 +1,20 @@
+.container {
+  padding-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.button {
+  border-radius: 10px;
+  padding: 5px 30px;
+  border-color: var(--text-inactive-color);
+
+  background-color: var(--text-inactive-color);
+  color: #131316;
+  transition: opacity 0.3s ease-in-out;
+}
+.button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 
 function OrderDetails({ orderInfo }) {
   const isLoading = useSelector(orderLoading);
-
   return !isLoading ? (
     <div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>
       <h3 className={`text text_type_digits-large mt-15 mb-8`}>

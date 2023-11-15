@@ -12,19 +12,23 @@ import {
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
 import { ingredientPropType } from "../../utils/prop-types";
+import { Link, useLocation } from "react-router-dom";
 
 function Ingredient({ ingredient }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const bunsBurger = useSelector(burgerBuns);
   const ingredientsBurger = useSelector(burgerIngredients);
-  const [{ isDrag }, preview, dragRef] = useDrag({
+  const [{ isDrag }, dragRef, preview ] = useDrag({
     type: "ingredient",
     item: ingredient,
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
   });
-
+  const openIngredient = () => {
+    dispatch(openIngredientModal(ingredient))
+  }
   const counter = useMemo(() => {
     const burger = [...bunsBurger, ...ingredientsBurger, ...bunsBurger];
     return burger.reduce((count, item) => {
@@ -35,7 +39,6 @@ function Ingredient({ ingredient }) {
       }
     }, 0);
   }, [ingredientsBurger, bunsBurger]);
-
   return (
     <>
       <DragPreviewImage connect={preview} src={ingredient.image} />
@@ -43,12 +46,13 @@ function Ingredient({ ingredient }) {
         {!!counter && (
           <Counter count={counter} size="default" extraClass="m-1" />
         )}
+        <Link onClick={openIngredient} to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
         <img
-          onClick={() => dispatch(openIngredientModal(ingredient))}
           className={`ml-4 mr-4 ${styles.image}`}
           src={ingredient.image}
           alt={ingredient.name}
         />
+        </Link>
         <p className={`text text_type_main-default mt-1 mb-1 ${styles.price}`}>
           {ingredient.price}
           <CurrencyIcon type="primary" />

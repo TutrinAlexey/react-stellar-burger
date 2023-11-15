@@ -5,4 +5,3 @@ export const ingredientInfoSelector = (store) => store.modal.ingredientInfo;
 export const getOrderInfo = (state) => state.modal.orderInfo;
 export const orderLoading = (state) => state.modal.orderIsLoading;
 export const orderError = (state) => state.modal.orderError;
-

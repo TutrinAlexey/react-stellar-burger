@@ -13,17 +13,34 @@ import {
   burgerIngredients,
   orderPrice,
 } from "../../services/selector/burgerSelector";
-import { addIngredients, clearIngredients } from "../../services/slice/burgerSlice";
+import {
+  addIngredients,
+  clearIngredients,
+} from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
-import { useMemo, memo } from "react";
+import { useMemo, memo, useEffect } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
+import { isLogin } from "../../services/selector/authenticationSelector";
+import { Link, useLocation } from "react-router-dom";
+import { orderLoading } from "../../services/selector/modalSelector";
+import { checkUserAuth } from "../../utils/authCheck";
+import { setAuthChecked } from "../../services/slice/authenticationSlice";
 
 function BurgerConstructor() {
+  const location = useLocation();
   const dispatch = useDispatch();
+  const isOrderLoad = useSelector(orderLoading);
   const ingredientsOfBurger = useSelector(burgerIngredients);
   const bunsOfBurger = useSelector(burgerBuns);
   const burgerPrice = useSelector(orderPrice);
+  const isAuth = useSelector(isLogin);
+
+  useEffect(() => {
+    dispatch(setAuthChecked(false));
+    dispatch(checkUserAuth());
+  }, []);
+
   const [{ isDragging }, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -34,19 +51,22 @@ function BurgerConstructor() {
       isDragging: monitor.isOver(),
     }),
   });
-
   const burgerIdForOrder = useMemo(() => {
-    const bunsId = bunsOfBurger.map((ingredient) => ingredient._id)
-    const ingredientsId = ingredientsOfBurger.map((ingredient) => ingredient._id)
+    const bunsId = bunsOfBurger.map((ingredient) => ingredient._id);
+    const ingredientsId = ingredientsOfBurger.map(
+      (ingredient) => ingredient._id
+    );
     const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
-    return burgerId
-  }, [bunsOfBurger, ingredientsOfBurger])
+    return burgerId;
+  }, [bunsOfBurger, ingredientsOfBurger]);
 
   const handleOrder = () => {
-    dispatch(fetchOrder(burgerIdForOrder));
-    dispatch(openOrderModal());
-    dispatch(clearIngredients());
-  }
+    if (isAuth) {
+      dispatch(fetchOrder(burgerIdForOrder));
+      dispatch(openOrderModal());
+      dispatch(clearIngredients());
+    }
+  };
   return (
     <section ref={dropRef} className={`mt-15 ${styles.section}`}>
       {bunsOfBurger.length !== 0 || ingredientsOfBurger.length !== 0 ? (
@@ -60,7 +80,7 @@ function BurgerConstructor() {
               <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={bunsOfBurger[0].name + '(вверх)'}
+                text={bunsOfBurger[0].name + "(вверх)"}
                 price={bunsOfBurger[0].price}
                 thumbnail={bunsOfBurger[0].image}
               />
@@ -78,7 +98,7 @@ function BurgerConstructor() {
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={bunsOfBurger[0].name + '(низ)'}
+                text={bunsOfBurger[0].name + "(низ)"}
                 price={bunsOfBurger[0].price}
                 thumbnail={bunsOfBurger[0].image}
               />
@@ -99,15 +119,24 @@ function BurgerConstructor() {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
+        <Link
+          onClick={handleOrder}
+          to={!isAuth ? "/login" : "/"}
+          state={{ background: location }}
+        >
           <Button
-            onClick={handleOrder}
             htmlType="button"
             type="primary"
             size="medium"
-            disabled={bunsOfBurger.length === 0}
+            disabled={
+              bunsOfBurger.length === 0 ||
+              ingredientsOfBurger.length === 0 ||
+              isOrderLoad
+            }
           >
-            Оформить заказ
+            {isOrderLoad ? "Оформление" : "Оформить заказ"}
           </Button>
+        </Link>
       </div>
     </section>
   );

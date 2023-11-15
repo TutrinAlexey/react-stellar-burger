@@ -1,10 +1,14 @@
 import styles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
 
-function IngredientDetails({ dataOfIngredients }) {
+function IngredientDetails({ center, dataOfIngredients }) {
   return (
     <div className={`pt-10 pr-10 pl-10 pb-15 ${styles.container}`}>
-      <h3 className={`text text_type_main-large ${styles.title} mt-3 mb-3`}>
+      <h3
+        className={`text text_type_main-large ${
+          center ? styles.center : styles.title
+        } mt-3 mb-3`}
+      >
         Детали ингредиента
       </h3>
       <img src={dataOfIngredients.image_large} alt={dataOfIngredients.name} />
@@ -74,6 +78,7 @@ IngredientDetails.propTypes = {
     fat: PropTypes.number,
     carbohydrates: PropTypes.number,
   }),
+  center: PropTypes.bool,
 };
 
 export default IngredientDetails;

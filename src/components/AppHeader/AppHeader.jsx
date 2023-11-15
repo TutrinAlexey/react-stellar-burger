@@ -19,6 +19,7 @@ import {
   orderListLink,
 } from "../../services/slice/linkSlice";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 function AppHeader() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function AppHeader() {
         <div className={styles.container}>
           <NavigationLink
             isActive={burgerActive}
+            way={"/"}
             chooseLink={() => dispatch(burgerLink())}
           >
             <BurgerIcon type={burgerActive ? "primary" : "secondary"} />
@@ -39,6 +41,7 @@ function AppHeader() {
           </NavigationLink>
           <NavigationLink
             isActive={orderActive}
+            way={"/order-list"}
             chooseLink={() => dispatch(orderListLink())}
           >
             <ListIcon type={orderActive ? "primary" : "secondary"} />
@@ -46,10 +49,13 @@ function AppHeader() {
           </NavigationLink>
         </div>
         <div className={styles.logo}>
-          <Logo extraClass={styles.logo} />
+          <Link to={"/"}>
+            <Logo extraClass={styles.logo} />
+          </Link>
         </div>
         <NavigationLink
           isActive={accountActive}
+          way={"/profile/user"}
           chooseLink={() => dispatch(accountLink())}
         >
           <ProfileIcon type={accountActive ? "primary" : "secondary"} />

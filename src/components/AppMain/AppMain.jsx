@@ -1,13 +1,11 @@
 import styles from "./AppMain.module.css";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import { memo } from "react";
+import { Outlet } from "react-router-dom";
 
 function AppMain() {
   return (
-    <main className={`${styles.main}`}>
-      <BurgerIngredients />
-      <BurgerConstructor />
+    <main>
+      <Outlet />
     </main>
   );
 }

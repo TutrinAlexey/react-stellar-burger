@@ -1,0 +1,36 @@
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 180px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  display: flex;
+  gap: 8px;
+}
+
+.link {
+  padding: 0;
+}
+
+.error {
+  color: var(--colors-interface-error);
+}
