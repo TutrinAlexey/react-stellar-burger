@@ -1,27 +1,40 @@
 import { BASE_URL } from "./constants";
-
-export const checkResponse = (res) => {
+import {
+  TBodyLogin,
+  TBodyPathUser,
+  TBodyRegister,
+  TBodyResetPass,
+  TGetUser,
+  TPathUser,
+  TPostLogin,
+  TPostRegister,
+  TResponse,
+  TTokens,
+} from "./types/authenticationTypes";
+import { TGetIngredient } from "./types/ingredientType";
+import { TOrderIngredientsId } from "./types/orderType";
+export const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
   }
-  return res.json().then((err) => Promise.reject(err));
+  return res.json().then((err: Error) => Promise.reject(err));
 };
 
-export const checkSuccess = (res) => {
+export const checkSuccess = <T>(res: TResponse<T>) => {
   if (res && res.success) {
     return res;
   }
   return Promise.reject(`Ошибка не success: ${res.message}`);
 };
 
-export const request = (endpoint, options) => {
+export const request = <T>(endpoint: string, options: any) => {
   return fetch(BASE_URL + endpoint, options)
     .then(checkResponse)
-    .then(checkSuccess);
+    .then<T>(checkSuccess);
 };
 
 export const postToken = () => {
-  return request("/auth/token", {
+  return request<TResponse<TTokens>>("/auth/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -32,18 +45,18 @@ export const postToken = () => {
   });
 };
 
-export const fetchWithRefresh = async (endpoint, options) => {
+export const fetchWithRefresh = async <T>(endpoint: string, options: any) => {
   try {
-    const res = await request(endpoint, options);
+    const res = await request<T>(endpoint, options);
     return res;
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === "jwt expired") {
       const refreshData = await postToken();
       if (!refreshData.success) {
         Promise.reject(refreshData);
       }
-      localStorage.setItem("accessToken", refreshData.accessToken);
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      localStorage.setItem("accessToken", refreshData!.accessToken);
+      localStorage.setItem("refreshToken", refreshData!.refreshToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await request(endpoint, options);
       return res;
@@ -53,7 +66,7 @@ export const fetchWithRefresh = async (endpoint, options) => {
   }
 };
 export const getUserInfo = () => {
-  return fetchWithRefresh("/auth/user", {
+  return fetchWithRefresh<TResponse<TGetUser>>("/auth/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -63,14 +76,14 @@ export const getUserInfo = () => {
 };
 
 export const getIngredients = () => {
-  return request("/ingredients", {
+  return request<TResponse<TGetIngredient>>("/ingredients", {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
   }).then((res) => res.data);
 };
 
-export const postOrder = (ingredientsId) => {
+export const postOrder = (ingredientsId: TOrderIngredientsId) => {
   return request("/orders", {
     method: "POST",
     headers: {
@@ -82,8 +95,8 @@ export const postOrder = (ingredientsId) => {
   });
 };
 
-export const postForgotPassword = (email) => {
-  return request("/password-reset", {
+export const postForgotPassword = (email: string) => {
+  return request<TResponse>("/password-reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -94,8 +107,8 @@ export const postForgotPassword = (email) => {
   });
 };
 
-export const postResetPassword = ({ password, token }) => {
-  return request("/password-reset/reset", {
+export const postResetPassword = ({ password, token }:TBodyResetPass) => {
+  return request<TResponse>("/password-reset/reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -107,8 +120,8 @@ export const postResetPassword = ({ password, token }) => {
   });
 };
 
-export const postRegisterUser = ({ email, password, name }) => {
-  return request("/auth/register", {
+export const postRegisterUser = ({ email, password, name }:TBodyRegister) => {
+  return request<TResponse<TPostRegister>>("/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -121,8 +134,8 @@ export const postRegisterUser = ({ email, password, name }) => {
   });
 };
 
-export const postLoginUser = ({ email, password }) => {
-  return request("/auth/login", {
+export const postLoginUser = ({ email, password }:TBodyLogin) => {
+  return request<TResponse<TPostLogin>>("/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -136,7 +149,7 @@ export const postLoginUser = ({ email, password }) => {
 
 export const postLogoutUser = () => {
   const token = localStorage.getItem("refreshToken");
-  return request("/auth/logout", {
+  return request<TResponse>("/auth/logout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -147,8 +160,8 @@ export const postLogoutUser = () => {
   });
 };
 
-export const pathUserInfo = ({ email, password, name }) => {
-  return fetchWithRefresh("/auth/user", {
+export const pathUserInfo = ({ email, password, name }: TBodyPathUser) => {
+  return fetchWithRefresh<TResponse<TPathUser>>("/auth/user", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

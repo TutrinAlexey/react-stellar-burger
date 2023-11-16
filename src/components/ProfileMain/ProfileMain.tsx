@@ -2,27 +2,32 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect, useMemo, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  FormEvent,
+  MutableRefObject,
+  FC,
+} from "react";
 import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChangeUserInfo } from "../../services/thunk/authenticationQuery";
 import {
   formPending,
-  isLogin,
   user,
 } from "../../services/selector/authenticationSelector";
 import { checkUserAuth } from "../../utils/authCheck";
-import { Navigate } from "react-router-dom";
 
-function ProfileMain() {
+const ProfileMain: FC = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(user);
-  const isAuth = useSelector(isLogin);
   const pendingForm = useSelector(formPending);
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const nameRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const emailRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const passwordRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const {
     values,
     errors,
@@ -57,15 +62,15 @@ function ProfileMain() {
 
   const onFocusName = () => {
     setEditInput({ ...editInput, name: false });
-    nameRef.current.focus();
+    nameRef.current?.focus();
   };
   const onFocusEmail = () => {
     setEditInput({ ...editInput, email: false });
-    emailRef.current.focus();
+    emailRef.current?.focus();
   };
   const onFocusPassword = () => {
     setEditInput({ ...editInput, password: false });
-    passwordRef.current.focus();
+    passwordRef.current?.focus();
   };
   const onBlur = () => {
     setEditInput({ name: true, email: true, password: true });
@@ -73,7 +78,7 @@ function ProfileMain() {
       setValues({ ...values, password: "" });
     }
   };
-  const handleForm = (evt) => {
+  const handleForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (values.password.length < 6) {
       dispatch(fetchChangeUserInfo({ name: values.name, email: values.email }));
@@ -91,8 +96,6 @@ function ProfileMain() {
   const resetForm = () => {
     handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
   };
-
-
 
   return (
     <form className={styles.form} name="profile-form" onSubmit={handleForm}>
@@ -176,6 +179,6 @@ function ProfileMain() {
       )}
     </form>
   );
-}
+};
 
 export default ProfileMain;

@@ -1,9 +1,12 @@
 import styles from "./Tabs.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useState, useEffect, FC } from "react";
 
-function Tabs({ value }) {
+type TabsProps = {
+  value: number;
+};
+
+const Tabs: FC<TabsProps> = ({ value }) => {
   const [current, setCurrent] = useState("Булки");
   useEffect(() => {
     if (value <= 315) {
@@ -58,9 +61,6 @@ function Tabs({ value }) {
       </li>
     </ul>
   );
-}
-
-Tabs.propTypes = {
-  value: PropTypes.number,
 };
+
 export default Tabs;

@@ -2,10 +2,15 @@ import styles from "./OrderDetails.module.css";
 import acceptOrderIcon from "../../images/graphics.svg";
 import { useSelector } from "react-redux";
 import { orderLoading } from "../../services/selector/modalSelector";
-import PropTypes from "prop-types";
+import { TOrderInfo } from "../../utils/types/orderType";
+import { FC } from "react";
 
-function OrderDetails({ orderInfo }) {
-  const isLoading = useSelector(orderLoading);
+type OrderDetailsProps = {
+  orderInfo: TOrderInfo;
+};
+
+const OrderDetails: FC<OrderDetailsProps> = ({ orderInfo }) => {
+  const isLoading = useSelector(orderLoading) as boolean;
   return !isLoading ? (
     <div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>
       <h3 className={`text text_type_digits-large mt-15 mb-8`}>
@@ -30,14 +35,6 @@ function OrderDetails({ orderInfo }) {
       <p className={`text text_type_main-default`}>Заказ обрабатывается</p>
     </div>
   );
-}
-
-OrderDetails.propTypes = {
-  orderInfo: PropTypes.shape({
-    order: PropTypes.shape({
-      number: PropTypes.number,
-    }),
-  }),
 };
 
 export default OrderDetails;

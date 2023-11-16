@@ -1,9 +1,19 @@
 import styles from "./NavigationLink.module.css";
-import PropTypes from "prop-types";
-import clsx from "clsx";
 import { NavLink } from "react-router-dom";
+import { FC } from "react";
 
-function NavigationLink({ isActive, way, children, chooseLink }) {
+type NavigationLinkProps = {
+  isActive: boolean;
+  way: string;
+  chooseLink: () => void;
+};
+
+const NavigationLink: FC<NavigationLinkProps> = ({
+  isActive,
+  way,
+  children,
+  chooseLink,
+}) => {
   return (
     <NavLink
       onClick={chooseLink}
@@ -15,13 +25,6 @@ function NavigationLink({ isActive, way, children, chooseLink }) {
       {children}
     </NavLink>
   );
-}
-
-NavigationLink.propTypes = {
-  isActive: PropTypes.bool,
-  way: PropTypes.string,
-  children: PropTypes.array,
-  chooseLink: PropTypes.func,
 };
 
 export default NavigationLink;

@@ -1,7 +1,16 @@
+import { TIngredient } from "../../utils/types/ingredientType";
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
+import { FC } from "react";
 
-function IngredientDetails({ center, dataOfIngredients }) {
+type IngredientDetailsProps = {
+  center?: boolean;
+  dataOfIngredients: TIngredient;
+};
+
+const IngredientDetails: FC<IngredientDetailsProps> = ({
+  center,
+  dataOfIngredients,
+}) => {
   return (
     <div className={`pt-10 pr-10 pl-10 pb-15 ${styles.container}`}>
       <h3
@@ -67,18 +76,6 @@ function IngredientDetails({ center, dataOfIngredients }) {
       </ul>
     </div>
   );
-}
-
-IngredientDetails.propTypes = {
-  dataOfIngredients: PropTypes.shape({
-    image_large: PropTypes.string,
-    name: PropTypes.string,
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-  }),
-  center: PropTypes.bool,
 };
 
 export default IngredientDetails;

@@ -1,14 +1,16 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, ChangeEvent } from "react";
+import { TErrors, TValues } from "../utils/types/useFormTypes";
+
 
 export const useForm = (inputValues = {}, inputErrors = {}) => {
-  const [values, setValues] = useState(inputValues);
-  const [errors, setErrors] = useState(inputErrors);
+  const [values, setValues] = useState<TValues>(inputValues);
+  const [errors, setErrors] = useState<TErrors>(inputErrors);
   const [isFormValidate, setValidate] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement & HTMLFormElement>) => {
     const { value, name, validationMessage, closest } = event.target;
-    const form = event.target.closest("form");
-    setValidate(form.checkValidity());
+    const form:HTMLFormElement | null = event.target.closest("form");
+    setValidate(form!.checkValidity());
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: validationMessage });
   };
@@ -18,7 +20,7 @@ export const useForm = (inputValues = {}, inputErrors = {}) => {
       setValues(values);
       setErrors(errors);
       setValidate(isFormValid);
-    }
+    }, [setValues, setErrors, setValidate]
   );
   return {
     values,

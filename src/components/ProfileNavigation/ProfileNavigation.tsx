@@ -1,10 +1,11 @@
-import { NavLink, useHref } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styles from "./ProfileNavigation.module.css";
 import { useDispatch } from "react-redux";
 import { fetchLogoutUser } from "../../services/thunk/authenticationQuery";
+import { FC } from "react";
 
-function ProfileNavigation() {
-  const link = useHref();
+const ProfileNavigation: FC = () => {
+  const link = useLocation().pathname;
   const dispatch = useDispatch();
   const handleExit = () => {
     dispatch(fetchLogoutUser());
@@ -53,6 +54,6 @@ function ProfileNavigation() {
       </p>
     </nav>
   );
-}
+};
 
 export default ProfileNavigation;

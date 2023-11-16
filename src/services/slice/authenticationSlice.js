@@ -42,32 +42,32 @@ const authenticationSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchForgotPassword.fulfilled.type]: (state, action) => {
+    [fetchForgotPassword.fulfilled.type]: (state) => {
       state.isFormPending = false;
       state.message = "Письмо для сбороса пароля было отправлено";
     },
-    [fetchForgotPassword.pending.type]: (state, action) => {
+    [fetchForgotPassword.pending.type]: (state) => {
       state.isFormPending = true;
       state.error = "";
       state.message = "";
     },
-    [fetchForgotPassword.rejected.type]: (state, action) => {
+    [fetchForgotPassword.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка при отправление письма.";
     },
-    [fetchResetPassword.fulfilled.type]: (state, action) => {
+    [fetchResetPassword.fulfilled.type]: (state) => {
       state.isFormPending = false;
       state.isPassReset = true;
       state.isEmailSent = false;
       state.message = "Пароль успешно сброшен";
     },
-    [fetchResetPassword.pending.type]: (state, action) => {
+    [fetchResetPassword.pending.type]: (state) => {
       state.isFormPending = true;
       state.isPassReset = false;
       state.error = "";
       state.message = "";
     },
-    [fetchResetPassword.rejected.type]: (state, action) => {
+    [fetchResetPassword.rejected.type]: (state) => {
       state.isPassReset = false;
       state.isFormPending = false;
       state.error = "Ошибка неверный код.";
@@ -81,12 +81,12 @@ const authenticationSlice = createSlice({
       localStorage.setItem("accessToken", action.payload.accessToken);
       state.message = "Вы успешно зарегестрировались";
     },
-    [fetchRegisterUser.pending.type]: (state, action) => {
+    [fetchRegisterUser.pending.type]: (state) => {
       state.isFormPending = true;
       state.error = "";
       state.message = "";
     },
-    [fetchRegisterUser.rejected.type]: (state, action) => {
+    [fetchRegisterUser.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка при регистрации.";
     },
@@ -99,16 +99,16 @@ const authenticationSlice = createSlice({
       localStorage.setItem("accessToken", action.payload.accessToken);
       state.message = "Вы успешно авторизовались";
     },
-    [fetchLoginUser.pending.type]: (state, action) => {
+    [fetchLoginUser.pending.type]: (state) => {
       state.error = "";
       state.message = "";
       state.isFormPending = true;
     },
-    [fetchLoginUser.rejected.type]: (state, action) => {
+    [fetchLoginUser.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка, неверный логин или пароль.";
     },
-    [fetchLogoutUser.fulfilled.type]: (state, action) => {
+    [fetchLogoutUser.fulfilled.type]: (state) => {
       state.isFormPending = false;
       state.isAuthChecked = false;
       state.user = "";
@@ -117,12 +117,12 @@ const authenticationSlice = createSlice({
       localStorage.removeItem("accessToken");
       state.message = "Успешный выход из системы";
     },
-    [fetchLogoutUser.pending.type]: (state, action) => {
+    [fetchLogoutUser.pending.type]: (state) => {
       state.isFormPending = true;
       state.error = "";
       state.message = "";
     },
-    [fetchLogoutUser.rejected.type]: (state, action) => {
+    [fetchLogoutUser.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка при выходе из аккаунт.";
     },
@@ -133,12 +133,12 @@ const authenticationSlice = createSlice({
       state.user = action.payload.user;
       state.message = "Данные получены";
     },
-    [fetchUserInfo.pending.type]: (state, action) => {
+    [fetchUserInfo.pending.type]: (state) => {
       state.isFormPending = true;
       state.error = "";
       state.message = "";
     },
-    [fetchUserInfo.rejected.type]: (state, action) => {
+    [fetchUserInfo.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка при получении данных.";
     },
@@ -148,12 +148,12 @@ const authenticationSlice = createSlice({
       state.user = action.payload.user;
       state.message = "Данные профиля изменились";
     },
-    [fetchChangeUserInfo.pending.type]: (state, action) => {
+    [fetchChangeUserInfo.pending.type]: (state) => {
       state.isFormPending = true;
       state.error = "";
       state.message = "";
     },
-    [fetchChangeUserInfo.rejected.type]: (state, action) => {
+    [fetchChangeUserInfo.rejected.type]: (state) => {
       state.isFormPending = false;
       state.error = "Ошибка при редактировании профиля.";
     },

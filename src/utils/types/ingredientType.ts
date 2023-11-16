@@ -16,3 +16,5 @@ export type TIngredient = {
 export type TConstructorIngredient = TIngredient & {
   _constId: string;
 }
+
+export type TGetIngredient = {data: Array<TIngredient>}

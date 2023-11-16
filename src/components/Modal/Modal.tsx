@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect, FC } from "react";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { closeAllModals } from "../../services/slice/modalSlice";
@@ -9,22 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ingredientInfoSelector } from "../../services/selector/modalSelector";
+import { TIngredient } from "../../utils/types/ingredientType";
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as Element;
 
-function Modal({ children }) {
+const Modal: FC = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const ingredientInfo = useSelector(ingredientInfoSelector);
+  const ingredientInfo = useSelector(ingredientInfoSelector) as TIngredient;
   const closeModal = useCallback(() => {
     dispatch(closeAllModals());
     {
       ingredientInfo && navigate("/");
     }
-  });
+  }, []);
 
   useEffect(() => {
-    const closeOnEsc = (e) => {
+    const closeOnEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeModal();
       }
@@ -42,10 +42,6 @@ function Modal({ children }) {
     </ModalOverlay>,
     modalRoot
   );
-}
-
-Modal.propTypes = {
-  children: PropTypes.element,
 };
 
 export default Modal;
