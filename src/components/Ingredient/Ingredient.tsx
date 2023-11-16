@@ -6,15 +6,17 @@ import {
 import { openIngredientModal } from "../../services/slice/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { DragPreviewImage, useDrag } from "react-dnd";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import {
   burgerBuns,
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
-import { ingredientPropType } from "../../utils/prop-types";
 import { Link, useLocation } from "react-router-dom";
-
-function Ingredient({ ingredient }) {
+import { TIngredient } from "../../utils/types/ingredientType";
+type IngredientProps = {
+  ingredient: TIngredient;
+}
+const Ingredient:FC<IngredientProps> = ({ ingredient }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const bunsBurger = useSelector(burgerBuns);
@@ -64,9 +66,5 @@ function Ingredient({ ingredient }) {
     </>
   );
 }
-
-Ingredient.propTypes = {
-  ingredient: ingredientPropType,
-};
 
 export default Ingredient;

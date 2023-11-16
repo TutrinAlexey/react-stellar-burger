@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
@@ -27,12 +27,14 @@ import OrderHistory from "../OrderHistory/OrderHistory";
 import OrderPage from "../../pages/OrderPage/OrderPage";
 import { checkUserAuth } from "../../utils/authCheck";
 import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
+import { TIngredient } from "../../utils/types/ingredientType";
+import { TOrderInfo } from "../../utils/types/orderType";
 
-function App() {
-  const ingredientOpen = useSelector(ingredientOpenSelector);
-  const orderOpen = useSelector(orderOpenSelector);
-  const ingredientInfo = useSelector(ingredientInfoSelector);
-  const orderInfo = useSelector(getOrderInfo);
+const App: FC = () => {
+  const ingredientOpen = useSelector(ingredientOpenSelector) as boolean;
+  const orderOpen = useSelector(orderOpenSelector) as boolean;
+  const ingredientInfo = useSelector(ingredientInfoSelector) as TIngredient;
+  const orderInfo = useSelector(getOrderInfo) as TOrderInfo;
   const location = useLocation();
 
   const background =
@@ -94,6 +96,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

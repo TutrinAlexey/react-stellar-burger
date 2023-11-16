@@ -1,24 +1,25 @@
-import { useMemo, useCallback, useState, memo } from "react";
+import { useMemo, useCallback, useState, memo, FC } from "react";
 import styles from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import { getIngredients } from "../../services/selector/ingredientsSelector";
 import { useSelector } from "react-redux";
 import Tabs from "../Tabs/Tabs";
+import { TIngredient } from "../../utils/types/ingredientType";
 
-function BurgerIngredients() {
+const BurgerIngredients: FC = () => {
   const [value, setValue] = useState(0);
-  const ingredients = useSelector(getIngredients);
+  const ingredients = useSelector(getIngredients) as Array<TIngredient>;
 
   const buns = useMemo(
-    () => ingredients.filter((el) => el.type === "bun"),
+    () => ingredients.filter((el: TIngredient) => el.type === "bun"),
     [ingredients]
   );
   const sauce = useMemo(
-    () => ingredients.filter((el) => el.type === "sauce"),
+    () => ingredients.filter((el: TIngredient) => el.type === "sauce"),
     [ingredients]
   );
   const main = useMemo(
-    () => ingredients.filter((el) => el.type === "main"),
+    () => ingredients.filter((el: TIngredient) => el.type === "main"),
     [ingredients]
   );
 
@@ -48,6 +49,6 @@ function BurgerIngredients() {
       </ul>
     </section>
   );
-}
+};
 
 export default memo(BurgerIngredients);

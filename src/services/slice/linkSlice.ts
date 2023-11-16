@@ -10,17 +10,17 @@ const linkSlice = createSlice({
   name: "link",
   initialState,
   reducers: {
-    burgerLink: (state, action) => {
+    burgerLink: (state) => {
       state.burgerActive = true;
       state.orderListActive = false;
       state.accountActive = false;
     },
-    orderListLink: (state, action) => {
+    orderListLink: (state) => {
       state.burgerActive = false;
       state.orderListActive = true;
       state.accountActive = false;
     },
-    accountLink: (state, action) => {
+    accountLink: (state) => {
       state.burgerActive = false;
       state.orderListActive = false;
       state.accountActive = true;

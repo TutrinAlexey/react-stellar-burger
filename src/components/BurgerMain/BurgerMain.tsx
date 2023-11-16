@@ -10,15 +10,17 @@ import {
   deleteIngredients,
   swapIngredients,
 } from "../../services/slice/burgerSlice";
-import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
+import { TConstructorIngredient } from "../../utils/types/ingredientType";
+import { FC } from "react";
 
-function BurgerMain({ data, index }) {
-  const ingredientsOfBurger = useSelector(burgerIngredients);
+type BurgerMainProps = { data: TConstructorIngredient; index: number };
+
+const BurgerMain:FC<BurgerMainProps> = ({ data, index }) => {
+  const ingredientsOfBurger = useSelector(burgerIngredients) as Array<TConstructorIngredient>;
 
   const dispatch = useDispatch();
 
-  const findIndex = (item) => {
+  const findIndex = (item: TConstructorIngredient) => {
     return ingredientsOfBurger.indexOf(item);
   };
 
@@ -32,7 +34,7 @@ function BurgerMain({ data, index }) {
 
   const [, dropRef] = useDrop({
     accept: "sort",
-    hover({ ingredient }) {
+    hover(ingredient: TConstructorIngredient, monitor) {
       if (ingredient._constId === data._constId) return;
       dispatch(
         swapIngredients({
@@ -58,11 +60,6 @@ function BurgerMain({ data, index }) {
       />
     </li>
   );
-}
-
-BurgerMain.propTypes = {
-  data: ingredientPropType,
-  index: PropTypes.number,
 };
 
 export default BurgerMain;

@@ -26,7 +26,7 @@ const burgerSlice = createSlice({
         (item) => item._constId !== action.payload
       );
     },
-    clearIngredients: (state, action) => {
+    clearIngredients: (state) => {
       state.ingredientsBurger = [];
       state.bunsBurger = [];
     },

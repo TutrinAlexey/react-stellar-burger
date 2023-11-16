@@ -19,22 +19,28 @@ import {
 } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
-import { useMemo, memo, useEffect } from "react";
+import { useMemo, memo, useEffect, FC } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 import { isLogin } from "../../services/selector/authenticationSelector";
 import { Link, useLocation } from "react-router-dom";
 import { orderLoading } from "../../services/selector/modalSelector";
 import { checkUserAuth } from "../../utils/authCheck";
 import { setAuthChecked } from "../../services/slice/authenticationSlice";
+import {
+  TConstructorIngredient,
+  TIngredient,
+} from "../../utils/types/ingredientType";
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const isOrderLoad = useSelector(orderLoading);
-  const ingredientsOfBurger = useSelector(burgerIngredients);
-  const bunsOfBurger = useSelector(burgerBuns);
-  const burgerPrice = useSelector(orderPrice);
-  const isAuth = useSelector(isLogin);
+  const isOrderLoad = useSelector(orderLoading) as boolean;
+  const ingredientsOfBurger = useSelector(
+    burgerIngredients
+  ) as Array<TConstructorIngredient>;
+  const bunsOfBurger = useSelector(burgerBuns) as Array<TConstructorIngredient>;
+  const burgerPrice = useSelector(orderPrice) as number;
+  const isAuth = useSelector(isLogin) as boolean;
 
   useEffect(() => {
     dispatch(setAuthChecked(false));
@@ -43,7 +49,7 @@ function BurgerConstructor() {
 
   const [{ isDragging }, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
       const newElement = { ...item, _constId: v4() };
       dispatch(addIngredients(newElement));
     },
@@ -52,9 +58,11 @@ function BurgerConstructor() {
     }),
   });
   const burgerIdForOrder = useMemo(() => {
-    const bunsId = bunsOfBurger.map((ingredient) => ingredient._id);
+    const bunsId = bunsOfBurger.map(
+      (ingredient: TIngredient) => ingredient._id
+    );
     const ingredientsId = ingredientsOfBurger.map(
-      (ingredient) => ingredient._id
+      (ingredient: TIngredient) => ingredient._id
     );
     const burgerId = [...bunsId, ...ingredientsId, ...bunsId];
     return burgerId;
@@ -86,13 +94,15 @@ function BurgerConstructor() {
               />
             </li>
           )}
-          {ingredientsOfBurger.map((ingredient, index) => (
-            <BurgerMain
-              key={ingredient._constId}
-              data={ingredient}
-              index={index}
-            />
-          ))}
+          {ingredientsOfBurger.map(
+            (ingredient: TConstructorIngredient, index: number) => (
+              <BurgerMain
+                key={ingredient._constId}
+                data={ingredient}
+                index={index}
+              />
+            )
+          )}
           {bunsOfBurger.length !== 0 && (
             <li className="ml-8">
               <ConstructorElement
@@ -140,6 +150,6 @@ function BurgerConstructor() {
       </div>
     </section>
   );
-}
+};
 
 export default memo(BurgerConstructor);

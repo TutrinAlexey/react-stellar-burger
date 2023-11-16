@@ -18,14 +18,14 @@ import {
   burgerLink,
   orderListLink,
 } from "../../services/slice/linkSlice";
-import { memo } from "react";
+import { FC, memo } from "react";
 import { Link } from "react-router-dom";
 
-function AppHeader() {
+const AppHeader:FC = () => {
   const dispatch = useDispatch();
-  const burgerActive = useSelector(burgerStatus);
-  const orderActive = useSelector(orderListStatus);
-  const accountActive = useSelector(accountStatus);
+  const burgerActive = useSelector(burgerStatus) as boolean;
+  const orderActive = useSelector(orderListStatus) as boolean;
+  const accountActive = useSelector(accountStatus) as boolean;
 
   return (
     <header className={` ${styles.header}`}>
@@ -50,7 +50,7 @@ function AppHeader() {
         </div>
         <div className={styles.logo}>
           <Link to={"/"}>
-            <Logo extraClass={styles.logo} />
+            <Logo />
           </Link>
         </div>
         <NavigationLink
