@@ -15,22 +15,22 @@ import {
 } from "../../services/selector/authenticationSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchResetPassword } from "../../services/thunk/authenticationQuery";
-import { setError, setMessage } from "../../services/slice/authenticationSlice";
-import { useEffect } from "react";
+import { clearError } from "../../services/slice/authenticationSlice";
+import { useEffect, FC, FormEvent } from "react";
 
-function ResetPass() {
+const ResetPass: FC = () => {
   const navigate = useNavigate();
   const pendingForm = useSelector(formPending);
-  const sentEmail = useSelector(emailSent);
-  const errorMessage = useSelector(error);
-  const msg = useSelector(message);
-  const isResetPass = useSelector(isPassReset);
+  const sentEmail = useSelector(emailSent) as boolean;
+  const errorMessage = useSelector(error) as string;
+  const isResetPass = useSelector(isPassReset) as boolean;
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(setError("")), [values]);
-  // useEffect(() => {}, [sentEmail])
+  useEffect(() => {
+    dispatch(clearError());
+  }, [values]);
 
   if (isResetPass) {
     return <Navigate to={"/login"} />;
@@ -39,15 +39,13 @@ function ResetPass() {
   if (!sentEmail) {
     return <Navigate to={"/forgot-password"} />;
   }
-  console.log(sentEmail);
 
-  const handleForm = (evt) => {
+  const handleForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(
       fetchResetPassword({ password: values.password, token: values.code })
     );
   };
-  console.log(sentEmail);
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
@@ -125,6 +123,6 @@ function ResetPass() {
       </div>
     </section>
   );
-}
+};
 
 export default ResetPass;

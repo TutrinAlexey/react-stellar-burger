@@ -4,13 +4,14 @@ import IngredientDetails from "../../components/IngredientDetails/IngredientDeta
 import NotFound from "../NotFound/NotFound";
 import { getIngredients } from "../../services/selector/ingredientsSelector";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useMemo, FC } from "react";
+import { TIngredient } from "../../utils/types/ingredientType";
 
-function IngredientPage() {
+const IngredientPage:FC = () => {
   const { id } = useParams();
-  const ingredients = useSelector(getIngredients);
+  const ingredients = useSelector(getIngredients) as Array<TIngredient>;
   const dataOfIngredients = useMemo(() => {
-    return ingredients.find((ingredient) => ingredient._id === id);
+    return ingredients.find((ingredient: TIngredient) => ingredient._id === id);
   }, [ingredients, id]);
 
   return dataOfIngredients ? (

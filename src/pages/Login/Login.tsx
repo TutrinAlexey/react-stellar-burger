@@ -3,32 +3,34 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Login.module.css";
-import { useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useState, FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUser } from "../../services/thunk/authenticationQuery";
-import { useEffect } from "react";
+import { useEffect, FormEvent } from "react";
 import {
   error,
   formPending,
 } from "../../services/selector/authenticationSelector";
-import { setError } from "../../services/slice/authenticationSlice";
+import { clearError } from "../../services/slice/authenticationSlice";
 
-function Login() {
+const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const pendingForm = useSelector(formPending);
-  const errorMessage = useSelector(error);
+  const pendingForm = useSelector(formPending) as boolean;
+  const errorMessage = useSelector(error) as string;
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
-  useEffect(() => dispatch(setError("")), [values]);
+  useEffect(() => {
+    dispatch(clearError());
+  }, [values]);
 
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
 
-  const handleForm = (evt) => {
+  const handleForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(
       fetchLoginUser({
@@ -123,6 +125,6 @@ function Login() {
       </div>
     </section>
   );
-}
+};
 
 export default Login;

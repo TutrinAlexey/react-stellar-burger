@@ -1,3 +1,5 @@
+import { string } from "prop-types";
+import { message } from "../services/selector/authenticationSelector";
 import { BASE_URL } from "./constants";
 import {
   TBodyLogin,
@@ -9,6 +11,7 @@ import {
   TPostLogin,
   TPostRegister,
   TResponse,
+  TResponseError,
   TTokens,
 } from "./types/authenticationTypes";
 import { TGetIngredient } from "./types/ingredientType";
@@ -49,8 +52,8 @@ export const fetchWithRefresh = async <T>(endpoint: string, options: any) => {
   try {
     const res = await request<T>(endpoint, options);
     return res;
-  } catch (err: any) {
-    if (err.message === "jwt expired") {
+  } catch (err) {
+    if ((err as TResponseError).message === "jwt expired") {
       const refreshData = await postToken();
       if (!refreshData.success) {
         Promise.reject(refreshData);
@@ -107,7 +110,7 @@ export const postForgotPassword = (email: string) => {
   });
 };
 
-export const postResetPassword = ({ password, token }:TBodyResetPass) => {
+export const postResetPassword = ({ password, token }: TBodyResetPass) => {
   return request<TResponse>("/password-reset/reset", {
     method: "POST",
     headers: {
@@ -120,7 +123,7 @@ export const postResetPassword = ({ password, token }:TBodyResetPass) => {
   });
 };
 
-export const postRegisterUser = ({ email, password, name }:TBodyRegister) => {
+export const postRegisterUser = ({ email, password, name }: TBodyRegister) => {
   return request<TResponse<TPostRegister>>("/auth/register", {
     method: "POST",
     headers: {
@@ -134,7 +137,7 @@ export const postRegisterUser = ({ email, password, name }:TBodyRegister) => {
   });
 };
 
-export const postLoginUser = ({ email, password }:TBodyLogin) => {
+export const postLoginUser = ({ email, password }: TBodyLogin) => {
   return request<TResponse<TPostLogin>>("/auth/login", {
     method: "POST",
     headers: {

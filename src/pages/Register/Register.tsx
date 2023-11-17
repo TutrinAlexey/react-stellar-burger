@@ -1,6 +1,6 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC, FormEvent } from "react";
 import {
   Button,
   Input,
@@ -11,26 +11,25 @@ import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
 import {
   error,
   formPending,
-  isLogin,
 } from "../../services/selector/authenticationSelector";
-import { setError } from "../../services/slice/authenticationSlice";
+import { clearError } from "../../services/slice/authenticationSlice";
 
-function Register() {
+const Register: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const errorMessage = useSelector(error);
-  const pendingForm = useSelector(formPending);
+  const errorMessage = useSelector(error) as string;
+  const pendingForm = useSelector(formPending) as boolean;
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
-  const isAuth = useSelector(isLogin);
-  const location = useLocation();
 
-  useEffect(() => dispatch(setError("")), [values]);
+  useEffect(() => {
+    dispatch(clearError());
+  }, [values]);
 
   const onIconClick = () => {
     setHiddenPass(!hiddenPass);
   };
-  const handleForm = (evt) => {
+  const handleForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(
       fetchRegisterUser({
@@ -133,6 +132,6 @@ function Register() {
       </div>
     </section>
   );
-}
+};
 
 export default Register;

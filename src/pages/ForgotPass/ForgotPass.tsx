@@ -3,7 +3,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPass.module.css";
-import { useEffect } from "react";
+import { useEffect, FC, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import {
@@ -14,19 +14,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
 import {
   setEmailSent,
-  setError,
+  clearError,
 } from "../../services/slice/authenticationSlice";
 
-function ForgotPass() {
+const ForgotPass: FC = () => {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
-  const pendingForm = useSelector(formPending);
-  const errorMessage = useSelector(error);
+  const pendingForm = useSelector(formPending) as boolean;
+  const errorMessage = useSelector(error) as string;
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(setError("")), [values]);
+  useEffect(() => {
+    dispatch(clearError());
+  }, [values]);
 
-  const handleForm = (evt) => {
+  const handleForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(fetchForgotPassword(values.email));
     dispatch(setEmailSent(true));
@@ -92,5 +94,5 @@ function ForgotPass() {
       </div>
     </section>
   );
-}
+};
 export default ForgotPass;

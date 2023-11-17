@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   fetchChangeUserInfo,
   fetchForgotPassword,
@@ -8,6 +8,22 @@ import {
   fetchResetPassword,
   fetchUserInfo,
 } from "../thunk/authenticationQuery";
+
+type TUser = {
+  email: string;
+  name: string;
+}
+type TInitialStateAuth = {
+  accessToken: string;
+  isAuthChecked: boolean;
+  user: TUser | null,
+  error: string;
+  message: string;
+  isLoading: boolean;
+  isEmailSent: boolean;
+  isFormPending: boolean;
+  isPassReset: boolean;
+}
 
 const initialState = {
   accessToken: "",
@@ -19,7 +35,7 @@ const initialState = {
   isEmailSent: false,
   isFormPending: false,
   isPassReset: false,
-};
+} as TInitialStateAuth;
 
 const authenticationSlice = createSlice({
   name: "authentication",
@@ -31,8 +47,8 @@ const authenticationSlice = createSlice({
     setAuthChecked: (state, action) => {
       state.isAuthChecked = action.payload;
     },
-    setError: (state, action) => {
-      state.error = action.payload;
+    clearError: (state) => {
+      state.error = '';
     },
     setMessage: (state, action) => {
       state.message = action.payload;
@@ -111,7 +127,7 @@ const authenticationSlice = createSlice({
     [fetchLogoutUser.fulfilled.type]: (state) => {
       state.isFormPending = false;
       state.isAuthChecked = false;
-      state.user = "";
+      state.user = null;
       state.accessToken = "";
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
@@ -159,6 +175,6 @@ const authenticationSlice = createSlice({
     },
   },
 });
-export const { setUser, setAuthChecked, setError, setMessage, setEmailSent } =
+export const { setUser, setAuthChecked, clearError, setMessage, setEmailSent } =
   authenticationSlice.actions;
 export default authenticationSlice.reducer;

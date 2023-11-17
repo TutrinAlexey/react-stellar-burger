@@ -11,6 +11,9 @@ type ProtectedProps = {
   component: JSX.Element;
 };
 
+type OnlyAuthProps = {
+  component: JSX.Element;
+};
 const Protected: FC<ProtectedProps> = ({ onlyUnAuth = false, component }) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -33,9 +36,9 @@ const Protected: FC<ProtectedProps> = ({ onlyUnAuth = false, component }) => {
   return component;
 };
 
-export const OnlyAuth = (props: any) => (
+export const OnlyAuth: FC<OnlyAuthProps> = (props) => (
   <Protected onlyUnAuth={false} {...props} />
 );
-export const OnlyUnAuth = (props: any) => (
+export const OnlyUnAuth: FC<OnlyAuthProps> = (props) => (
   <Protected onlyUnAuth={true} {...props} />
 );

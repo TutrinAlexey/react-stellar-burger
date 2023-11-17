@@ -1,7 +1,8 @@
 import styles from "./OrderList.module.css";
+import { FC } from "react";
 
-function OrderList() {
+const OrderList: FC = () => {
   return <div></div>;
-}
+};
 
 export default OrderList;

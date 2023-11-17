@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./NotFound.module.css";
+import { FC } from "react";
 
-function NotFound() {
+const NotFound: FC = () => {
   const navigate = useNavigate();
   const onClick = () => {
     navigate("/");
@@ -23,6 +24,6 @@ function NotFound() {
       </button>
     </div>
   );
-}
+};
 
 export default NotFound;

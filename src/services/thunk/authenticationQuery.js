@@ -7,7 +7,6 @@ import {
   postLogoutUser,
   postRegisterUser,
   postResetPassword,
-  postToken,
 } from "../../utils/api";
 
 export const fetchForgotPassword = createAsyncThunk(

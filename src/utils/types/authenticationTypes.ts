@@ -61,3 +61,7 @@ export type TPostLogin = {
   refreshToken: string;
   aCCessToken: string;
 };
+
+export type TResponseError = {
+  message: string
+}

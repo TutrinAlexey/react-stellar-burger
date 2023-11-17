@@ -3,8 +3,9 @@ import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigat
 import { Navigate, Outlet } from "react-router-dom";
 import { isLogin } from "../../services/selector/authenticationSelector";
 import { useSelector } from "react-redux";
+import { FC } from "react";
 
-function Profile() {
+const Profile: FC = () => {
   const isAuth = useSelector(isLogin);
   if (!isAuth) {
     return <Navigate to={"/login"} replace />;
@@ -17,6 +18,6 @@ function Profile() {
       </div>
     </section>
   );
-}
+};
 
 export default Profile;
