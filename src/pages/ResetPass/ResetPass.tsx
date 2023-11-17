@@ -3,7 +3,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPass.module.css";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import {
@@ -11,22 +11,22 @@ import {
   error,
   formPending,
   isPassReset,
-  message,
 } from "../../services/selector/authenticationSelector";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchResetPassword } from "../../services/thunk/authenticationQuery";
 import { clearError } from "../../services/slice/authenticationSlice";
 import { useEffect, FC, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ResetPass: FC = () => {
   const navigate = useNavigate();
-  const pendingForm = useSelector(formPending);
-  const sentEmail = useSelector(emailSent) as boolean;
-  const errorMessage = useSelector(error) as string;
-  const isResetPass = useSelector(isPassReset) as boolean;
+  const pendingForm = useAppSelector(formPending) as boolean;
+  const sentEmail = useAppSelector(emailSent) as boolean;
+  const errorMessage = useAppSelector(error) as string;
+  const isResetPass = useAppSelector(isPassReset) as boolean;
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(clearError());

@@ -4,18 +4,18 @@ import { useEffect, FC } from "react";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { closeAllModals } from "../../services/slice/modalSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ingredientInfoSelector } from "../../services/selector/modalSelector";
 import { TIngredient } from "../../utils/types/ingredientType";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const modalRoot = document.getElementById("modals") as Element;
 
 const Modal: FC = ({ children }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const ingredientInfo = useSelector(ingredientInfoSelector) as TIngredient;
+  const ingredientInfo = useAppSelector(ingredientInfoSelector) as TIngredient;
   const closeModal = useCallback(() => {
     dispatch(closeAllModals());
     {

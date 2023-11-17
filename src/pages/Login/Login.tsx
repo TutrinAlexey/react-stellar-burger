@@ -6,7 +6,6 @@ import styles from "./Login.module.css";
 import { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUser } from "../../services/thunk/authenticationQuery";
 import { useEffect, FormEvent } from "react";
 import {
@@ -14,12 +13,14 @@ import {
   formPending,
 } from "../../services/selector/authenticationSelector";
 import { clearError } from "../../services/slice/authenticationSlice";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const pendingForm = useSelector(formPending) as boolean;
-  const errorMessage = useSelector(error) as string;
+  const pendingForm = useAppSelector(formPending) as boolean;
+  const errorMessage = useAppSelector(error) as string;
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   useEffect(() => {

@@ -1,7 +1,13 @@
 export type TValues = {
-    [key: string]: string;
-}
+  name: string;
+  password: string;
+  email: string;
+  code: string;
+};
 
 export type TErrors = {
-    [key: string]: string;
-}
+  name: string;
+  password: string;
+  email: string;
+  code: string
+};

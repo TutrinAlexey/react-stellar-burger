@@ -1,9 +1,22 @@
-export const orderOpenSelector = (store: any) => store.modal.orderOpen;
-export const ingredientOpenSelector = (store: any) =>
+import { TIngredient } from "../../utils/types/ingredientType";
+import { TOrderInfo } from "../../utils/types/orderType";
+
+type TModalSelector = {
+  modal: {
+    orderOpen: boolean;
+    ingredientOpen: boolean;
+    orderInfo: TOrderInfo | null;
+    ingredientInfo: TIngredient | {};
+    orderIsLoading: boolean;
+    orderError: string
+  }
+}
+
+export const orderOpenSelector = (store: TModalSelector) => store.modal.orderOpen;
+export const ingredientOpenSelector = (store: TModalSelector) =>
   store.modal.ingredientOpen;
-export const orderInfoSelector = (store: any) => store.modal.orderInfo;
-export const ingredientInfoSelector = (store: any) =>
+export const orderInfoSelector = (store: TModalSelector) => store.modal.orderInfo;
+export const ingredientInfoSelector = (store: TModalSelector) =>
   store.modal.ingredientInfo;
-export const getOrderInfo = (state: any) => state.modal.orderInfo;
-export const orderLoading = (state: any) => state.modal.orderIsLoading;
-export const orderError = (state: any) => state.modal.orderError;
+export const orderLoading = (state: TModalSelector) => state.modal.orderIsLoading;
+export const orderError = (state: TModalSelector) => state.modal.orderError;

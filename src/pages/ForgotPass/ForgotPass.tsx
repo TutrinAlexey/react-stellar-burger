@@ -10,19 +10,20 @@ import {
   error,
   formPending,
 } from "../../services/selector/authenticationSelector";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchForgotPassword } from "../../services/thunk/authenticationQuery";
 import {
   setEmailSent,
   clearError,
 } from "../../services/slice/authenticationSlice";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ForgotPass: FC = () => {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
-  const pendingForm = useSelector(formPending) as boolean;
-  const errorMessage = useSelector(error) as string;
-  const dispatch = useDispatch();
+  const pendingForm = useAppSelector(formPending) as boolean;
+  const errorMessage = useAppSelector(error) as string;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(clearError());

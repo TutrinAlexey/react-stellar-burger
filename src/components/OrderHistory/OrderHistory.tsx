@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
 import { isLogin } from "../../services/selector/authenticationSelector";
 import styles from "./OrderHistory.module.css";
 import { Navigate } from "react-router-dom";
 import { FC } from "react";
+import { useAppSelector } from "../../utils/types/hooksTypes";
 
 const OrderHistory: FC = () => {
-  const isAuth = useSelector(isLogin) as boolean;
+  const isAuth = useAppSelector(isLogin) as boolean;
   if (!isAuth) {
     return <Navigate to={"/login"} replace />;
   }

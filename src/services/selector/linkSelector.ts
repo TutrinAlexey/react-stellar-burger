@@ -1,3 +1,11 @@
-export const burgerStatus = (state: any) => state.link.burgerActive;
-export const orderListStatus = (state: any) => state.link.orderListActive;
-export const accountStatus = (state: any) => state.link.accountActive;
+type TLinkSelector = {
+    link: {
+        burgerActive: boolean;
+        orderListActive: boolean;
+        accountActive: boolean;
+    }
+}
+
+export const burgerStatus = (state: TLinkSelector) => state.link.burgerActive;
+export const orderListStatus = (state: TLinkSelector) => state.link.orderListActive;
+export const accountStatus = (state: TLinkSelector) => state.link.accountActive;

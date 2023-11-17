@@ -6,8 +6,6 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { useDispatch, useSelector } from "react-redux";
 import {
   accountStatus,
   burgerStatus,
@@ -20,12 +18,13 @@ import {
 } from "../../services/slice/linkSlice";
 import { FC, memo } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
-const AppHeader:FC = () => {
-  const dispatch = useDispatch();
-  const burgerActive = useSelector(burgerStatus) as boolean;
-  const orderActive = useSelector(orderListStatus) as boolean;
-  const accountActive = useSelector(accountStatus) as boolean;
+const AppHeader: FC = () => {
+  const dispatch = useAppDispatch();
+  const burgerActive = useAppSelector(burgerStatus) as boolean;
+  const orderActive = useAppSelector(orderListStatus) as boolean;
+  const accountActive = useAppSelector(accountStatus) as boolean;
 
   return (
     <header className={` ${styles.header}`}>
@@ -64,6 +63,6 @@ const AppHeader:FC = () => {
       </nav>
     </header>
   );
-}
+};
 
 export default memo(AppHeader);

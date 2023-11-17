@@ -1,13 +1,12 @@
 import styles from "./App.module.css";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  getOrderInfo,
   ingredientInfoSelector,
   ingredientOpenSelector,
+  orderInfoSelector,
   orderOpenSelector,
 } from "../../services/selector/modalSelector";
 import { fetchIngredients } from "../../services/thunk/ingredientsQuery";
@@ -29,17 +28,18 @@ import { checkUserAuth } from "../../utils/authCheck";
 import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
 import { TIngredient } from "../../utils/types/ingredientType";
 import { TOrderInfo } from "../../utils/types/orderType";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const App: FC = () => {
-  const ingredientOpen = useSelector(ingredientOpenSelector) as boolean;
-  const orderOpen = useSelector(orderOpenSelector) as boolean;
-  const ingredientInfo = useSelector(ingredientInfoSelector) as TIngredient;
-  const orderInfo = useSelector(getOrderInfo) as TOrderInfo;
+  const ingredientOpen = useAppSelector(ingredientOpenSelector) as boolean;
+  const orderOpen = useAppSelector(orderOpenSelector) as boolean;
+  const ingredientInfo = useAppSelector(ingredientInfoSelector) as TIngredient;
+  const orderInfo = useAppSelector(orderInfoSelector) as TOrderInfo;
   const location = useLocation();
 
   const background =
     ingredientOpen || orderOpen ? location.state.background : null;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkUserAuth());

@@ -4,7 +4,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerMain.module.css";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { burgerIngredients } from "../../services/selector/burgerSelector";
 import {
   deleteIngredients,
@@ -12,13 +11,16 @@ import {
 } from "../../services/slice/burgerSlice";
 import { TConstructorIngredient } from "../../utils/types/ingredientType";
 import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 type BurgerMainProps = { data: TConstructorIngredient; index: number };
 
-const BurgerMain:FC<BurgerMainProps> = ({ data, index }) => {
-  const ingredientsOfBurger = useSelector(burgerIngredients) as Array<TConstructorIngredient>;
+const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
+  const ingredientsOfBurger = useAppSelector(
+    burgerIngredients
+  ) as Array<TConstructorIngredient>;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const findIndex = (item: TConstructorIngredient) => {
     return ingredientsOfBurger.indexOf(item);

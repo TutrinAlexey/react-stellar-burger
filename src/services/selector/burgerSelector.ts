@@ -1,18 +1,25 @@
 import { TConstructorIngredient } from "../../utils/types/ingredientType";
 
-export const burgerIngredients = (state: any) => state.burger.ingredientsBurger;
-export const burgerBuns = (state: any) => state.burger.bunsBurger;
-export const orderPrice = (state: any) => {
+type TBurgerSelector = {
+  burger: {
+    ingredientsBurger: Array<TConstructorIngredient>;
+    bunsBurger: Array<TConstructorIngredient>;
+  }
+}
+
+export const burgerIngredients = (state: TBurgerSelector) => state.burger.ingredientsBurger;
+export const burgerBuns = (state: TBurgerSelector) => state.burger.bunsBurger;
+export const orderPrice = (state: TBurgerSelector) => {
   let ingredientsPrice = 0;
   let bunsPrice = 0;
   ingredientsPrice = state.burger.ingredientsBurger.reduce(
-    (sum: number, ingredient: TConstructorIngredient) =>
+    (sum, ingredient) =>
       (sum += ingredient.price),
     0
   );
   bunsPrice =
     state.burger.bunsBurger.reduce(
-      (sum: number, ingredient: TConstructorIngredient) =>
+      (sum, ingredient) =>
         (sum += ingredient.price),
       0
     ) * 2;

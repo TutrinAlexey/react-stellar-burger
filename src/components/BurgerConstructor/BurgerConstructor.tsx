@@ -4,9 +4,7 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { openOrderModal } from "../../services/slice/modalSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import {
   burgerBuns,
@@ -30,17 +28,20 @@ import {
   TConstructorIngredient,
   TIngredient,
 } from "../../utils/types/ingredientType";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const BurgerConstructor: FC = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const isOrderLoad = useSelector(orderLoading) as boolean;
-  const ingredientsOfBurger = useSelector(
+  const dispatch = useAppDispatch();
+  const isOrderLoad = useAppSelector(orderLoading) as boolean;
+  const ingredientsOfBurger = useAppSelector(
     burgerIngredients
   ) as Array<TConstructorIngredient>;
-  const bunsOfBurger = useSelector(burgerBuns) as Array<TConstructorIngredient>;
-  const burgerPrice = useSelector(orderPrice) as number;
-  const isAuth = useSelector(isLogin) as boolean;
+  const bunsOfBurger = useAppSelector(
+    burgerBuns
+  ) as Array<TConstructorIngredient>;
+  const burgerPrice = useAppSelector(orderPrice) as number;
+  const isAuth = useAppSelector(isLogin) as boolean;
 
   useEffect(() => {
     dispatch(setAuthChecked(false));

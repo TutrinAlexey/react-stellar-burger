@@ -34,14 +34,13 @@ const modalSlice = createSlice({
       state.orderIsLoading = false;
       state.orderError = "";
     },
-    [fetchOrder.pending.type]: (state, action) => {
+    [fetchOrder.pending.type]: (state) => {
       state.orderIsLoading = true;
       state.orderError = "";
     },
     [fetchOrder.rejected.type]: (state, action) => {
       state.orderIsLoading = false;
       state.orderError = action.error;
-      console.log(action.payload);
     },
   },
 });

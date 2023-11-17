@@ -13,18 +13,19 @@ import {
 } from "react";
 import styles from "./ProfileMain.module.css";
 import { useForm } from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchChangeUserInfo } from "../../services/thunk/authenticationQuery";
 import {
   formPending,
   user,
 } from "../../services/selector/authenticationSelector";
 import { checkUserAuth } from "../../utils/authCheck";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ProfileMain: FC = () => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector(user);
-  const pendingForm = useSelector(formPending);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(user) as { name: string; email: string };
+  const pendingForm = useAppSelector(formPending) as boolean;
   const nameRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const emailRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const passwordRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -42,9 +43,9 @@ const ProfileMain: FC = () => {
     password: true,
   });
   const newValues =
-    userInfo.name !== values.name ||
+    userInfo?.name !== values.name ||
     values.password.length >= 6 ||
-    userInfo.email !== values.email;
+    userInfo?.email !== values.email;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -57,7 +58,7 @@ const ProfileMain: FC = () => {
 
   const disableButton = useMemo(
     () => isFormValidate && newValues,
-    [isFormValidate, userInfo.name, values, userInfo.email]
+    [isFormValidate, userInfo?.name, values, userInfo?.email]
   );
 
   const onFocusName = () => {
@@ -94,7 +95,7 @@ const ProfileMain: FC = () => {
   };
 
   const resetForm = () => {
-    handleReset({ name: userInfo.name, email: userInfo.email, password: "" });
+    handleReset({ name: userInfo?.name, email: userInfo?.email, password: "" });
   };
 
   return (

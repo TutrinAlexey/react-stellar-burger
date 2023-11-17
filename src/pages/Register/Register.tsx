@@ -6,19 +6,20 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useForm } from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchRegisterUser } from "../../services/thunk/authenticationQuery";
 import {
   error,
   formPending,
 } from "../../services/selector/authenticationSelector";
 import { clearError } from "../../services/slice/authenticationSlice";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const Register: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const errorMessage = useSelector(error) as string;
-  const pendingForm = useSelector(formPending) as boolean;
+  const dispatch = useAppDispatch();
+  const errorMessage = useAppSelector(error) as string;
+  const pendingForm = useAppSelector(formPending) as boolean;
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
 

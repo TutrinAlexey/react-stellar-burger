@@ -1,10 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./Protected.module.css";
 import { isLogin, user } from "../../services/selector/authenticationSelector";
 import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, FC } from "react";
-import { setAuthChecked } from "../../services/slice/authenticationSlice";
 import { checkUserAuth } from "../../utils/authCheck";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 type ProtectedProps = {
   onlyUnAuth: boolean;
@@ -15,13 +14,13 @@ type OnlyAuthProps = {
   component: JSX.Element;
 };
 const Protected: FC<ProtectedProps> = ({ onlyUnAuth = false, component }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const isAuth = useSelector(isLogin);
-  const userInfo = useSelector(user);
+  const isAuth = useAppSelector(isLogin) as boolean;
+  const userInfo = useAppSelector(user) as { name: string; email: string };
   const location = useLocation();
 
   if (onlyUnAuth && userInfo) {
