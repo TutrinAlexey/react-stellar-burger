@@ -10,7 +10,7 @@ import {
   burgerBuns,
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   TConstructorIngredient,
   TIngredient,
@@ -22,6 +22,7 @@ type IngredientProps = {
 const Ingredient: FC<IngredientProps> = ({ ingredient }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const bunsBurger = useAppSelector(
     burgerBuns
   ) as Array<TConstructorIngredient>;
@@ -36,7 +37,9 @@ const Ingredient: FC<IngredientProps> = ({ ingredient }) => {
     }),
   });
   const openIngredient = () => {
-    dispatch(openIngredientModal(ingredient));
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+    });
   };
   const counter = useMemo(() => {
     const burger = [...bunsBurger, ...ingredientsBurger, ...bunsBurger];
@@ -55,17 +58,12 @@ const Ingredient: FC<IngredientProps> = ({ ingredient }) => {
         {!!counter && (
           <Counter count={counter} size="default" extraClass="m-1" />
         )}
-        <Link
+        <img
           onClick={openIngredient}
-          to={`/ingredients/${ingredient._id}`}
-          state={{ background: location }}
-        >
-          <img
-            className={`ml-4 mr-4 ${styles.image}`}
-            src={ingredient.image}
-            alt={ingredient.name}
-          />
-        </Link>
+          className={`ml-4 mr-4 ${styles.image}`}
+          src={ingredient.image}
+          alt={ingredient.name}
+        />
         <p className={`text text_type_main-default mt-1 mb-1 ${styles.price}`}>
           {ingredient.price}
           <CurrencyIcon type="primary" />

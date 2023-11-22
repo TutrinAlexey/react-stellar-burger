@@ -11,12 +11,10 @@ const Profile: FC = () => {
     return <Navigate to={"/login"} replace />;
   }
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
+      <div className={`pt-10 ${styles.container}`}>
         <ProfileNavigation />
         <Outlet />
       </div>
-    </section>
   );
 };
 

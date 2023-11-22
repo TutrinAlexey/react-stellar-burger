@@ -11,6 +11,7 @@ const ProfileNavigation: FC = () => {
     dispatch(fetchLogoutUser());
   };
   return (
+    <section className={`pt-20 ${styles.container}`}>
     <nav className={`${styles.tabs}`}>
       <NavLink
         to={"/profile/user"}
@@ -23,7 +24,7 @@ const ProfileNavigation: FC = () => {
         Профиль
       </NavLink>
       <NavLink
-        to={"/profile/order-history"}
+        to={"/profile/orders"}
         className={({ isActive }) =>
           isActive
             ? `pt-5 pb-5 text text_type_main-medium ${styles.tab_active}`
@@ -48,11 +49,12 @@ const ProfileNavigation: FC = () => {
       >
         {link === "/profile/user"
           ? "В этом разделе вы можете изменить свои персональные данные"
-          : link === "/profile/order-history"
+          : link === "/profile/orders"
           ? "В этом разделе вы можете просмотреть свою историю заказов"
           : null}
       </p>
     </nav>
+    </section>
   );
 };
 

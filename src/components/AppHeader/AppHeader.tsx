@@ -40,7 +40,7 @@ const AppHeader: FC = () => {
           </NavigationLink>
           <NavigationLink
             isActive={orderActive}
-            way={"/order-list"}
+            way={"/feed"}
             chooseLink={() => dispatch(orderListLink())}
           >
             <ListIcon type={orderActive ? "primary" : "secondary"} />

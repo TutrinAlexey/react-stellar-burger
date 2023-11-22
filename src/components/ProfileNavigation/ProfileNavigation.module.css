@@ -1,3 +1,6 @@
+.container {
+  align-self: flex-start;
+}
 .tabs {
   display: flex;
   flex-direction: column;

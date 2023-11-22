@@ -1,15 +1,9 @@
-.section {
+.container {
+  max-width: 1240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 120px;
+  gap: 60px;
+  margin: 0 auto;
 }
 
-.container {
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  gap: 60px;
-  align-items: flex-start;
-  justify-content: center;
-}

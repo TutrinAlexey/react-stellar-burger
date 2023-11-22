@@ -99,86 +99,88 @@ const ProfileMain: FC = () => {
   };
 
   return (
-    <form className={styles.form} name="profile-form" onSubmit={handleForm}>
-      <Input
-        type={"text"}
-        placeholder={"Имя"}
-        onChange={handleChange}
-        value={values.name || ""}
-        onIconClick={onFocusName}
-        onBlur={onBlur}
-        icon={!editInput.name ? "CloseIcon" : "EditIcon"}
-        name={"name"}
-        error={false}
-        errorText={errors.name}
-        size={"default"}
-        minLength={4}
-        maxLength={15}
-        ref={nameRef}
-        readOnly={editInput.name}
-      />
-      <Input
-        type={"email"}
-        placeholder={"E-mail"}
-        onChange={handleChange}
-        value={values.email || ""}
-        onIconClick={onFocusEmail}
-        onBlur={onBlur}
-        icon={!editInput.email ? "CloseIcon" : "EditIcon"}
-        name={"email"}
-        error={false}
-        errorText={errors.email}
-        size={"default"}
-        extraClass="mt-6"
-        minLength={8}
-        maxLength={25}
-        ref={emailRef}
-        readOnly={editInput.email}
-      />
-      <Input
-        type={"password"}
-        placeholder={"Пароль"}
-        onChange={handleChange}
-        value={values.password || ""}
-        onIconClick={onFocusPassword}
-        onBlur={onBlur}
-        icon={!editInput.password ? "CloseIcon" : "EditIcon"}
-        name={"password"}
-        error={false}
-        errorText={errors.password}
-        size={"default"}
-        extraClass={"mt-6"}
-        minLength={6}
-        ref={passwordRef}
-        readOnly={editInput.password}
-      />
-      {newValues && (
-        <div className={`mt-6 ${styles.buttons}`}>
-          <Button
-            extraClass={`${styles.button}`}
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            onClick={resetForm}
-          >
-            Отмена
-          </Button>
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-            disabled={
-              !disableButton ||
-              pendingForm ||
-              !values.email ||
-              values.name.length < 4
-            }
-          >
-            {pendingForm ? "Сохранение" : "Сохранить"}
-          </Button>
-        </div>
-      )}
-    </form>
+    <section className={`${styles.container}`}>
+      <form className={styles.form} name="profile-form" onSubmit={handleForm}>
+        <Input
+          type={"text"}
+          placeholder={"Имя"}
+          onChange={handleChange}
+          value={values.name || ""}
+          onIconClick={onFocusName}
+          onBlur={onBlur}
+          icon={!editInput.name ? "CloseIcon" : "EditIcon"}
+          name={"name"}
+          error={false}
+          errorText={errors.name}
+          size={"default"}
+          minLength={4}
+          maxLength={15}
+          ref={nameRef}
+          readOnly={editInput.name}
+        />
+        <Input
+          type={"email"}
+          placeholder={"E-mail"}
+          onChange={handleChange}
+          value={values.email || ""}
+          onIconClick={onFocusEmail}
+          onBlur={onBlur}
+          icon={!editInput.email ? "CloseIcon" : "EditIcon"}
+          name={"email"}
+          error={false}
+          errorText={errors.email}
+          size={"default"}
+          extraClass="mt-6"
+          minLength={8}
+          maxLength={25}
+          ref={emailRef}
+          readOnly={editInput.email}
+        />
+        <Input
+          type={"password"}
+          placeholder={"Пароль"}
+          onChange={handleChange}
+          value={values.password || ""}
+          onIconClick={onFocusPassword}
+          onBlur={onBlur}
+          icon={!editInput.password ? "CloseIcon" : "EditIcon"}
+          name={"password"}
+          error={false}
+          errorText={errors.password}
+          size={"default"}
+          extraClass={"mt-6"}
+          minLength={6}
+          ref={passwordRef}
+          readOnly={editInput.password}
+        />
+        {newValues && (
+          <div className={`mt-6 ${styles.buttons}`}>
+            <Button
+              extraClass={`${styles.button}`}
+              htmlType="button"
+              type="secondary"
+              size="medium"
+              onClick={resetForm}
+            >
+              Отмена
+            </Button>
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              disabled={
+                !disableButton ||
+                pendingForm ||
+                !values.email ||
+                values.name.length < 4
+              }
+            >
+              {pendingForm ? "Сохранение" : "Сохранить"}
+            </Button>
+          </div>
+        )}
+      </form>
+    </section>
   );
 };
 

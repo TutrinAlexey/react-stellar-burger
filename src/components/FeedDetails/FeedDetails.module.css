@@ -1,0 +1,38 @@
+.container {
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  color: var(--interface-success, #0cc);
+}
+.title {
+  align-self: flex-start;
+}
+.center {
+  align-self: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 304px;
+  overflow-y: scroll;
+}
+
+.bottom {
+  margin-top: 48px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalPrice {
+  display: flex;
+  align-items: center;
+  gap: 8;
+}

@@ -6,8 +6,6 @@ const initialState = {
   orderIsLoading: false,
   orderError: "",
   orderOpen: false,
-  ingredientInfo: {},
-  ingredientOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -17,14 +15,8 @@ const modalSlice = createSlice({
     openOrderModal: (state) => {
       state.orderOpen = true;
     },
-    openIngredientModal: (state, action) => {
-      state.ingredientOpen = true;
-      state.ingredientInfo = action.payload;
-    },
     closeAllModals: (state) => {
-      state.ingredientOpen = false;
       state.orderOpen = false;
-      state.ingredientInfo = {};
       state.orderInfo = null;
     },
   },
