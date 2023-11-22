@@ -14,15 +14,14 @@ const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openOrderModal: (state, action) => {
+    openOrderModal: (state) => {
       state.orderOpen = true;
-      state.orderInfo = action.payload;
     },
     openIngredientModal: (state, action) => {
       state.ingredientOpen = true;
       state.ingredientInfo = action.payload;
     },
-    closeAllModals: (state, action) => {
+    closeAllModals: (state) => {
       state.ingredientOpen = false;
       state.orderOpen = false;
       state.ingredientInfo = {};
@@ -35,14 +34,13 @@ const modalSlice = createSlice({
       state.orderIsLoading = false;
       state.orderError = "";
     },
-    [fetchOrder.pending.type]: (state, action) => {
+    [fetchOrder.pending.type]: (state) => {
       state.orderIsLoading = true;
       state.orderError = "";
     },
     [fetchOrder.rejected.type]: (state, action) => {
       state.orderIsLoading = false;
       state.orderError = action.error;
-      console.log(action.payload);
     },
   },
 });
