@@ -3,24 +3,22 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { openIngredientModal } from "../../services/slice/modalSlice";
 import { DragPreviewImage, useDrag } from "react-dnd";
 import { FC, useMemo } from "react";
 import {
   burgerBuns,
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   TConstructorIngredient,
   TIngredient,
 } from "../../utils/types/ingredientType";
-import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { useAppSelector } from "../../utils/types/hooksTypes";
 type IngredientProps = {
   ingredient: TIngredient;
 };
 const Ingredient: FC<IngredientProps> = ({ ingredient }) => {
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const bunsBurger = useAppSelector(

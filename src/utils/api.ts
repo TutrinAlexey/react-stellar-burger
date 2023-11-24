@@ -16,6 +16,7 @@ import {
 } from "./types/authenticationTypes";
 import { TGetIngredient } from "./types/ingredientType";
 import { TOrderIngredientsId } from "./types/orderType";
+
 export const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();

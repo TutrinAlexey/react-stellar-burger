@@ -1,6 +1,7 @@
 import { fetchUserInfo } from "../services/thunk/authenticationQuery";
 import { setAuthChecked, setUser } from "../services/slice/authenticationSlice";
 
+
 export const checkUserAuth = () => {
   return (dispatch) => {
     if (localStorage.getItem("accessToken")) {
