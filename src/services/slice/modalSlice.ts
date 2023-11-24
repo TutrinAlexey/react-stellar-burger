@@ -38,6 +38,7 @@ const modalSlice = createSlice({
   extraReducers: {
     [fetchOrder.fulfilled.type]: (state, action) => {
       state.orderInfo = action.payload;
+      console.log(action.payload)
       state.orderIsLoading = false;
       state.orderError = "";
     },

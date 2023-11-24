@@ -75,9 +75,6 @@ const BurgerConstructor: FC = () => {
       dispatch(fetchOrder(burgerIdForOrder));
       dispatch(openOrderModal());
       dispatch(clearIngredients());
-      navigate(`/`, {
-        state: { background: location },
-      })
     } else {
       navigate(`/login`)
     }

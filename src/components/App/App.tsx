@@ -20,7 +20,6 @@ import Home from "../../pages/Home/Home";
 import Layout from "../Layout/Layout";
 import Feed from "../../pages/Feed/Feed";
 import ProfileMain from "../ProfileMain/ProfileMain";
-import OrderPage from "../../pages/OrderPage/OrderPage";
 import { checkUserAuth } from "../../utils/authCheck";
 import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
 import { TOrderInfo } from "../../utils/types/orderType";
@@ -66,7 +65,7 @@ const App: FC = () => {
           />
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="feed" element={<Feed />} />
-          <Route path="feed/:id" element={<FeedDetailsPage />}/>
+          <Route path="feed/:id" element={<FeedDetailsPage />} />
           <Route path="profile" element={<Profile />}>
             <Route
               path="user"
@@ -86,7 +85,7 @@ const App: FC = () => {
             path="ingredients/:id"
             element={
               <Modal>
-                <IngredientDetails/>
+                <IngredientDetails />
               </Modal>
             }
           />

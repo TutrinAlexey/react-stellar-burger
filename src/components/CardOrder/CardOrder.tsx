@@ -5,17 +5,25 @@ import {
 import styles from "./CardOrder.module.css";
 import { FC, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TOrderFeed } from "../../utils/types/orderType";
+import { getIngredients } from "../../services/selector/ingredientsSelector";
+import { useAppSelector } from "../../utils/types/hooksTypes";
+import { TIngredient } from "../../utils/types/ingredientType";
+import OrderIngredients from "../OrderIngredients/OrderIngredients";
 
 type CardOrderProps = {
   profileCards?: boolean;
+  orderInfo: TOrderFeed;
 };
 
-const CardOrder: FC<CardOrderProps> = ({ profileCards }) => {
+const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
+  const ingredients = useAppSelector(getIngredients) as Array<TIngredient>;
   const navigate = useNavigate();
   const location = useLocation();
-  const dateFromServer = "2022-10-10T17:33:32.877Z";
+  const dateFromServer = orderInfo.createdAt;
+
   const openOrder = useCallback(() => {
-    navigate(`/feed/123`, {
+    navigate(`/feed/${orderInfo._id}`, {
       state: { background: location },
     });
   }, [navigate, location]);
@@ -24,6 +32,14 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards }) => {
       state: { background: location },
     });
   }, [navigate, location]);
+
+  const orderIngredients = orderInfo.ingredients.map((ingredient) => {
+    const filterIngredients = ingredients.find(
+      (item) => item._id === ingredient
+    );
+    return filterIngredients;
+  });
+  const totalPrice = orderIngredients.map((item) => item?.price).reduce((sum, price) => sum! += price!)
   return (
     <li onClick={profileCards ? openProfileOrder : openOrder}>
       <div
@@ -32,15 +48,15 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards }) => {
         }`}
       >
         <div className={` ${styles.top}`}>
-          <p className={`text text_type_digits-default`}>#123444</p>
+          <p
+            className={`text text_type_digits-default`}
+          >{`#${orderInfo.number}`}</p>
           <FormattedDate
             className={`text text_type_main-default text_color_inactive`}
             date={new Date(dateFromServer)}
           />
         </div>
-        <h3 className={`text text_type_main-medium`}>
-          Death Star Starship Main бургер
-        </h3>
+        <h3 className={`text text_type_main-medium`}>{orderInfo.name}</h3>
         {profileCards && (
           <p className={`text text_type_main-default ${styles.status}`}>
             Создан
@@ -48,51 +64,12 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards }) => {
         )}
         <div className={styles.bottom}>
           <ul className={styles.ingredients}>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
-            <li className={` ${styles.ingredient}`}>
-              <img
-                className={` ${styles.ingredientImg}`}
-                src="https://code.s3.yandex.net/react/code/bun-02.png"
-                alt="123"
-              />
-            </li>
+            {orderIngredients.slice(0, 6).map((item, index) => (
+              <OrderIngredients item={item} num={index} remainIngredients={orderIngredients.slice(6).length}/>
+            ))}
           </ul>
           <p className={`text text_type_digits-default ${styles.price}`}>
-            480 <CurrencyIcon type="primary" />
+            {totalPrice} <CurrencyIcon type="primary" />
           </p>
         </div>
       </div>

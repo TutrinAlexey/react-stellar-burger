@@ -1,7 +1,6 @@
 import FeedInfo from "../../components/FeedInfo/FeedInfo";
 import OrderList from "../../components/OrderList/OrderList";
-import { error, orders } from "../../services/selector/ordersSelector";
-import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import { useAppDispatch} from "../../utils/types/hooksTypes";
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
@@ -18,9 +17,6 @@ const Feed: FC = () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };
   }, []);
-
-  const err = useAppSelector(error);
-  console.log(err);
 
   return (
     <div className={styles.feed}>

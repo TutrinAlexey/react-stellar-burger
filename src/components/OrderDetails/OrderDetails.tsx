@@ -9,7 +9,7 @@ type OrderDetailsProps = {
   orderInfo: TOrderInfo | null;
 };
 
-const OrderDetails: FC<OrderDetailsProps> = ({ orderInfo }) => {
+const OrderDetails: FC<OrderDetailsProps> = ({orderInfo}) => {
   const isLoading = useAppSelector(orderLoading) as boolean;
   return !isLoading ? (
     <div className={`pt-15 pr-25 pb-30 pl-25 ${styles.container}`}>

@@ -6,11 +6,11 @@ const ProfileOrders: FC = () => {
   return (
     <section>
       <ul className={`custom-scroll ${styles.orders}`}>
+        {/* <CardOrder profileCards={true} />
         <CardOrder profileCards={true} />
         <CardOrder profileCards={true} />
         <CardOrder profileCards={true} />
-        <CardOrder profileCards={true} />
-        <CardOrder profileCards={true} />
+        <CardOrder profileCards={true} /> */}
       </ul>
     </section>
   );

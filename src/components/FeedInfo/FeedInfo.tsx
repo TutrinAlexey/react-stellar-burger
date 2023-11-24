@@ -1,7 +1,34 @@
+import {
+  orders,
+  total,
+  totalToday,
+} from "../../services/selector/ordersSelector";
+import { useAppSelector } from "../../utils/types/hooksTypes";
+import { TOrderFeed } from "../../utils/types/orderType";
 import styles from "./FeedInfo.module.css";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 
 const FeedInfo: FC = () => {
+  const totalOrders = useAppSelector(total);
+  const totalTodayOrders = useAppSelector(totalToday);
+  const allOrders = useAppSelector(orders);
+  const readyNums = useMemo(() => {
+    const filterArray = allOrders?.filter(
+      (item: TOrderFeed) => item.status === "done"
+    );
+    return filterArray
+      ?.slice(0, 20)
+      .map((item: TOrderFeed) => <li key={item._id}>{item.number}</li>);
+  }, [allOrders]);
+  const pendingNums = useMemo(() => {
+    const filterArray = allOrders?.filter(
+      (item: TOrderFeed) => item.status === "pending"
+    );
+    return filterArray
+      ?.slice(0, 20)
+      .map((item: TOrderFeed) => <li key={item._id}>{item.number}</li>);
+  }, [allOrders]);
+
   return (
     <section className={`mt-15 ${styles.feedInfo}`}>
       <div className={`mb-15 ${styles.ordersNum}`}>
@@ -10,14 +37,7 @@ const FeedInfo: FC = () => {
           <ul
             className={`custom-scroll text text_type_digits-default ${styles.listReady}`}
           >
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
+            {readyNums}
           </ul>
         </div>
         <div className={styles.cooking}>
@@ -25,19 +45,18 @@ const FeedInfo: FC = () => {
           <ul
             className={`custom-scroll text text_type_digits-default ${styles.listCooking}`}
           >
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
-            <li>123456</li>
+            {pendingNums}
           </ul>
         </div>
       </div>
-        <p className={`text text_type_main-medium`}>Выполнено за все время:</p>
-        <p className={`text text_type_digits-large mb-15 ${styles.shadow}`}>28 752</p>
-        <p className={`text text_type_main-medium`}>Выполнено за сегодня:</p>
-        <p className={`text text_type_digits-large ${styles.shadow}`}>138</p>
+      <p className={`text text_type_main-medium`}>Выполнено за все время:</p>
+      <p className={`text text_type_digits-large mb-15 ${styles.shadow}`}>
+        {totalOrders}
+      </p>
+      <p className={`text text_type_main-medium`}>Выполнено за сегодня:</p>
+      <p className={`text text_type_digits-large ${styles.shadow}`}>
+        {totalTodayOrders}
+      </p>
     </section>
   );
 };
