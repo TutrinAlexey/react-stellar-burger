@@ -88,10 +88,11 @@ export const getIngredients = () => {
 };
 
 export const postOrder = (ingredientsId: TOrderIngredientsId) => {
-  return request("/orders", {
+  return fetchWithRefresh(`/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      authorization: localStorage.getItem("accessToken"),
     },
     body: JSON.stringify({
       ingredients: ingredientsId,

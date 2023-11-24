@@ -11,6 +11,7 @@ import { FC, useEffect } from "react";
 
 const Feed: FC = () => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: "orders/all" });
     return () => {
@@ -18,8 +19,8 @@ const Feed: FC = () => {
     };
   }, []);
 
-  const allOrders = useAppSelector(error);
-  console.log(allOrders);
+  const err = useAppSelector(error);
+  console.log(err);
 
   return (
     <div className={styles.feed}>

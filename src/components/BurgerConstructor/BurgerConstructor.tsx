@@ -20,7 +20,7 @@ import { v4 } from "uuid";
 import { useMemo, memo, useEffect, FC } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 import { isLogin } from "../../services/selector/authenticationSelector";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { orderLoading } from "../../services/selector/modalSelector";
 import { checkUserAuth } from "../../utils/authCheck";
 import { setAuthChecked } from "../../services/slice/authenticationSlice";
@@ -31,6 +31,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const BurgerConstructor: FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isOrderLoad = useAppSelector(orderLoading) as boolean;
@@ -74,6 +75,11 @@ const BurgerConstructor: FC = () => {
       dispatch(fetchOrder(burgerIdForOrder));
       dispatch(openOrderModal());
       dispatch(clearIngredients());
+      navigate(`/`, {
+        state: { background: location },
+      })
+    } else {
+      navigate(`/login`)
     }
   };
   return (
@@ -130,15 +136,11 @@ const BurgerConstructor: FC = () => {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
-        <Link
-          onClick={handleOrder}
-          to={!isAuth ? "/login" : "/"}
-          state={{ background: location }}
-        >
           <Button
             htmlType="button"
             type="primary"
             size="medium"
+            onClick={handleOrder}
             disabled={
               bunsOfBurger.length === 0 ||
               ingredientsOfBurger.length === 0 ||
@@ -147,7 +149,6 @@ const BurgerConstructor: FC = () => {
           >
             {isOrderLoad ? "Оформление" : "Оформить заказ"}
           </Button>
-        </Link>
       </div>
     </section>
   );
