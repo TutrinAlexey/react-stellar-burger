@@ -18,7 +18,7 @@
   padding: 0;
   margin: 0;
   overflow-y: scroll;
-  max-height: 152px;
+  height: 152px;
   color: var(--interface-success, #0cc);
   width: 200px;
 }
@@ -32,7 +32,7 @@
   margin: 0;
   overflow-y: scroll;
   width: 200px;
-  max-height: 152px;
+  height: 152px;
 }
 
 .shadow{

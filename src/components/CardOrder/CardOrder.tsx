@@ -39,7 +39,9 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
     );
     return filterIngredients;
   });
-  const totalPrice = orderIngredients.map((item) => item?.price).reduce((sum, price) => sum! += price!)
+  const totalPrice = orderIngredients
+    .map((item) => item?.price)
+    .reduce((sum, price) => (sum! += price!));
   return (
     <li onClick={profileCards ? openProfileOrder : openOrder}>
       <div
@@ -65,7 +67,12 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
         <div className={styles.bottom}>
           <ul className={styles.ingredients}>
             {orderIngredients.slice(0, 6).map((item, index) => (
-              <OrderIngredients item={item} num={index} remainIngredients={orderIngredients.slice(6).length}/>
+              <OrderIngredients
+                key={index}
+                item={item}
+                num={index}
+                remainIngredients={orderIngredients.slice(6).length}
+              />
             ))}
           </ul>
           <p className={`text text_type_digits-default ${styles.price}`}>
