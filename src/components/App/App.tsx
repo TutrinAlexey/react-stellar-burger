@@ -32,14 +32,12 @@ const App: FC = () => {
   const orderOpen = useAppSelector(orderOpenSelector) as boolean;
   const orderInfo = useAppSelector(orderInfoSelector) as TOrderInfo;
   const location = useLocation();
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(fetchIngredients());
   }, []);
-
   return (
     <div className={styles.app}>
       {orderOpen && (

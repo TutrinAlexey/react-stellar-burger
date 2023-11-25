@@ -1,20 +1,29 @@
 import styles from "./Profile.module.css";
 import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
-import { Navigate, Outlet } from "react-router-dom";
-import { isLogin } from "../../services/selector/authenticationSelector";
-import { FC } from "react";
-import { useAppSelector } from "../../utils/types/hooksTypes";
+import { Outlet } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { useAppDispatch } from "../../utils/types/hooksTypes";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../utils/types/webSocketTypes";
 
 const Profile: FC = () => {
-  const isAuth = useAppSelector(isLogin) as boolean;
-  if (!isAuth) {
-    return <Navigate to={"/login"} replace />;
-  }
+  const dispatch = useAppDispatch();
+  const accessToken = localStorage.getItem('accessToken');
+
+  
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: `orders?token=${accessToken?.replace("Bearer ", "")}`,
+    });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
+  }, []);
   return (
-      <div className={`pt-10 ${styles.container}`}>
-        <ProfileNavigation />
-        <Outlet />
-      </div>
+    <div className={`pt-10 ${styles.container}`}>
+      <ProfileNavigation />
+      <Outlet />
+    </div>
   );
 };
 

@@ -51,3 +51,8 @@
 .status {
     margin-top: -16px;
 }
+
+.done {
+    margin-top: -16px;
+    color: var(--interface-success, #0cc);
+}

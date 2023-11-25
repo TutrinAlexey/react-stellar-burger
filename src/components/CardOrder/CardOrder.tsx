@@ -28,7 +28,7 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
     });
   }, [navigate, location]);
   const openProfileOrder = useCallback(() => {
-    navigate(`/profile/orders/123`, {
+    navigate(`/profile/orders/${orderInfo._id}`, {
       state: { background: location },
     });
   }, [navigate, location]);
@@ -60,8 +60,14 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
         </div>
         <h3 className={`text text_type_main-medium`}>{orderInfo.name}</h3>
         {profileCards && (
-          <p className={`text text_type_main-default ${styles.status}`}>
-            Создан
+          <p className={`text text_type_main-default ${orderInfo.status === "done" ? styles.done : styles.status}`}>
+            {orderInfo.status === "pending"
+          ? "Готовится"
+          : orderInfo.status === "done"
+          ? "Выполнен"
+          : orderInfo.status === "created"
+          ? "Создан"
+          : null}
           </p>
         )}
         <div className={styles.bottom}>

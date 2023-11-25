@@ -160,7 +160,6 @@ const authenticationSlice = createSlice({
     },
     [fetchChangeUserInfo.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
-      state.accessToken = action.payload.accessToken;
       state.user = action.payload.user;
       state.message = "Данные профиля изменились";
     },

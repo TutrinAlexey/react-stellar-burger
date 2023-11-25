@@ -36,7 +36,7 @@ const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
 
   const [, dropRef] = useDrop({
     accept: "sort",
-    hover(ingredient: TConstructorIngredient, monitor) {
+    hover(ingredient: TConstructorIngredient) {
       if (ingredient._constId === data._constId) return;
       dispatch(
         swapIngredients({
