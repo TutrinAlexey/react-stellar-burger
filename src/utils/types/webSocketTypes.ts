@@ -23,7 +23,7 @@ export type TOrderConnectClosed = {
   readonly type: typeof WS_CONNECTION_CLOSED;
 };
 
-type TOrder = {
+export type TOrder = {
   readonly ingredients: Array<string>;
   readonly _id: string;
   readonly status: string;

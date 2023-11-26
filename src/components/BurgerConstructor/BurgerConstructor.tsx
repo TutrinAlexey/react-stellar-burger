@@ -99,9 +99,9 @@ const BurgerConstructor: FC = () => {
             </li>
           )}
           {ingredientsOfBurger.map(
-            (ingredient: TConstructorIngredient, index: number) => (
+            (ingredient, index) => (
               <BurgerMain
-                key={ingredient._constId}
+                key={index}
                 data={ingredient}
                 index={index}
               />
@@ -151,4 +151,4 @@ const BurgerConstructor: FC = () => {
   );
 };
 
-export default memo(BurgerConstructor);
+export default BurgerConstructor;

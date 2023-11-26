@@ -20,7 +20,7 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
   const ingredients = useAppSelector(getIngredients) as Array<TIngredient>;
   const navigate = useNavigate();
   const location = useLocation();
-  const dateFromServer = orderInfo.createdAt;
+  const dateFromServer = new Date(orderInfo.createdAt);
 
   const openOrder = useCallback(() => {
     navigate(`/feed/${orderInfo._id}`, {
@@ -55,7 +55,7 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
           >{`#${orderInfo.number}`}</p>
           <FormattedDate
             className={`text text_type_main-default text_color_inactive`}
-            date={new Date(dateFromServer)}
+            date={dateFromServer}
           />
         </div>
         <h3 className={`text text_type_main-medium`}>{orderInfo.name}</h3>

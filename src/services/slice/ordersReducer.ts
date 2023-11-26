@@ -1,5 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
+  TOrder,
   TOrderGetMessage,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
@@ -9,7 +10,7 @@ import {
 } from "../../utils/types/webSocketTypes";
 
 type TInitialStateOrders = {
-  orders: any;
+  orders: Array<TOrder> | null;
   total: number;
   totalToday: number;
   connected: boolean;
@@ -32,7 +33,7 @@ const ordersReducer = createReducer(initialState, (builder) => {
       ...state,
       error: "Ошибка при загрузке заказов",
     }))
-    .addCase(WS_CONNECTION_CLOSED, (state) => ({ ...state, connected: false }))
+    .addCase(WS_CONNECTION_CLOSED, (state) => ({ ...state, connected: false, orders: null }))
     .addCase(WS_GET_MESSAGE, (state, action: TOrderGetMessage) =>
       action.payload.success
         ? {

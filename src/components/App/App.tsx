@@ -64,13 +64,13 @@ const App: FC = () => {
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:id" element={<FeedDetailsPage />} />
-          <Route path="profile" element={<Profile />}>
+          <Route path="profile/orders/:id" element={<OnlyAuth component={<FeedDetailsPage />} />} />
+          <Route path="profile" element={<OnlyAuth component={<Profile/>} />}>
             <Route
               path="user"
               element={<OnlyAuth component={<ProfileMain />} />}
             />
-            <Route path="orders" element={<ProfileOrders />} />
-            <Route path="orders/:id" element={<FeedDetailsPage />} />
+            <Route path="orders" element={<OnlyAuth component={<ProfileOrders />} />} />
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="*" element={<NotFound />} />
