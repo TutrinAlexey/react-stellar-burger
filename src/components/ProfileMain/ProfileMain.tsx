@@ -20,12 +20,11 @@ import {
 } from "../../services/selector/authenticationSelector";
 import { checkUserAuth } from "../../utils/authCheck";
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
-import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ProfileMain: FC = () => {
   const dispatch = useAppDispatch();
-  const userInfo = useAppSelector(user) as { name: string; email: string };
-  const pendingForm = useAppSelector(formPending) as boolean;
+  const userInfo = useAppSelector(user);
+  const pendingForm = useAppSelector(formPending);
   const nameRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const emailRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const passwordRef: MutableRefObject<HTMLInputElement | null> = useRef(null);

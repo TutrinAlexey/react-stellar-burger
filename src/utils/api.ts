@@ -1,5 +1,3 @@
-import { string } from "prop-types";
-import { message } from "../services/selector/authenticationSelector";
 import { BASE_URL } from "./constants";
 import {
   TBodyLogin,

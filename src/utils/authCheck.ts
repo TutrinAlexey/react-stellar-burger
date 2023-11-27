@@ -1,12 +1,12 @@
 import { fetchUserInfo } from "../services/thunk/authenticationQuery";
 import { setAuthChecked, setUser } from "../services/slice/authenticationSlice";
-
+import { AppDispatch } from "./types/hooksTypes";
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(fetchUserInfo())
-        .catch((error) => {
+        .catch(() => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           dispatch(setUser(null));

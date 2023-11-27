@@ -4,7 +4,7 @@ import { TConstructorIngredient } from "../../utils/types/ingredientType";
 type TInitialStateBurger = {
   bunsBurger: Array<TConstructorIngredient>;
   ingredientsBurger: Array<TConstructorIngredient>;
-}
+};
 
 const initialState = {
   bunsBurger: [],

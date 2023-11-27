@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { TOrderFeed } from "../../utils/types/orderType";
 import { getIngredients } from "../../services/selector/ingredientsSelector";
 import { useAppSelector } from "../../utils/types/hooksTypes";
-import { TIngredient } from "../../utils/types/ingredientType";
 import OrderIngredients from "../OrderIngredients/OrderIngredients";
 
 type CardOrderProps = {
@@ -17,7 +16,7 @@ type CardOrderProps = {
 };
 
 const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
-  const ingredients = useAppSelector(getIngredients) as Array<TIngredient>;
+  const ingredients = useAppSelector(getIngredients);
   const navigate = useNavigate();
   const location = useLocation();
   const dateFromServer = new Date(orderInfo.createdAt);
@@ -60,14 +59,18 @@ const CardOrder: FC<CardOrderProps> = ({ profileCards, orderInfo }) => {
         </div>
         <h3 className={`text text_type_main-medium`}>{orderInfo.name}</h3>
         {profileCards && (
-          <p className={`text text_type_main-default ${orderInfo.status === "done" ? styles.done : styles.status}`}>
+          <p
+            className={`text text_type_main-default ${
+              orderInfo.status === "done" ? styles.done : styles.status
+            }`}
+          >
             {orderInfo.status === "pending"
-          ? "Готовится"
-          : orderInfo.status === "done"
-          ? "Выполнен"
-          : orderInfo.status === "created"
-          ? "Создан"
-          : null}
+              ? "Готовится"
+              : orderInfo.status === "done"
+              ? "Выполнен"
+              : orderInfo.status === "created"
+              ? "Создан"
+              : null}
           </p>
         )}
         <div className={styles.bottom}>

@@ -1,5 +1,5 @@
 import styles from "./Protected.module.css";
-import { isLogin, user } from "../../services/selector/authenticationSelector";
+import { user } from "../../services/selector/authenticationSelector";
 import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, FC } from "react";
 import { checkUserAuth } from "../../utils/authCheck";
@@ -19,8 +19,8 @@ const Protected: FC<ProtectedProps> = ({ onlyUnAuth = false, component }) => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const isAuth = useAppSelector(isLogin) as boolean;
-  const userInfo = useAppSelector(user) as { name: string; email: string };
+  // const isAuth = useAppSelector(isLogin) as boolean;
+  const userInfo = useAppSelector(user);
   const location = useLocation();
 
   if (onlyUnAuth && userInfo) {

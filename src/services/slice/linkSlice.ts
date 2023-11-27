@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type TInitialStateLink = {
-  burgerActive: boolean,
-  orderListActive: boolean,
-  accountActive: boolean,
-}
+  burgerActive: boolean;
+  orderListActive: boolean;
+  accountActive: boolean;
+};
 
 const initialState = {
   burgerActive: true,

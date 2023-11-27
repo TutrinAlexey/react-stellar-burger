@@ -1,15 +1,15 @@
 export type TPathUser = {
-    user: {
-        email: string;
-        name: string;
-      };
+  user: {
+    email: string;
+    name: string;
+  };
 };
 
 export type TBodyPathUser = {
-    email?: string;
-    password?: string;
-    name?: string;
-}
+  email?: string;
+  password?: string;
+  name?: string;
+};
 
 export type TResponse<T = {}> = T & {
   success: boolean;
@@ -63,5 +63,5 @@ export type TPostLogin = {
 };
 
 export type TResponseError = {
-  message: string
-}
+  message: string;
+};

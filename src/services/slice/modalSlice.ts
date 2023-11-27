@@ -7,14 +7,14 @@ type TOrderInfo = {
     number: number;
   };
   success: boolean;
-}
+};
 
 type TInitialStateModal = {
   orderInfo: TOrderInfo | null;
-  orderIsLoading:boolean;
+  orderIsLoading: boolean;
   orderError: string;
   orderOpen: boolean;
-}
+};
 
 const initialState = {
   orderInfo: null,
@@ -52,6 +52,5 @@ const modalSlice = createSlice({
   },
 });
 
-export const { openOrderModal, closeAllModals } =
-  modalSlice.actions;
+export const { openOrderModal, closeAllModals } = modalSlice.actions;
 export default modalSlice.reducer;

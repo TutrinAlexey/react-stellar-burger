@@ -2,17 +2,18 @@ import styles from "./Profile.module.css";
 import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
 import { Outlet } from "react-router-dom";
 import { FC, useEffect } from "react";
-import { useAppDispatch } from "../../utils/types/hooksTypes";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../utils/types/webSocketTypes";
-import { checkUserAuth } from "../../utils/authCheck";
+import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../utils/types/webSocketTypes";
+import { connected } from "../../services/selector/ordersSelector";
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
-  const accessToken = localStorage.getItem('accessToken');
-  useEffect(() => {
-    dispatch(checkUserAuth());
-  })
-  
+  const accessToken = localStorage.getItem("accessToken");
+  const connect = useAppSelector(connected);
+
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
@@ -22,12 +23,12 @@ const Profile: FC = () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };
   }, []);
-  return (
+  return connect ? (
     <div className={`pt-10 ${styles.container}`}>
       <ProfileNavigation />
       <Outlet />
     </div>
-  );
+  ) : null;
 };
 
 export default Profile;

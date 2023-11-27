@@ -16,14 +16,13 @@ import { fetchResetPassword } from "../../services/thunk/authenticationQuery";
 import { clearError } from "../../services/slice/authenticationSlice";
 import { useEffect, FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
-import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ResetPass: FC = () => {
   const navigate = useNavigate();
-  const pendingForm = useAppSelector(formPending) as boolean;
-  const sentEmail = useAppSelector(emailSent) as boolean;
-  const errorMessage = useAppSelector(error) as string;
-  const isResetPass = useAppSelector(isPassReset) as boolean;
+  const pendingForm = useAppSelector(formPending);
+  const sentEmail = useAppSelector(emailSent);
+  const errorMessage = useAppSelector(error);
+  const isResetPass = useAppSelector(isPassReset);
   const { values, errors, isFormValidate, handleChange } = useForm();
   const [hiddenPass, setHiddenPass] = useState(false);
   const dispatch = useAppDispatch();

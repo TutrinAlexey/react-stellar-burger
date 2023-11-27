@@ -1,6 +1,6 @@
 import FeedInfo from "../../components/FeedInfo/FeedInfo";
 import OrderList from "../../components/OrderList/OrderList";
-import { useAppDispatch} from "../../utils/types/hooksTypes";
+import { useAppDispatch } from "../../utils/types/hooksTypes";
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,

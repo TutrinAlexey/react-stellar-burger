@@ -10,10 +10,7 @@ import {
   burgerIngredients,
 } from "../../services/selector/burgerSelector";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  TConstructorIngredient,
-  TIngredient,
-} from "../../utils/types/ingredientType";
+import { TIngredient } from "../../utils/types/ingredientType";
 import { useAppSelector } from "../../utils/types/hooksTypes";
 type IngredientProps = {
   ingredient: TIngredient;
@@ -21,12 +18,8 @@ type IngredientProps = {
 const Ingredient: FC<IngredientProps> = ({ ingredient }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const bunsBurger = useAppSelector(
-    burgerBuns
-  ) as Array<TConstructorIngredient>;
-  const ingredientsBurger = useAppSelector(
-    burgerIngredients
-  ) as Array<TConstructorIngredient>;
+  const bunsBurger = useAppSelector(burgerBuns);
+  const ingredientsBurger = useAppSelector(burgerIngredients);
   const [{ isDrag }, dragRef, preview] = useDrag({
     type: "ingredient",
     item: ingredient,

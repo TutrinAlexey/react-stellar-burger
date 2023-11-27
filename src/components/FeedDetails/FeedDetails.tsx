@@ -5,7 +5,6 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { type } from "os";
 import { useParams } from "react-router";
 import { orders } from "../../services/selector/ordersSelector";
 import { useAppSelector } from "../../utils/types/hooksTypes";
@@ -18,24 +17,24 @@ type FeedDetailsProps = {
 };
 
 const FeedDetails: FC<FeedDetailsProps> = ({ center }) => {
-  const ingredients = useAppSelector(getIngredients) as Array<TIngredient>;
+  const ingredients = useAppSelector(getIngredients);
   const allOrders = useAppSelector(orders);
   const { id } = useParams();
 
-  const order = allOrders?.find((item: TOrderFeed) => item._id === id);
+  const order = allOrders?.find((item) => item._id === id) as TOrderFeed;
   const dateFromServer = new Date(order?.createdAt);
   const ingredientsInfo = order?.ingredients.map((ingredient: string) => {
     const filterIngredients = ingredients.find(
       (item) => item._id === ingredient
     );
     return filterIngredients;
-  });
+  }) as Array<TIngredient>;
   const totalPrice = ingredientsInfo
-    ?.map((item: TIngredient) => item?.price)
-    .reduce((sum: number, price: number) => (sum! += price!));
+    ?.map((item) => item?.price)
+    .reduce((sum, price) => (sum! += price!));
 
   const ingredientsInfoSort = ingredientsInfo?.reduce(
-    (acc: Array<TIngredientSort>, ingredient: TIngredient) => {
+    (acc: Array<TIngredientSort>, ingredient) => {
       if (acc.find((item) => item._id === ingredient._id)) {
         return acc.map((element) =>
           element._id === ingredient._id

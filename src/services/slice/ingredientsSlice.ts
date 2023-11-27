@@ -6,7 +6,7 @@ type TInitialStateIngredients = {
   ingredientsArray: Array<TIngredient>;
   isLoading: boolean;
   error: string;
-}
+};
 
 const initialState = {
   ingredientsArray: [],

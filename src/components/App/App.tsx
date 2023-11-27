@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
@@ -22,15 +22,17 @@ import Feed from "../../pages/Feed/Feed";
 import ProfileMain from "../ProfileMain/ProfileMain";
 import { checkUserAuth } from "../../utils/authCheck";
 import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
-import { TOrderInfo } from "../../utils/types/orderType";
+
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 import FeedDetailsPage from "../../pages/FeedDetailsPage/FeedDetailsPage";
 import FeedDetails from "../FeedDetails/FeedDetails";
 import ProfileOrders from "../ProfileOrders/ProfileOrders";
+import ProfileDetailPage from "../../pages/ProfileDetailPage/ProfileDetailPage";
+import { closeAllModals } from "../../services/slice/modalSlice";
 
 const App: FC = () => {
-  const orderOpen = useAppSelector(orderOpenSelector) as boolean;
-  const orderInfo = useAppSelector(orderInfoSelector) as TOrderInfo;
+  const orderOpen = useAppSelector(orderOpenSelector);
+  const orderInfo = useAppSelector(orderInfoSelector);
   const location = useLocation();
   const dispatch = useAppDispatch();
 
@@ -38,10 +40,14 @@ const App: FC = () => {
     dispatch(checkUserAuth());
     dispatch(fetchIngredients());
   }, []);
+
+  const onClose = useCallback(() => {
+    dispatch(closeAllModals());
+  }, [dispatch]);
   return (
     <div className={styles.app}>
       {orderOpen && (
-        <Modal>
+        <Modal onClose={onClose}>
           <OrderDetails orderInfo={orderInfo} />
         </Modal>
       )}
@@ -64,13 +70,13 @@ const App: FC = () => {
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:id" element={<FeedDetailsPage />} />
-          <Route path="profile/orders/:id" element={<OnlyAuth component={<FeedDetailsPage />} />} />
-          <Route path="profile" element={<OnlyAuth component={<Profile/>} />}>
-            <Route
-              path="user"
-              element={<OnlyAuth component={<ProfileMain />} />}
-            />
-            <Route path="orders" element={<OnlyAuth component={<ProfileOrders />} />} />
+          <Route
+            path="profile/orders/:id"
+            element={<OnlyAuth component={<ProfileDetailPage />} />}
+          />
+          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+            <Route path="user" element={<ProfileMain />} />
+            <Route path="orders" element={<ProfileOrders />} />
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="*" element={<NotFound />} />
@@ -98,9 +104,13 @@ const App: FC = () => {
           <Route
             path="profile/orders/:id"
             element={
-              <Modal>
-                <FeedDetails />
-              </Modal>
+              <OnlyAuth
+                component={
+                  <Modal>
+                    <FeedDetails />
+                  </Modal>
+                }
+              />
             }
           />
         </Routes>

@@ -8,7 +8,7 @@ import { useAppSelector } from "../../utils/types/hooksTypes";
 
 const BurgerIngredients: FC = () => {
   const [value, setValue] = useState(0);
-  const ingredients = useAppSelector(getIngredients) as Array<TIngredient>;
+  const ingredients = useAppSelector(getIngredients);
 
   const buns = useMemo(
     () => ingredients.filter((el: TIngredient) => el.type === "bun"),

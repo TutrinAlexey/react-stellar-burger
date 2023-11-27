@@ -14,8 +14,8 @@ const IngredientDetails: FC<IngredientDetailsProps> = ({ center }) => {
   const { id } = useParams();
   const ingredients = useAppSelector(getIngredients);
   useEffect(() => {
-    setData(ingredients.find((ingredient) => ingredient._id === id))
-  })
+    setData(ingredients.find((ingredient) => ingredient._id === id));
+  });
   return (
     <div className={`pt-10 pr-10 pl-10 pb-15 ${styles.container}`}>
       <h3

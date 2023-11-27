@@ -17,32 +17,25 @@ import {
 } from "../../services/slice/burgerSlice";
 import BurgerMain from "../BurgerMain/BurgerMain";
 import { v4 } from "uuid";
-import { useMemo, memo, useEffect, FC } from "react";
+import { useMemo, useEffect, FC } from "react";
 import { fetchOrder } from "../../services/thunk/ingredientsQuery";
 import { isLogin } from "../../services/selector/authenticationSelector";
 import { useLocation, useNavigate } from "react-router-dom";
 import { orderLoading } from "../../services/selector/modalSelector";
 import { checkUserAuth } from "../../utils/authCheck";
 import { setAuthChecked } from "../../services/slice/authenticationSlice";
-import {
-  TConstructorIngredient,
-  TIngredient,
-} from "../../utils/types/ingredientType";
+import { TIngredient } from "../../utils/types/ingredientType";
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const isOrderLoad = useAppSelector(orderLoading) as boolean;
-  const ingredientsOfBurger = useAppSelector(
-    burgerIngredients
-  ) as Array<TConstructorIngredient>;
-  const bunsOfBurger = useAppSelector(
-    burgerBuns
-  ) as Array<TConstructorIngredient>;
-  const burgerPrice = useAppSelector(orderPrice) as number;
-  const isAuth = useAppSelector(isLogin) as boolean;
+  const isOrderLoad = useAppSelector(orderLoading);
+  const ingredientsOfBurger = useAppSelector(burgerIngredients);
+  const bunsOfBurger = useAppSelector(burgerBuns);
+  const burgerPrice = useAppSelector(orderPrice);
+  const isAuth = useAppSelector(isLogin);
 
   useEffect(() => {
     dispatch(setAuthChecked(false));
@@ -76,7 +69,7 @@ const BurgerConstructor: FC = () => {
       dispatch(openOrderModal());
       dispatch(clearIngredients());
     } else {
-      navigate(`/login`)
+      navigate(`/login`);
     }
   };
   return (
@@ -98,15 +91,9 @@ const BurgerConstructor: FC = () => {
               />
             </li>
           )}
-          {ingredientsOfBurger.map(
-            (ingredient, index) => (
-              <BurgerMain
-                key={index}
-                data={ingredient}
-                index={index}
-              />
-            )
-          )}
+          {ingredientsOfBurger.map((ingredient, index) => (
+            <BurgerMain key={index} data={ingredient} index={index} />
+          ))}
           {bunsOfBurger.length !== 0 && (
             <li className="ml-8">
               <ConstructorElement
@@ -133,19 +120,19 @@ const BurgerConstructor: FC = () => {
           {burgerPrice}
           <CurrencyIcon type="primary" />
         </p>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="medium"
-            onClick={handleOrder}
-            disabled={
-              bunsOfBurger.length === 0 ||
-              ingredientsOfBurger.length === 0 ||
-              isOrderLoad
-            }
-          >
-            {isOrderLoad ? "Оформление" : "Оформить заказ"}
-          </Button>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={handleOrder}
+          disabled={
+            bunsOfBurger.length === 0 ||
+            ingredientsOfBurger.length === 0 ||
+            isOrderLoad
+          }
+        >
+          {isOrderLoad ? "Оформление" : "Оформить заказ"}
+        </Button>
       </div>
     </section>
   );

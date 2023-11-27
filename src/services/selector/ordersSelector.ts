@@ -1,6 +1,8 @@
+import { TOrderFeed } from "../../utils/types/orderType";
+
 type TOrdersSelector = {
   ordersFeed: {
-    orders: any;
+    orders: Array<TOrderFeed> | null;
     total: number;
     totalToday: number;
     connected: boolean;

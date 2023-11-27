@@ -1,17 +1,21 @@
+import styles from "./ProfileDetailPage.module.css";
 import { FC, useEffect } from "react";
-import styles from "./FeedDetailsPage.module.css";
-import FeedDetails from "../../components/FeedDetails/FeedDetails";
 import { useAppDispatch } from "../../utils/types/hooksTypes";
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../../utils/types/webSocketTypes";
+import FeedDetails from "../../components/FeedDetails/FeedDetails";
 
-const FeedDetailsPage: FC = () => {
+const ProfileDetailPage: FC = () => {
   const dispatch = useAppDispatch();
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: "orders/all" });
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: `orders?token=${accessToken?.replace("Bearer ", "")}`,
+    });
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };
@@ -23,4 +27,4 @@ const FeedDetailsPage: FC = () => {
   );
 };
 
-export default FeedDetailsPage;
+export default ProfileDetailPage;

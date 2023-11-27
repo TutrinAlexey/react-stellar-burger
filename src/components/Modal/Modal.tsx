@@ -5,28 +5,22 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
-import { orderOpenSelector } from "../../services/selector/modalSelector";
-import { closeAllModals } from "../../services/slice/modalSlice";
 
 const modalRoot = document.getElementById("modals") as Element;
-
-const Modal: FC = ({ children }) => {
-  const dispatch = useAppDispatch();
-  const orderOpen = useAppSelector(orderOpenSelector);
+type ModalProps = {
+  onClose?: () => void;
+};
+const Modal: FC<ModalProps> = ({ children, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const closeModal = useCallback(() => {
-    if (orderOpen) {
-      dispatch(closeAllModals());
-    }
     navigate(location.state?.background);
   }, [navigate, location]);
 
   useEffect(() => {
     const closeOnEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        closeModal();
+        onClose ? onClose() : closeModal();
       }
     };
     document.addEventListener("keydown", closeOnEsc);
@@ -37,8 +31,10 @@ const Modal: FC = ({ children }) => {
   }, []);
 
   return createPortal(
-    <ModalOverlay onClose={closeModal}>
-      <ModalCloseIcon onClose={closeModal}>{children}</ModalCloseIcon>
+    <ModalOverlay onClose={onClose ? onClose : closeModal}>
+      <ModalCloseIcon onClose={onClose ? onClose : closeModal}>
+        {children}
+      </ModalCloseIcon>
     </ModalOverlay>,
     modalRoot
   );
