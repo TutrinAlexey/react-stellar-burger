@@ -4,5 +4,14 @@ export type TOrderInfo = {
   success: boolean;
 };
 
-export type TOrderIngredientsId = Array<string>
+export type TOrderIngredientsId = Array<string>;
 
+export type TOrderFeed = {
+  readonly _id: string;
+  readonly ingredients: string[];
+  readonly name: string;
+  readonly number: number;
+  readonly status: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+};

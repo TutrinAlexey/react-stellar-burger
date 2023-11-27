@@ -1,0 +1,26 @@
+.ingredient{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    max-width: 608px;
+}
+
+.ingredientImg {
+    box-sizing: border-box;
+    background: var(--interface-bg, #131316);
+    height: 64px;
+    width: 64px;
+    object-fit: cover;
+    border-radius: 100px;
+    border: 2px solid var(--button-normal, #801AB2);
+}
+.text {
+    width: 320px;
+}
+
+.price {
+    width: 192px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}

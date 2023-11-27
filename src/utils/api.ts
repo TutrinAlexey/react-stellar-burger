@@ -1,5 +1,3 @@
-import { string } from "prop-types";
-import { message } from "../services/selector/authenticationSelector";
 import { BASE_URL } from "./constants";
 import {
   TBodyLogin,
@@ -16,6 +14,7 @@ import {
 } from "./types/authenticationTypes";
 import { TGetIngredient } from "./types/ingredientType";
 import { TOrderIngredientsId } from "./types/orderType";
+
 export const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
@@ -87,10 +86,11 @@ export const getIngredients = () => {
 };
 
 export const postOrder = (ingredientsId: TOrderIngredientsId) => {
-  return request("/orders", {
+  return fetchWithRefresh(`/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      authorization: localStorage.getItem("accessToken"),
     },
     body: JSON.stringify({
       ingredients: ingredientsId,

@@ -1,0 +1,11 @@
+.orders {
+    max-width: 860px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(100vh - 228px);
+}

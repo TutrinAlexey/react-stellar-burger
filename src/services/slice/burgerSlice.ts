@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TConstructorIngredient } from "../../utils/types/ingredientType";
+
+type TInitialStateBurger = {
+  bunsBurger: Array<TConstructorIngredient>;
+  ingredientsBurger: Array<TConstructorIngredient>;
+};
 
 const initialState = {
   bunsBurger: [],
   ingredientsBurger: [],
-};
+} as TInitialStateBurger;
 
 const burgerSlice = createSlice({
   name: "burger",

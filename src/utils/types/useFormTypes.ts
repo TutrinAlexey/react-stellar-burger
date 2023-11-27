@@ -9,5 +9,5 @@ export type TErrors = {
   name: string;
   password: string;
   email: string;
-  code: string
+  code: string;
 };

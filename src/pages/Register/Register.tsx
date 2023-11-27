@@ -13,13 +13,12 @@ import {
 } from "../../services/selector/authenticationSelector";
 import { clearError } from "../../services/slice/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
-import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const Register: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const errorMessage = useAppSelector(error) as string;
-  const pendingForm = useAppSelector(formPending) as boolean;
+  const errorMessage = useAppSelector(error);
+  const pendingForm = useAppSelector(formPending);
   const [hiddenPass, setHiddenPass] = useState(false);
   const { values, errors, isFormValidate, handleChange } = useForm();
 

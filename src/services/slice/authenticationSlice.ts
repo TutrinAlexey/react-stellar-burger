@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchChangeUserInfo,
   fetchForgotPassword,
@@ -12,18 +12,18 @@ import {
 type TUser = {
   email: string;
   name: string;
-}
+};
 type TInitialStateAuth = {
   accessToken: string;
   isAuthChecked: boolean;
-  user: TUser | null,
+  user: TUser | null;
   error: string;
   message: string;
   isLoading: boolean;
   isEmailSent: boolean;
   isFormPending: boolean;
   isPassReset: boolean;
-}
+};
 
 const initialState = {
   accessToken: "",
@@ -48,7 +48,7 @@ const authenticationSlice = createSlice({
       state.isAuthChecked = action.payload;
     },
     clearError: (state) => {
-      state.error = '';
+      state.error = "";
     },
     setMessage: (state, action) => {
       state.message = action.payload;
@@ -160,7 +160,6 @@ const authenticationSlice = createSlice({
     },
     [fetchChangeUserInfo.fulfilled.type]: (state, action) => {
       state.isFormPending = false;
-      state.accessToken = action.payload.accessToken;
       state.user = action.payload.user;
       state.message = "Данные профиля изменились";
     },

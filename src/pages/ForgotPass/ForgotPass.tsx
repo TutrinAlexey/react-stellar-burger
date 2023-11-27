@@ -16,13 +16,12 @@ import {
   clearError,
 } from "../../services/slice/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
-import { TErrors, TValues } from "../../utils/types/useFormTypes";
 
 const ForgotPass: FC = () => {
   const navigate = useNavigate();
   const { values, errors, isFormValidate, handleChange } = useForm();
-  const pendingForm = useAppSelector(formPending) as boolean;
-  const errorMessage = useAppSelector(error) as string;
+  const pendingForm = useAppSelector(formPending);
+  const errorMessage = useAppSelector(error);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

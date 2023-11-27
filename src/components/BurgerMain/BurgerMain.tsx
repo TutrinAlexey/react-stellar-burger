@@ -16,9 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 type BurgerMainProps = { data: TConstructorIngredient; index: number };
 
 const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
-  const ingredientsOfBurger = useAppSelector(
-    burgerIngredients
-  ) as Array<TConstructorIngredient>;
+  const ingredientsOfBurger = useAppSelector(burgerIngredients);
 
   const dispatch = useAppDispatch();
 
@@ -28,7 +26,7 @@ const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
 
   const [{ isDragStart }, dragRef] = useDrag({
     type: "sort",
-    item: { ingredient: data },
+    item: data,
     collect: (monitor) => ({
       isDragStart: monitor.isDragging(),
     }),
@@ -36,7 +34,7 @@ const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
 
   const [, dropRef] = useDrop({
     accept: "sort",
-    hover(ingredient: TConstructorIngredient, monitor) {
+    hover(ingredient: TConstructorIngredient) {
       if (ingredient._constId === data._constId) return;
       dispatch(
         swapIngredients({
@@ -50,6 +48,7 @@ const BurgerMain: FC<BurgerMainProps> = ({ data, index }) => {
 
   return (
     <li
+      key={data._constId}
       ref={(node) => dropRef(dragRef(node))}
       className={isDragStart ? styles.opacity : styles.element}
     >

@@ -1,14 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchOrder } from "../thunk/ingredientsQuery";
 
+type TOrderInfo = {
+  name: string;
+  order: {
+    number: number;
+  };
+  success: boolean;
+};
+
+type TInitialStateModal = {
+  orderInfo: TOrderInfo | null;
+  orderIsLoading: boolean;
+  orderError: string;
+  orderOpen: boolean;
+};
+
 const initialState = {
   orderInfo: null,
   orderIsLoading: false,
   orderError: "",
   orderOpen: false,
-  ingredientInfo: {},
-  ingredientOpen: false,
-};
+} as TInitialStateModal;
 
 const modalSlice = createSlice({
   name: "modal",
@@ -17,14 +30,8 @@ const modalSlice = createSlice({
     openOrderModal: (state) => {
       state.orderOpen = true;
     },
-    openIngredientModal: (state, action) => {
-      state.ingredientOpen = true;
-      state.ingredientInfo = action.payload;
-    },
     closeAllModals: (state) => {
-      state.ingredientOpen = false;
       state.orderOpen = false;
-      state.ingredientInfo = {};
       state.orderInfo = null;
     },
   },
@@ -45,6 +52,5 @@ const modalSlice = createSlice({
   },
 });
 
-export const { openOrderModal, openIngredientModal, closeAllModals } =
-  modalSlice.actions;
+export const { openOrderModal, closeAllModals } = modalSlice.actions;
 export default modalSlice.reducer;

@@ -1,0 +1,6 @@
+.feed {
+    max-width: 1240px;
+    display: flex;
+    margin: calc(var(--offset-base-size) * 10) auto;
+    gap: 60px;
+}

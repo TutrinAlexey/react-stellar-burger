@@ -1,0 +1,17 @@
+.orderList {
+    max-width: 600px;
+    flex-direction: column;
+    display: flex;
+}
+
+.orders {
+    max-width: 600px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(100vh - 228px);
+}

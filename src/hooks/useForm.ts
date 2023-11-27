@@ -2,8 +2,8 @@ import { useState, useCallback, ChangeEvent } from "react";
 import { TErrors, TValues } from "../utils/types/useFormTypes";
 
 export const useForm = (
-  inputValues:TValues = { name: "", password: "", email: "", code: "" },
-  inputErrors:TErrors = { name: "", password: "", email: "", code: "" }
+  inputValues: TValues = { name: "", password: "", email: "", code: "" },
+  inputErrors: TErrors = { name: "", password: "", email: "", code: "" }
 ) => {
   const [values, setValues] = useState<TValues>(inputValues);
   const [errors, setErrors] = useState<TErrors>(inputErrors);

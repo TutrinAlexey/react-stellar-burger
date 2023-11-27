@@ -1,11 +1,9 @@
 import styles from "./App.module.css";
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {
-  ingredientInfoSelector,
-  ingredientOpenSelector,
   orderInfoSelector,
   orderOpenSelector,
 } from "../../services/selector/modalSelector";
@@ -20,25 +18,22 @@ import IngredientPage from "../../pages/IngredientPage/IngredientPage";
 import NotFound from "../../pages/NotFound/NotFound";
 import Home from "../../pages/Home/Home";
 import Layout from "../Layout/Layout";
-import OrderList from "../../pages/OrderList/OrderList";
+import Feed from "../../pages/Feed/Feed";
 import ProfileMain from "../ProfileMain/ProfileMain";
-import OrderHistory from "../OrderHistory/OrderHistory";
-import OrderPage from "../../pages/OrderPage/OrderPage";
 import { checkUserAuth } from "../../utils/authCheck";
 import { OnlyAuth, OnlyUnAuth } from "../Protected/Protected";
-import { TIngredient } from "../../utils/types/ingredientType";
-import { TOrderInfo } from "../../utils/types/orderType";
+
 import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
+import FeedDetailsPage from "../../pages/FeedDetailsPage/FeedDetailsPage";
+import FeedDetails from "../FeedDetails/FeedDetails";
+import ProfileOrders from "../ProfileOrders/ProfileOrders";
+import ProfileDetailPage from "../../pages/ProfileDetailPage/ProfileDetailPage";
+import { closeAllModals } from "../../services/slice/modalSlice";
 
 const App: FC = () => {
-  const ingredientOpen = useAppSelector(ingredientOpenSelector) as boolean;
-  const orderOpen = useAppSelector(orderOpenSelector) as boolean;
-  const ingredientInfo = useAppSelector(ingredientInfoSelector) as TIngredient;
-  const orderInfo = useAppSelector(orderInfoSelector) as TOrderInfo;
+  const orderOpen = useAppSelector(orderOpenSelector);
+  const orderInfo = useAppSelector(orderInfoSelector);
   const location = useLocation();
-
-  const background =
-    ingredientOpen || orderOpen ? location.state.background : null;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -46,14 +41,17 @@ const App: FC = () => {
     dispatch(fetchIngredients());
   }, []);
 
+  const onClose = useCallback(() => {
+    dispatch(closeAllModals());
+  }, [dispatch]);
   return (
     <div className={styles.app}>
       {orderOpen && (
-        <Modal>
+        <Modal onClose={onClose}>
           <OrderDetails orderInfo={orderInfo} />
         </Modal>
       )}
-      <Routes location={background || location}>
+      <Routes location={location.state?.background || location}>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
           <Route path="login" element={<OnlyUnAuth component={<Login />} />} />
@@ -69,27 +67,50 @@ const App: FC = () => {
             path="reset-password"
             element={<OnlyUnAuth component={<ResetPass />} />}
           />
-          <Route path="order-list" element={<OrderList />} />
-          <Route path="profile" element={<Profile />}>
-            <Route
-              path="user"
-              element={<OnlyAuth component={<ProfileMain />} />}
-            />
-            <Route path="order-history" element={<OrderHistory />} />
+          <Route path="ingredients/:id" element={<IngredientPage />} />
+          <Route path="feed" element={<Feed />} />
+          <Route path="feed/:id" element={<FeedDetailsPage />} />
+          <Route
+            path="profile/orders/:id"
+            element={<OnlyAuth component={<ProfileDetailPage />} />}
+          />
+          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+            <Route path="user" element={<ProfileMain />} />
+            <Route path="orders" element={<ProfileOrders />} />
             <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      {background && (
+
+      {location.state?.background && (
         <Routes>
           <Route
             path="ingredients/:id"
             element={
               <Modal>
-                <IngredientDetails dataOfIngredients={ingredientInfo} />
+                <IngredientDetails />
               </Modal>
+            }
+          />
+          <Route
+            path="feed/:id"
+            element={
+              <Modal>
+                <FeedDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:id"
+            element={
+              <OnlyAuth
+                component={
+                  <Modal>
+                    <FeedDetails />
+                  </Modal>
+                }
+              />
             }
           />
         </Routes>

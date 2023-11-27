@@ -22,9 +22,9 @@ import { useAppDispatch, useAppSelector } from "../../utils/types/hooksTypes";
 
 const AppHeader: FC = () => {
   const dispatch = useAppDispatch();
-  const burgerActive = useAppSelector(burgerStatus) as boolean;
-  const orderActive = useAppSelector(orderListStatus) as boolean;
-  const accountActive = useAppSelector(accountStatus) as boolean;
+  const burgerActive = useAppSelector(burgerStatus);
+  const orderActive = useAppSelector(orderListStatus);
+  const accountActive = useAppSelector(accountStatus);
 
   return (
     <header className={` ${styles.header}`}>
@@ -40,7 +40,7 @@ const AppHeader: FC = () => {
           </NavigationLink>
           <NavigationLink
             isActive={orderActive}
-            way={"/order-list"}
+            way={"/feed"}
             chooseLink={() => dispatch(orderListLink())}
           >
             <ListIcon type={orderActive ? "primary" : "secondary"} />
