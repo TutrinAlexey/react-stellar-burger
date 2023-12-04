@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../thunk/ingredientsQuery";
 import { TIngredient } from "../../utils/types/ingredientType";
 
@@ -18,20 +18,21 @@ const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchIngredients.fulfilled.type]: (state, action) => {
+  extraReducers:(builder) => {
+    builder
+    .addCase(fetchIngredients.fulfilled.type, (state, action: PayloadAction<Array<TIngredient>>) => {
       state.ingredientsArray = action.payload;
       state.isLoading = false;
       state.error = "";
-    },
-    [fetchIngredients.pending.type]: (state) => {
+    })
+    .addCase(fetchIngredients.pending.type, (state) => {
       state.isLoading = true;
       state.error = "";
-    },
-    [fetchIngredients.rejected.type]: (state, action) => {
+    })
+    .addCase(fetchIngredients.rejected.type, (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.error;
-    },
+      state.error = action.payload;
+    })
   },
 });
 

@@ -1,3 +1,4 @@
+import { TConstructorIngredient } from "../../utils/types/ingredientType";
 import burgerSlice, {
   addIngredients,
   swapIngredients,
@@ -46,7 +47,6 @@ describe("Тестируем слайс бургера", () => {
   });
 
   test("test swapIngredients", () => {
-    const indexFrom = initialState.ingredientsBurger.indexOf(ingredient);
     const indexTo = 2;
     const newState = {
       bunsBurger: [],
@@ -71,6 +71,7 @@ describe("Тестируем слайс бургера", () => {
         ingredient,
       ],
     };
+    const indexFrom = newState.ingredientsBurger.indexOf(ingredient);
     expect(
       burgerSlice(
         newState,
@@ -83,11 +84,24 @@ describe("Тестируем слайс бургера", () => {
     ).toEqual({
       ...newState,
     });
+    expect(
+      burgerSlice(
+        undefined,
+        swapIngredients({
+          indexFrom: indexFrom,
+          indexTo: indexTo,
+          ingredient: ingredient,
+        })
+      )
+    ).toEqual({
+      ...initialState,
+      ingredientsBurger: [ingredient],
+    });
   });
 
   test("test deleteIngredients", () => {
     const arrayAfterDelete = initialState.ingredientsBurger.filter(
-      (item) => item._constId !== ingredient._constId
+      (item: TConstructorIngredient) => item._constId !== ingredient._constId
     );
     expect(
       burgerSlice(initialState, deleteIngredients(ingredient._constId))
