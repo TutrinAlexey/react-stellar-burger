@@ -13,7 +13,7 @@ type TPayload = {
   accessToken: string;
   user: TUser;
   refreshToken: string;
-}
+};
 
 type TUser = {
   email: string;
@@ -95,15 +95,18 @@ const authenticationSlice = createSlice({
         state.isFormPending = false;
         state.error = "Ошибка неверный код.";
       })
-      .addCase(fetchRegisterUser.fulfilled.type, (state, action: PayloadAction<TPayload>) => {
-        state.isFormPending = false;
-        state.isAuthChecked = true;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        localStorage.setItem("refreshToken", action.payload.refreshToken);
-        localStorage.setItem("accessToken", action.payload.accessToken);
-        state.message = "Вы успешно зарегестрировались";
-      })
+      .addCase(
+        fetchRegisterUser.fulfilled.type,
+        (state, action: PayloadAction<TPayload>) => {
+          state.isFormPending = false;
+          state.isAuthChecked = true;
+          state.user = action.payload.user;
+          state.accessToken = action.payload.accessToken;
+          localStorage.setItem("refreshToken", action.payload.refreshToken);
+          localStorage.setItem("accessToken", action.payload.accessToken);
+          state.message = "Вы успешно зарегестрировались";
+        }
+      )
       .addCase(fetchRegisterUser.pending.type, (state) => {
         state.isFormPending = true;
         state.error = "";
@@ -113,15 +116,18 @@ const authenticationSlice = createSlice({
         state.isFormPending = false;
         state.error = "Ошибка при регистрации.";
       })
-      .addCase(fetchLoginUser.fulfilled.type, (state, action: PayloadAction<TPayload>) => {
-        state.isFormPending = false;
-        state.isAuthChecked = true;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        localStorage.setItem("refreshToken", action.payload.refreshToken);
-        localStorage.setItem("accessToken", action.payload.accessToken);
-        state.message = "Вы успешно авторизовались";
-      })
+      .addCase(
+        fetchLoginUser.fulfilled.type,
+        (state, action: PayloadAction<TPayload>) => {
+          state.isFormPending = false;
+          state.isAuthChecked = true;
+          state.user = action.payload.user;
+          state.accessToken = action.payload.accessToken;
+          localStorage.setItem("refreshToken", action.payload.refreshToken);
+          localStorage.setItem("accessToken", action.payload.accessToken);
+          state.message = "Вы успешно авторизовались";
+        }
+      )
       .addCase(fetchLoginUser.pending.type, (state) => {
         state.error = "";
         state.message = "";
@@ -151,10 +157,7 @@ const authenticationSlice = createSlice({
       })
       .addCase(
         fetchUserInfo.fulfilled.type,
-        (
-          state,
-          action: PayloadAction<TPayload>
-        ) => {
+        (state, action: PayloadAction<TPayload>) => {
           state.isFormPending = false;
           state.isLoading = false;
           state.isAuthChecked = true;
@@ -173,10 +176,7 @@ const authenticationSlice = createSlice({
       })
       .addCase(
         fetchChangeUserInfo.fulfilled.type,
-        (
-          state,
-          action: PayloadAction<TPayload>
-        ) => {
+        (state, action: PayloadAction<TPayload>) => {
           state.isFormPending = false;
           state.user = action.payload.user;
           state.message = "Данные профиля изменились";

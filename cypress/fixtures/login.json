@@ -1,0 +1,6 @@
+{
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGUyNWI5YzJjYzYxMDAxYjNkNmQxNCIsImlhdCI6MTcwMTc3NDUzOSwiZXhwIjoxNzAxNzc1NzM5fQ.VdIyhPIb-oz4VX7cGXtuDitqvcmxiXFvfR5R680lssQ",
+  "refreshToken": "8983b1f0cf739bf37878cd01aaac3af3aaf8f25ff15d6a30697212a7fa92696f02e76e245071ba83",
+  "success": true,
+  "user": { "email": "leha.tyutrin@mail.ru", "name": "Alexey" }
+}

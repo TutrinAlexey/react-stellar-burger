@@ -39,6 +39,7 @@ const modalSlice = createSlice({
     builder
     .addCase(fetchOrder.fulfilled.type, (state, action: PayloadAction<TOrderInfo>) => {
       state.orderInfo = action.payload;
+      console.log(action.payload)
       state.orderIsLoading = false;
       state.orderError = "";
     })
