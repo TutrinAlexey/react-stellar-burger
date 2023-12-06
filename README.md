@@ -1,4 +1,13 @@
 # Проектная работа Stellar Burger 
-## [Ссылка на сайт](http://tuxone.student.nomoredomainsmonster.ru/)
-## Публичный ip: 158.160.110.21
+## Описание
+### Stellar burger это проект о космической бургерной, который разработан при помощи typescript, react, redux.
+
+### [Ссылка на сайт](http://tuxone.student.nomoredomainsmonster.ru/)
+
+## Для запуска проекта на локальном хосте:
+1. Клонируйте репозиторий
+2. Установите npm зависимости: npm i
+3. Запустить сайт: npm start
+
+### Публичный ip: 158.160.110.21
 

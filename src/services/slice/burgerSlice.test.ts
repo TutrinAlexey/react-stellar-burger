@@ -4,12 +4,9 @@ import burgerSlice, {
   swapIngredients,
   deleteIngredients,
   clearIngredients,
+  initialState,
 } from "./burgerSlice";
 
-const initialState = {
-  bunsBurger: [],
-  ingredientsBurger: [],
-};
 const ingredient = {
   _id: "60666c42cc7b410027a1a9b6",
   _constId: "60666c42cc7b410027asdaas",
@@ -38,9 +35,9 @@ describe("Тестируем слайс бургера", () => {
     );
     expect(burgerSlice(undefined, addIngredients(ingredient))).toEqual(
       ingredient.type === "bun"
-        ? { bunsBurger: [ingredient], ingredientsBurger: [] }
+        ? { ...initialState, bunsBurger: [ingredient] }
         : {
-            bunsBurger: [],
+            ...initialState,
             ingredientsBurger: [...initialState.ingredientsBurger, ingredient],
           }
     );

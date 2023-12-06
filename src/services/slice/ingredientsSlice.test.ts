@@ -1,10 +1,4 @@
-import ingredientsSlice from "./ingredientsSlice";
-
-const initialState = {
-  ingredientsArray: [],
-  isLoading: false,
-  error: "",
-};
+import ingredientsSlice, {initialState} from "./ingredientsSlice";
 
 const fakeArray = [
   {
@@ -71,13 +65,13 @@ describe("Тестируем ингредиент слайс", () => {
       ingredientsSlice(initialState, {
         type: "ingredients/get/pending",
       })
-    ).toEqual({ ingredientsArray: [], isLoading: true, error: "" });
+    ).toEqual({ ...initialState, isLoading: true, error: "" });
 
     expect(
       ingredientsSlice(undefined, {
         type: "ingredients/get/pending",
       })
-    ).toEqual({ ingredientsArray: [], isLoading: true, error: "" });
+    ).toEqual({ ...initialState, isLoading: true, error: "" });
   });
 
   test("Данные загружены", () => {
@@ -111,7 +105,7 @@ describe("Тестируем ингредиент слайс", () => {
         payload: "Error array"
       })
     ).toEqual({
-      ingredientsArray: [],
+      ...initialState,
       isLoading: false,
       error: "Error array",
     });
@@ -122,7 +116,7 @@ describe("Тестируем ингредиент слайс", () => {
         payload: "Error array"
       })
     ).toEqual({
-      ingredientsArray: [],
+      ...initialState,
       isLoading: false,
       error: "Error array",
     });

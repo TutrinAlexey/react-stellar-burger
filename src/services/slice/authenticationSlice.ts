@@ -31,7 +31,7 @@ type TInitialStateAuth = {
   isPassReset: boolean;
 };
 
-const initialState = {
+export const initialState = {
   accessToken: "",
   isAuthChecked: false,
   user: null,

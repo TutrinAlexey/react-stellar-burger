@@ -1,10 +1,9 @@
-import linkSlice, { burgerLink, orderListLink, accountLink } from "./linkSlice";
-
-const initialState = {
-  burgerActive: true,
-  orderListActive: false,
-  accountActive: false,
-};
+import linkSlice, {
+  burgerLink,
+  orderListLink,
+  accountLink,
+  initialState,
+} from "./linkSlice";
 
 describe("Тестируем линк слайс", () => {
   test("test burgerLink", () => {

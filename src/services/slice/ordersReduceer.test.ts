@@ -5,32 +5,16 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
 } from "../../utils/types/webSocketTypes";
-import ordersReducer from "./ordersReducer";
-
-const initialState = {
-  orders: null,
-  total: 0,
-  totalToday: 0,
-  connected: false,
-  error: "",
-};
+import ordersReducer, {initialState} from "./ordersReducer";
 
 describe("Тестируем ордерс редьюсер", () => {
   test("test ws_connection_start", () => {
     expect(ordersReducer(initialState, { type: WS_CONNECTION_START })).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
-      connected: false,
-      error: "",
+      ...initialState
     });
 
     expect(ordersReducer(undefined, { type: WS_CONNECTION_START })).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
-      connected: false,
-      error: "",
+      ...initialState
     });
   });
 
@@ -38,38 +22,26 @@ describe("Тестируем ордерс редьюсер", () => {
     expect(
       ordersReducer(initialState, { type: WS_CONNECTION_SUCCESS })
     ).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
+      ...initialState,
       connected: true,
-      error: "",
     });
 
     expect(
       ordersReducer(initialState, { type: WS_CONNECTION_SUCCESS })
     ).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
+      ...initialState,
       connected: true,
-      error: "",
     });
   });
 
   test("test ws_connection_error", () => {
     expect(ordersReducer(initialState, { type: WS_CONNECTION_ERROR })).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
-      connected: false,
+      ...initialState,
       error: "Ошибка при загрузке заказов",
     });
 
     expect(ordersReducer(undefined, { type: WS_CONNECTION_ERROR })).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
-      connected: false,
+      ...initialState,
       error: "Ошибка при загрузке заказов",
     });
   });
@@ -77,20 +49,16 @@ describe("Тестируем ордерс редьюсер", () => {
   test("test ws_connection_closed", () => {
     expect(ordersReducer(initialState, { type: WS_CONNECTION_CLOSED })).toEqual(
       {
+        ...initialState,
         orders: null,
-        total: 0,
-        totalToday: 0,
         connected: false,
-        error: "",
       }
     );
 
     expect(ordersReducer(undefined, { type: WS_CONNECTION_CLOSED })).toEqual({
-      orders: null,
-      total: 0,
-      totalToday: 0,
-      connected: false,
-      error: "",
+      ...initialState,
+        orders: null,
+        connected: false,
     });
   });
 
