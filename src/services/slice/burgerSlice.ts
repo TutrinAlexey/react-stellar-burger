@@ -6,7 +6,7 @@ type TInitialStateBurger = {
   ingredientsBurger: Array<TConstructorIngredient>;
 };
 
-const initialState = {
+export const initialState = {
   bunsBurger: [],
   ingredientsBurger: [],
 } as TInitialStateBurger;

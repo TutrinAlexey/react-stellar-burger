@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchOrder } from "../thunk/ingredientsQuery";
 
 type TOrderInfo = {
@@ -16,7 +16,7 @@ type TInitialStateModal = {
   orderOpen: boolean;
 };
 
-const initialState = {
+export const initialState = {
   orderInfo: null,
   orderIsLoading: false,
   orderError: "",
@@ -35,20 +35,21 @@ const modalSlice = createSlice({
       state.orderInfo = null;
     },
   },
-  extraReducers: {
-    [fetchOrder.fulfilled.type]: (state, action) => {
+  extraReducers: (builder) => {
+    builder
+    .addCase(fetchOrder.fulfilled.type, (state, action: PayloadAction<TOrderInfo>) => {
       state.orderInfo = action.payload;
       state.orderIsLoading = false;
       state.orderError = "";
-    },
-    [fetchOrder.pending.type]: (state) => {
+    })
+    .addCase(fetchOrder.pending.type, (state) => {
       state.orderIsLoading = true;
       state.orderError = "";
-    },
-    [fetchOrder.rejected.type]: (state, action) => {
+    })
+    .addCase(fetchOrder.rejected.type, (state, action: PayloadAction<string>) => {
       state.orderIsLoading = false;
-      state.orderError = action.error;
-    },
+      state.orderError = action.payload;
+    })
   },
 });
 

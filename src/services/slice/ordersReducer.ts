@@ -17,7 +17,7 @@ type TInitialStateOrders = {
   error: string;
 };
 
-const initialState = {
+export const initialState = {
   orders: null,
   total: 0,
   totalToday: 0,

@@ -38,7 +38,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy-script": "npm run build && scp -r ./build/* praktikum@84.201.172.240:/home/praktikum/mesto-frontend" ,
     "test": "react-scripts test",
+    "test-cy": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

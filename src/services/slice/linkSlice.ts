@@ -6,7 +6,7 @@ type TInitialStateLink = {
   accountActive: boolean;
 };
 
-const initialState = {
+export const initialState = {
   burgerActive: true,
   orderListActive: false,
   accountActive: false,
