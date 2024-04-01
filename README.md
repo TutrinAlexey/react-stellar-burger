@@ -32,3 +32,5 @@
 2. Установите npm зависимости: npm i
 3. Запустить сайт: npm start
 
+## Ссылка на проект задеплоенный на gh-pages
+[Проект](https://tutrinalexey.github.io/react-stellar-burger)
